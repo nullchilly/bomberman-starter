@@ -25,6 +25,7 @@ public class BombermanGame extends Application {
     private Canvas canvas;
     private List<Entity> entities = new ArrayList<>();
     private List<Entity> stillObjects = new ArrayList<>();
+    private KeyListener keyListener;
 
 
     public static void main(String[] args) {
@@ -43,6 +44,7 @@ public class BombermanGame extends Application {
 
         // Tao scene
         Scene scene = new Scene(root);
+        keyListener = new KeyListener(scene);
 
         // Them scene vao stage
         stage.setScene(scene);
@@ -59,7 +61,7 @@ public class BombermanGame extends Application {
 
         createMap();
 
-        Entity bomberman = new Bomber(1, 1, Sprite.player_right.getFxImage());
+        Entity bomberman = new Bomber(1, 1, keyListener, Sprite.player_right.getFxImage());
         entities.add(bomberman);
     }
 

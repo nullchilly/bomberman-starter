@@ -11,7 +11,7 @@ import uet.oop.bomberman.KeyListener;
 public class Bomber extends Entity {
 
     private KeyListener keyListener;
-    public Bomber(int x, int y, KeyListener keyListener, Image img) {
+    public Bomber(int x, int y, Image img, KeyListener keyListener) {
         super( x, y, img);
         this.keyListener = keyListener;
     }

@@ -1,38 +1,43 @@
 package uet.oop.bomberman.entities;
 
-import javafx.scene.SnapshotParameters;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
-import javafx.scene.paint.Color;
+import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.KeyListener;
+import uet.oop.bomberman.graphics.Sprite;
 
 public class Bomber extends Entity {
 
+    public static final int STEP = 4;
+
     private KeyListener keyListener;
+
     public Bomber(int x, int y, Image img, KeyListener keyListener) {
-        super( x, y, img);
+        super(x, y, img);
         this.keyListener = keyListener;
     }
 
     @Override
     public void update() {
         if (keyListener.isPressed(KeyCode.D)) {
-                x += 4;
+            System.out.println(x + " " + y);
+            if (checkWall(x + STEP + 60, y))
+                x += STEP;
         }
         if (keyListener.isPressed(KeyCode.A)) {
-            x -= 4;
+            if (checkWall(x - STEP, y))
+                x -= STEP;
         }
         if (keyListener.isPressed(KeyCode.W)) {
-            y -= 4;
+            if (checkWall(x, y - STEP))
+                y -= STEP;
         }
         if (keyListener.isPressed(KeyCode.S)) {
-            y += 4;
+            if (checkWall(x, y + STEP + 60)) {
+                y += STEP;
+            }
         }
     }
 
-    public void updateBomber() {
-
-    }
+    public void updateBomber() {}
 }

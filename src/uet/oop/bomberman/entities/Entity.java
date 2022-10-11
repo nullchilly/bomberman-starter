@@ -5,6 +5,8 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Shape;
 import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.graphics.Sprite;
 
@@ -37,6 +39,9 @@ public abstract class Entity {
         if (x < 0 || y < 0 || x >= Sprite.SCALED_SIZE * BombermanGame.WIDTH || y >= Sprite.SCALED_SIZE * BombermanGame.HEIGHT) {
             return false;
         }
+        Shape bomb = new Rectangle(x, y, Sprite.SCALED_SIZE, Sprite.SCALED_SIZE);
+
+
         x /= Sprite.SCALED_SIZE;
         y /= Sprite.SCALED_SIZE;
         return !(getEntity(x, y) instanceof Wall);

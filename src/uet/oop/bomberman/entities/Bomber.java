@@ -21,19 +21,19 @@ public class Bomber extends Entity {
     public void update() {
         if (keyListener.isPressed(KeyCode.D)) {
             System.out.println(x + " " + y);
-            if (checkWall(x + STEP + 60, y))
+            if (checkWall(x + STEP + Sprite.SCALED_SIZE - 5, y) && checkWall(x + STEP + Sprite.SCALED_SIZE - 5, y + Sprite.SCALED_SIZE - 5))
                 x += STEP;
         }
         if (keyListener.isPressed(KeyCode.A)) {
-            if (checkWall(x - STEP, y))
+            if (checkWall(x - STEP, y) && checkWall(x - STEP, y + Sprite.SCALED_SIZE - 5))
                 x -= STEP;
         }
         if (keyListener.isPressed(KeyCode.W)) {
-            if (checkWall(x, y - STEP))
+            if (checkWall(x, y - STEP) && checkWall(x + Sprite.SCALED_SIZE - 5, y - STEP))
                 y -= STEP;
         }
         if (keyListener.isPressed(KeyCode.S)) {
-            if (checkWall(x, y + STEP + 60)) {
+            if (checkWall(x, y + STEP + Sprite.SCALED_SIZE - 5) && checkWall(x + Sprite.SCALED_SIZE - 5, y + STEP + Sprite.SCALED_SIZE - 5)) {
                 y += STEP;
             }
         }

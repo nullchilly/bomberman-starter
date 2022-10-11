@@ -39,8 +39,6 @@ public abstract class Entity {
         if (x < 0 || y < 0 || x >= Sprite.SCALED_SIZE * BombermanGame.WIDTH || y >= Sprite.SCALED_SIZE * BombermanGame.HEIGHT) {
             return false;
         }
-        Shape bomb = new Rectangle(x, y, Sprite.SCALED_SIZE, Sprite.SCALED_SIZE);
-
 
         x /= Sprite.SCALED_SIZE;
         y /= Sprite.SCALED_SIZE;

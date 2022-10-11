@@ -21,7 +21,7 @@ public class Bomber extends Entity {
     public void update() {
         if (keyListener.isPressed(KeyCode.D)) {
             System.out.println(x + " " + y);
-            if (checkWall(x + STEP + Sprite.SCALED_SIZE - 5, y) && checkWall(x + STEP + Sprite.SCALED_SIZE - 5, y + Sprite.SCALED_SIZE - 5))
+            if (checkWall(x + STEP + Sprite.SCALED_SIZE - 20, y) && checkWall(x + STEP + Sprite.SCALED_SIZE - 20, y + Sprite.SCALED_SIZE - 5))
                 x += STEP;
         }
         if (keyListener.isPressed(KeyCode.A)) {
@@ -33,7 +33,7 @@ public class Bomber extends Entity {
                 y -= STEP;
         }
         if (keyListener.isPressed(KeyCode.S)) {
-            if (checkWall(x, y + STEP + Sprite.SCALED_SIZE - 5) && checkWall(x + Sprite.SCALED_SIZE - 5, y + STEP + Sprite.SCALED_SIZE - 5)) {
+            if (checkWall(x, y + STEP + Sprite.SCALED_SIZE - 5) && checkWall(x + Sprite.SCALED_SIZE - 20, y + STEP + Sprite.SCALED_SIZE - 5)) {
                 y += STEP;
             }
         }

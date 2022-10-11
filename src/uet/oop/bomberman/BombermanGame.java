@@ -17,7 +17,8 @@ import java.util.List;
 import java.util.Scanner;
 
 public class BombermanGame extends Application {
-    
+    public static int time = 0;
+    public static int animate = 0;
     public static final int WIDTH = 31;
     public static final int HEIGHT = 13;
     

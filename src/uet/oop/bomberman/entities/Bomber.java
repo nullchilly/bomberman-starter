@@ -19,7 +19,10 @@ public class Bomber extends Entity {
 
     @Override
     public void update() {
+        int time = BombermanGame.time++;
         if (keyListener.isPressed(KeyCode.D)) {
+            int animate = BombermanGame.animate++;
+            img = Sprite.movingSprite(Sprite.player_right, Sprite.player_right_1, Sprite.player_right_2, animate, time).getFxImage();
             System.out.println(x + " " + y);
             if (checkWall(x + STEP + Sprite.SCALED_SIZE - 20, y) && checkWall(x + STEP + Sprite.SCALED_SIZE - 20, y + Sprite.SCALED_SIZE - 5))
                 x += STEP;
@@ -29,7 +32,7 @@ public class Bomber extends Entity {
                 x -= STEP;
         }
         if (keyListener.isPressed(KeyCode.W)) {
-            if (checkWall(x, y - STEP) && checkWall(x + Sprite.SCALED_SIZE - 5, y - STEP))
+            if (checkWall(x, y - STEP) && checkWall(x + Sprite.SCALED_SIZE - 20, y - STEP))
                 y -= STEP;
         }
         if (keyListener.isPressed(KeyCode.S)) {

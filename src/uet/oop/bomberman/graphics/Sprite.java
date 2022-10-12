@@ -1,7 +1,9 @@
 package uet.oop.bomberman.graphics;
 
 import javafx.scene.image.*;
+import javafx.scene.image.Image;
 
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.nio.IntBuffer;
 
@@ -9,9 +11,13 @@ import java.nio.IntBuffer;
  * Lưu trữ thông tin các pixel của 1 sprite (hình ảnh game)
  */
 public class Sprite {
-	
+
+    static GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+    public static int width = gd.getDisplayMode().getWidth();
+    public static int height = gd.getDisplayMode().getHeight();
 	public static final int DEFAULT_SIZE = 16;
-	public static final int SCALED_SIZE = DEFAULT_SIZE * 2;
+    public static final int STEP = (int) Math.ceil(width / 500);
+	public static final int SCALED_SIZE = DEFAULT_SIZE * STEP;
     private static final int TRANSPARENT_COLOR = 0xffff00ff;
 	public final int SIZE;
 	private int _x, _y;

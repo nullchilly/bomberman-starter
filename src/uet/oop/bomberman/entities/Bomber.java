@@ -9,7 +9,7 @@ import uet.oop.bomberman.graphics.Sprite;
 public class Bomber extends Entity {
 
     private int animate = 0;
-    public static final int STEP = 3;
+    public static final int STEP = Sprite.STEP;
     private enum Direction {
         L,
         R,

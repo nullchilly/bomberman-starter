@@ -9,7 +9,7 @@ import uet.oop.bomberman.graphics.Sprite;
 public class Bomber extends Entity {
 
     private int animate = 0;
-    public static final int STEP = 4;
+    public static final int STEP = 3;
     private enum Direction {
         L,
         R,
@@ -69,28 +69,28 @@ public class Bomber extends Entity {
         moving = false;
         if (keyListener.isPressed(KeyCode.D)) {
             direction = Direction.R;
-            if (checkWall(x + STEP + Sprite.SCALED_SIZE - 20, y) && checkWall(x + STEP + Sprite.SCALED_SIZE - 20, y + Sprite.SCALED_SIZE - 5)) {
+            if (checkWall(x + STEP + Sprite.SCALED_SIZE - 15, y + 5) && checkWall(x + STEP + Sprite.SCALED_SIZE - 15, y + Sprite.SCALED_SIZE - 5)) {
                 x += STEP;
                 moving = true;
             }
         }
         if (keyListener.isPressed(KeyCode.A)) {
             direction = Direction.L;
-            if (checkWall(x - STEP, y) && checkWall(x - STEP, y + Sprite.SCALED_SIZE - 5)) {
+            if (checkWall(x - STEP, y + 5) && checkWall(x - STEP, y + Sprite.SCALED_SIZE - 5)) {
                 x -= STEP;
                 moving = true;
             }
         }
         if (keyListener.isPressed(KeyCode.W)) {
             direction = Direction.U;
-            if (checkWall(x, y - STEP) && checkWall(x + Sprite.SCALED_SIZE - 20, y - STEP)) {
+            if (checkWall(x, y - STEP + 5) && checkWall(x + Sprite.SCALED_SIZE - 15, y - STEP + 5)) {
                 y -= STEP;
                 moving = true;
             }
         }
         if (keyListener.isPressed(KeyCode.S)) {
             direction = Direction.D;
-            if (checkWall(x, y + STEP + Sprite.SCALED_SIZE - 5) && checkWall(x + Sprite.SCALED_SIZE - 20, y + STEP + Sprite.SCALED_SIZE - 5)) {
+            if (checkWall(x, y + STEP + Sprite.SCALED_SIZE - 5) && checkWall(x + Sprite.SCALED_SIZE - 15, y + STEP + Sprite.SCALED_SIZE - 5)) {
                 y += STEP;
                 moving = true;
             }

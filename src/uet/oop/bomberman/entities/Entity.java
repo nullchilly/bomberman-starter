@@ -42,6 +42,7 @@ public abstract class Entity {
 
         x /= Sprite.SCALED_SIZE;
         y /= Sprite.SCALED_SIZE;
-        return !(getEntity(x, y) instanceof Wall);
+        Entity cur = getEntity(x, y);
+        return !(cur instanceof Wall || cur instanceof Brick);
     }
 }

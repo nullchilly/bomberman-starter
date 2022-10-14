@@ -64,7 +64,7 @@ public class BombermanGame extends Application {
 
         timer.start();
 
-        Timer bombTimer = new Timer();
+//        Timer bombTimer = new Timer();
 //        bombTimer.schedule(new TimerTask() {
 //
 //            @Override

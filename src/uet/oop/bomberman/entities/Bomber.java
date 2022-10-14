@@ -1,5 +1,6 @@
 package uet.oop.bomberman.entities;
 
+import javafx.application.Platform;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import uet.oop.bomberman.BombermanGame;
@@ -99,8 +100,12 @@ public class Bomber extends Entity {
         chooseSprite();
 
         if(keyListener.isPressed(KeyCode.SPACE)) {
-            Entity object = new Bomb((x + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE, (y + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE, Sprite.bomb.getFxImage());
-            entities.add(object);
+//            Entity object = new Bomb((x + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE, (y + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE, Sprite.bomb.getFxImage());
+//            entities.add(object);
+            Platform.runLater(() ->  {
+                Entity object = new Bomb((x + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE, (y + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE, Sprite.bomb.getFxImage());
+                entities.add(object);
+            });
         }
     }
 

@@ -13,9 +13,8 @@ import uet.oop.bomberman.graphics.Sprite;
 import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.List;
-import java.util.Scanner;
 
 public class BombermanGame extends Application {
     public static int time = 0;
@@ -29,6 +28,7 @@ public class BombermanGame extends Application {
     private List<Entity> stillObjects = new ArrayList<>();
     public static Entity[][] table = new Entity[WIDTH][HEIGHT];
     private KeyListener keyListener;
+    public Entity bomberman;
 
 
     public static void main(String[] args) {
@@ -61,9 +61,25 @@ public class BombermanGame extends Application {
                 update();
             }
         };
+
         timer.start();
 
+        Timer bombTimer = new Timer();
+        bombTimer.schedule(new TimerTask() {
+
+            @Override
+            public void run() {
+                createBomb(scene);
+            }
+        }, 1000, 3000);
+
         createMap(1);
+    }
+
+    public void createBomb(Scene scene) {
+        Entity object = new Bomb(bomberman.x/Sprite.SCALED_SIZE, bomberman.y/Sprite.SCALED_SIZE, Sprite.bomb.getFxImage());
+        entities.add(object);
+//        Platform.runLater(() -> root.getChildren().add(e)) -- Fix different thread
     }
 
     public void createMap(int level) {
@@ -88,7 +104,7 @@ public class BombermanGame extends Application {
                              object = new Brick(j, i, Sprite.brick.getFxImage());
                             break;
                         case 'p':
-                            Entity bomberman = new Bomber(j, i, Sprite.player_right.getFxImage(), keyListener);
+                            bomberman = new Bomber(j, i, Sprite.player_right.getFxImage(), keyListener);
                             entities.add(bomberman);
                         case ' ':
                             object = new Grass(j, i, Sprite.grass.getFxImage());

@@ -12,10 +12,10 @@ import uet.oop.bomberman.graphics.Sprite;
 
 public abstract class Entity {
     //Tọa độ X tính từ góc trái trên trong Canvas
-    protected int x;
+    public int x;
 
     //Tọa độ Y tính từ góc trái trên trong Canvas
-    protected int y;
+    public int y;
 
     protected Image img;
 

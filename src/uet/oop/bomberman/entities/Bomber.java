@@ -6,9 +6,15 @@ import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.KeyListener;
 import uet.oop.bomberman.graphics.Sprite;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Bomber extends Entity {
 
     private int animate = 0;
+
+    private List<Entity> entities = new ArrayList<>();
+
     public static final int STEP = Sprite.STEP;
     private enum Direction {
         L,
@@ -20,8 +26,9 @@ public class Bomber extends Entity {
     private boolean moving = false;
     private KeyListener keyListener;
 
-    public Bomber(int x, int y, Image img, KeyListener keyListener) {
+    public Bomber(int x, int y, Image img, KeyListener keyListener, List<Entity> entities) {
         super(x, y, img);
+        this.entities = entities;
         this.keyListener = keyListener;
     }
 
@@ -32,12 +39,6 @@ public class Bomber extends Entity {
                 sprite = Sprite.player_up;
                 if (moving) {
                     sprite = Sprite.movingSprite(Sprite.player_up_1, Sprite.player_up_2, animate, 20);
-                }
-                break;
-            case R:
-                sprite = Sprite.player_right;
-                if (moving) {
-                    sprite = Sprite.movingSprite(Sprite.player_right_1, Sprite.player_right_2, animate, 20);
                 }
                 break;
             case D:
@@ -69,33 +70,38 @@ public class Bomber extends Entity {
         moving = false;
         if (keyListener.isPressed(KeyCode.D)) {
             direction = Direction.R;
-            if (checkWall(x + STEP + Sprite.SCALED_SIZE - 15, y + 5) && checkWall(x + STEP + Sprite.SCALED_SIZE - 15, y + Sprite.SCALED_SIZE - 5)) {
+            if (checkWall(x + STEP + Sprite.SCALED_SIZE - 12, y + 3) && checkWall(x + STEP + Sprite.SCALED_SIZE - 12, y + Sprite.SCALED_SIZE - 3)) {
                 x += STEP;
                 moving = true;
             }
         }
         if (keyListener.isPressed(KeyCode.A)) {
             direction = Direction.L;
-            if (checkWall(x - STEP, y + 5) && checkWall(x - STEP, y + Sprite.SCALED_SIZE - 5)) {
+            if (checkWall(x - STEP, y + 3) && checkWall(x - STEP, y + Sprite.SCALED_SIZE - 3)) {
                 x -= STEP;
                 moving = true;
             }
         }
         if (keyListener.isPressed(KeyCode.W)) {
             direction = Direction.U;
-            if (checkWall(x, y - STEP + 5) && checkWall(x + Sprite.SCALED_SIZE - 15, y - STEP + 5)) {
+            if (checkWall(x, y - STEP + 3) && checkWall(x + Sprite.SCALED_SIZE - 12, y - STEP + 3)) {
                 y -= STEP;
                 moving = true;
             }
         }
         if (keyListener.isPressed(KeyCode.S)) {
             direction = Direction.D;
-            if (checkWall(x, y + STEP + Sprite.SCALED_SIZE - 5) && checkWall(x + Sprite.SCALED_SIZE - 15, y + STEP + Sprite.SCALED_SIZE - 5)) {
+            if (checkWall(x, y + STEP + Sprite.SCALED_SIZE - 3) && checkWall(x + Sprite.SCALED_SIZE - 12, y + STEP + Sprite.SCALED_SIZE - 3)) {
                 y += STEP;
                 moving = true;
             }
         }
         chooseSprite();
+
+        if(keyListener.isPressed(KeyCode.SPACE)) {
+            Entity object = new Bomb((x + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE, (y + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE, Sprite.bomb.getFxImage());
+            entities.add(object);
+        }
     }
 
     public void updateBomber() {}

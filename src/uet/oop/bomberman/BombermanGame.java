@@ -65,21 +65,15 @@ public class BombermanGame extends Application {
         timer.start();
 
         Timer bombTimer = new Timer();
-        bombTimer.schedule(new TimerTask() {
-
-            @Override
-            public void run() {
-                createBomb(scene);
-            }
-        }, 1000, 3000);
+//        bombTimer.schedule(new TimerTask() {
+//
+//            @Override
+//            public void run() {
+//                createBomb(scene);
+//            }
+//        }, 1000, 3000);
 
         createMap(1);
-    }
-
-    public void createBomb(Scene scene) {
-        Entity object = new Bomb(bomberman.x/Sprite.SCALED_SIZE, bomberman.y/Sprite.SCALED_SIZE, Sprite.bomb.getFxImage());
-        entities.add(object);
-//        Platform.runLater(() -> root.getChildren().add(e)) -- Fix different thread
     }
 
     public void createMap(int level) {
@@ -104,7 +98,7 @@ public class BombermanGame extends Application {
                              object = new Brick(j, i, Sprite.brick.getFxImage());
                             break;
                         case 'p':
-                            bomberman = new Bomber(j, i, Sprite.player_right.getFxImage(), keyListener);
+                            bomberman = new Bomber(j, i, Sprite.player_right.getFxImage(), keyListener, entities);
                             entities.add(bomberman);
                         case ' ':
                             object = new Grass(j, i, Sprite.grass.getFxImage());
@@ -122,6 +116,12 @@ public class BombermanGame extends Application {
             System.out.println(e.getMessage());
         }
     }
+
+//    public void createBomb(Scene scene) {
+//        Entity object = new Bomb((bomberman.x + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE, (bomberman.y + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE, Sprite.bomb.getFxImage());
+//        entities.add(object);
+////        Platform.runLater(() -> root.getChildren().add(e)) -- Fix different thread
+//    }
 
     public void update() {
         entities.forEach(Entity::update);

@@ -35,6 +35,14 @@ public class BombermanGame extends Application {
         Application.launch(BombermanGame.class);
     }
 
+    public void fps() {
+        try {
+            Thread.sleep(12);
+
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
     @Override
     public void start(Stage stage) {
         System.out.println(Sprite.width);
@@ -124,7 +132,9 @@ public class BombermanGame extends Application {
 //    }
 
     public void update() {
+        fps();
         entities.forEach(Entity::update);
+
     }
 
     public void render() {

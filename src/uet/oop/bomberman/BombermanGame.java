@@ -10,7 +10,6 @@ import javafx.stage.Stage;
 import uet.oop.bomberman.entities.*;
 import uet.oop.bomberman.graphics.Sprite;
 
-import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.*;
@@ -24,12 +23,12 @@ public class BombermanGame extends Application {
     
     private GraphicsContext gc;
     private Canvas canvas;
-    private List<Entity> entities = new ArrayList<>();
-    private List<Entity> stillObjects = new ArrayList<>();
+    public List<Entity> entities = new ArrayList<>();
+    public List<Entity> flames = new ArrayList<>();
+    public List<Entity> stillObjects = new ArrayList<>();
     public static Entity[][] table = new Entity[WIDTH][HEIGHT];
     private KeyListener keyListener;
     public Entity bomberman;
-
 
     public static void main(String[] args) {
         Application.launch(BombermanGame.class);
@@ -99,18 +98,34 @@ public class BombermanGame extends Application {
                 for (int j = 0; j < width; j++) {
 //                    System.out.println(i + " " + j);
                     Entity object = null;
+                    stillObjects.add(new Grass(j, i, Sprite.grass.getFxImage()));
                     switch (cur.charAt(j)) {
+                        // Tiles:
                         case '#':
                             object = new Wall(j, i, Sprite.wall.getFxImage());
                             break;
                         case '*':
                              object = new Brick(j, i, Sprite.brick.getFxImage());
                             break;
+                        case 'x':
+                            object = new Portal(j, i, Sprite.portal.getFxImage());
+                            break;
+                        // Character:
                         case 'p':
                             bomberman = new Bomber(j, i, Sprite.player_right.getFxImage(), keyListener, entities);
                             entities.add(bomberman);
-                        case ' ':
-                            object = new Grass(j, i, Sprite.grass.getFxImage());
+                            break;
+                        case '1':
+                            Balloom balloon = new Balloom(j, i, Sprite.balloom_right1.getFxImage(), entities);
+                            entities.add(balloon);
+                            break;
+                        case '2':
+                            Oneal oneal = new Oneal(j, i, Sprite.oneal_right1.getFxImage());
+                            entities.add(oneal);
+                            break;
+                        // Items:
+                        case 's':
+                            object = new Speed(j, i, Sprite.powerup_speed.getFxImage());
                             break;
                     }
                     if (object != null) {

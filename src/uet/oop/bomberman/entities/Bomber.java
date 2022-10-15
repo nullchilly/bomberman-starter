@@ -17,13 +17,6 @@ public class Bomber extends Entity {
     private List<Entity> entities = new ArrayList<>();
 
     public static final int STEP = Sprite.STEP;
-    private enum Direction {
-        L,
-        R,
-        U,
-        D
-    };
-    private Direction direction = Direction.R;
     private boolean moving = false;
     private KeyListener keyListener;
 
@@ -103,7 +96,7 @@ public class Bomber extends Entity {
 //            Entity object = new Bomb((x + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE, (y + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE, Sprite.bomb.getFxImage());
 //            entities.add(object);
             Platform.runLater(() ->  {
-                Entity object = new Bomb((x + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE, (y + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE, Sprite.bomb.getFxImage());
+                Entity object = new Bomb((x + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE, (y + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE, Sprite.bomb.getFxImage(), entities);
                 entities.add(object);
             });
         }

@@ -11,8 +11,14 @@ public class Bomb extends Entity {
     }
 
     public void getImg(boolean exploded) {
-        Sprite sprite = Sprite.movingSprite(Sprite.bomb, Sprite.bomb_1, Sprite.bomb_2, animate, 20);
-        img = sprite.getFxImage();
+        if (exploded == false) {
+            Sprite sprite = Sprite.movingSprite(Sprite.bomb, Sprite.bomb_1, Sprite.bomb_2, animate, 20);
+            img = sprite.getFxImage();
+        }
+        else {
+            Sprite sprite = Sprite.movingSprite(Sprite.bomb_exploded, Sprite.bomb_exploded1, Sprite.bomb_exploded2, animate, 20);
+            img = sprite.getFxImage();
+        }
     }
 
     @Override

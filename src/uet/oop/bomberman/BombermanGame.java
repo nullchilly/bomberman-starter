@@ -37,7 +37,7 @@ public class BombermanGame extends Application {
 
     public void fps() {
         try {
-            Thread.sleep(12);
+            Thread.sleep(10);
 
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
@@ -65,6 +65,7 @@ public class BombermanGame extends Application {
         AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long l) {
+                fps();
                 render();
                 update();
             }
@@ -132,9 +133,7 @@ public class BombermanGame extends Application {
 //    }
 
     public void update() {
-        fps();
         entities.forEach(Entity::update);
-
     }
 
     public void render() {

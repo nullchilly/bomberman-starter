@@ -3,11 +3,13 @@ package uet.oop.bomberman.entities;
 import javafx.scene.image.Image;
 import uet.oop.bomberman.graphics.Sprite;
 
+import java.util.List;
+
 public class Oneal extends Entity {
     private int animate = 0;
-
-    public Oneal(int x, int y, Image img) {
+    public Oneal(int x, int y, Image img, List<Entity> entities) {
         super(x, y, img);
+        this.entities = entities;
     }
 
     public void getImg(boolean exploded) {

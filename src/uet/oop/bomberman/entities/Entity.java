@@ -10,6 +10,9 @@ import javafx.scene.shape.Shape;
 import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.graphics.Sprite;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public abstract class Entity {
     //Tọa độ X tính từ góc trái trên trong Canvas
     public int x;
@@ -18,6 +21,8 @@ public abstract class Entity {
     public int y;
 
     protected Image img;
+
+    protected List<Entity> entities = new ArrayList<>();
 
     protected static enum Direction {
         L,

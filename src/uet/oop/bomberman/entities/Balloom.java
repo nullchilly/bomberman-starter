@@ -14,21 +14,12 @@ import java.util.Random;
 public class Balloom extends Entity {
 
     private int animate = 0;
-    private int animated = 0;
+    private int die_time = 0;
     public boolean died = false;
 
-    private List<Entity> entities = new ArrayList<>();
-
-    public static final int STEP = Math.max(1, Math.round(Sprite.STEP / 2));
-    private enum Direction {
-        L,
-        R,
-        U,
-        D
-    };
-    private Direction direction = Direction.R;
+    private static final int STEP = Math.max(1, Math.round(Sprite.STEP / 2));
     private boolean moving = false;
-    private KeyListener keyListener;
+//    private KeyListener keyListener;
 
     public Balloom(int x, int y, Image img, List<Entity> entities) {
         super(x, y, img);
@@ -94,9 +85,9 @@ public class Balloom extends Entity {
     @Override
     public void update() {
         if (died) {
-            animated++;
+            die_time++;
             img = Sprite.balloom_dead.getFxImage();
-            if (animated == 20) {
+            if (die_time == 20) {
                 Platform.runLater(() -> {
                     entities.remove(this);
                     BombermanGame.table[x / Sprite.SCALED_SIZE][y / Sprite.SCALED_SIZE] = null;

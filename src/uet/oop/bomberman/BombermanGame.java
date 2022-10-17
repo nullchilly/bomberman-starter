@@ -119,7 +119,7 @@ public class BombermanGame extends Application {
                             object = new Balloom(j, i, Sprite.balloom_right1.getFxImage(), entities);
                             break;
                         case '2':
-                            object = new Oneal(j, i, Sprite.oneal_right1.getFxImage());
+                            object = new Oneal(j, i, Sprite.oneal_right1.getFxImage(), entities);
                             break;
                         // Items:
                         case 's':

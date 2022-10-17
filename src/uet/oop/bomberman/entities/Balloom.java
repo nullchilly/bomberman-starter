@@ -19,7 +19,7 @@ public class Balloom extends Entity {
 
     private List<Entity> entities = new ArrayList<>();
 
-    public static final int STEP = Sprite.STEP - 3;
+    public static final int STEP = Math.max(1, Math.round(Sprite.STEP / 2));
     private enum Direction {
         L,
         R,
@@ -36,15 +36,16 @@ public class Balloom extends Entity {
     }
 
     private void chooseSprite() {
+//        System.out.println(Sprite.STEP);
         Platform.runLater(() -> {
             int px = (x + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE, py = (y + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE;
             BombermanGame.table[px][py] = null;
-            System.out.println(px + " " + py);
+//            System.out.println(px + " " + py);
             Sprite sprite = Sprite.balloom_right1;
             switch (direction) {
                 case U:
                     sprite = Sprite.balloom_left2;
-                    if (checkWall(x, y - STEP + 3) && checkWall(x + Sprite.SCALED_SIZE - 12, y - STEP + 3)) {
+                    if (checkWall(x, y - STEP + 3) && checkWall(x + Sprite.SCALED_SIZE - 3, y - STEP + 3)) {
                         y -= STEP;
                         moving = true;
                     }
@@ -54,7 +55,7 @@ public class Balloom extends Entity {
                     break;
                 case D:
                     sprite = Sprite.balloom_right1;
-                    if (checkWall(x, y + STEP + Sprite.SCALED_SIZE - 3) && checkWall(x + Sprite.SCALED_SIZE - 12, y + STEP + Sprite.SCALED_SIZE - 3)) {
+                    if (checkWall(x, y + STEP + Sprite.SCALED_SIZE - 3) && checkWall(x + Sprite.SCALED_SIZE - 3, y + STEP + Sprite.SCALED_SIZE - 3)) {
                         y += STEP;
                         moving = true;
                     }
@@ -74,7 +75,7 @@ public class Balloom extends Entity {
                     break;
                 case R:
                     sprite = Sprite.balloom_right1;
-                    if (checkWall(x + STEP + Sprite.SCALED_SIZE - 12, y + 3) && checkWall(x + STEP + Sprite.SCALED_SIZE - 12, y + Sprite.SCALED_SIZE - 3)) {
+                    if (checkWall(x + STEP + Sprite.SCALED_SIZE - 3, y + 3) && checkWall(x + STEP + Sprite.SCALED_SIZE - 3, y + Sprite.SCALED_SIZE - 3)) {
                         x += STEP;
                         moving = true;
                     }
@@ -106,7 +107,7 @@ public class Balloom extends Entity {
             if (animate > 100000) animate = 0;
             if (animate % 70 == 0) {
                 direction = Direction.values()[new Random().nextInt(Direction.values().length)];
-                System.out.println("Balloom " + x / Sprite.SCALED_SIZE + " " + y / Sprite.SCALED_SIZE);
+//                System.out.println("Balloom " + x / Sprite.SCALED_SIZE + " " + y / Sprite.SCALED_SIZE);
             }
             moving = false;
             chooseSprite();

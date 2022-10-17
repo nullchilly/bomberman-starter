@@ -24,7 +24,6 @@ public class Flame extends Entity {
 
     public void getImg() {
         Sprite sprite = null;
-        System.out.print(direction);
         switch(direction) {
             case U:
                 sprite = Sprite.movingSprite(Sprite.explosion_vertical_top_last, Sprite.explosion_vertical_top_last1, Sprite.explosion_vertical_top_last2, animate, 20);
@@ -37,6 +36,12 @@ public class Flame extends Entity {
                 break;
             case R:
                 sprite = Sprite.movingSprite(Sprite.explosion_horizontal_right_last, Sprite.explosion_horizontal_right_last1, Sprite.explosion_horizontal_right_last2, animate, 20);
+                break;
+            case OH:
+                sprite = Sprite.movingSprite(Sprite.explosion_horizontal, Sprite.explosion_horizontal1, Sprite.explosion_horizontal2, animate, 20);
+                break;
+            case OV:
+                sprite = Sprite.movingSprite(Sprite.explosion_vertical, Sprite.explosion_vertical1, Sprite.explosion_vertical2, animate, 20);
                 break;
         }
         img = sprite.getFxImage();

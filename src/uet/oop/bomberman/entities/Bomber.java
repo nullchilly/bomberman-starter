@@ -92,7 +92,7 @@ public class Bomber extends Entity {
         }
         chooseSprite();
 
-        if(keyListener.isPressed(KeyCode.SPACE)) {
+        if (keyListener.isPressed(KeyCode.SPACE) && Bomb.cnt == 0) {
 //            Entity object = new Bomb((x + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE, (y + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE, Sprite.bomb.getFxImage());
 //            entities.add(object);
             Platform.runLater(() ->  {

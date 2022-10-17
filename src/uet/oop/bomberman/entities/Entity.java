@@ -23,7 +23,9 @@ public abstract class Entity {
         L,
         R,
         U,
-        D
+        D,
+        OH,
+        OV,
     };
     protected Direction direction = Direction.R;
 

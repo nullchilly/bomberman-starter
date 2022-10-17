@@ -6,9 +6,12 @@ import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.graphics.Sprite;
 
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class Bomb extends Entity {
     private int animate = 0;
+    public static int cnt = 0;
     private boolean exploded = false;
 
     private List<Entity> entities;
@@ -16,6 +19,7 @@ public class Bomb extends Entity {
     public Bomb(int x, int y, Image img, List<Entity> entities) {
         super(x, y, img);
         this.entities = entities;
+        cnt++;
     }
 
     public void getImg() {
@@ -41,44 +45,123 @@ public class Bomb extends Entity {
             exploded = true;
             Platform.runLater(
                     () -> {
-                        int explosion_size = 2;
-                        int[] dx = new int[explosion_size * 4];
-                        int[] dy = new int[explosion_size * 4];
-                        int cnt = 0;
-                        for (int i = -explosion_size; i <= explosion_size; i++) {
-                            if (i == 0) continue;
-                            dx[cnt++] = i;
-                        }
-                        cnt = explosion_size * 4 - 1;
-                        for (int i = explosion_size; i >= -explosion_size; i--) {
-                            if (i == 0) continue;
-                            dy[cnt--] = i;
-                        }
-                        for (int c = 0; c < explosion_size * 4; c++) {
-                            int i = x / Sprite.SCALED_SIZE + dx[c], j = y / Sprite.SCALED_SIZE + dy[c];
-                            if (BombermanGame.table[i][j] instanceof Wall) {
-                                continue;
+                        int size = 1;
+                        Sprite sprite = null;
+                        for (int c = 1; c <= size; c++) {
+                            int i = x / Sprite.SCALED_SIZE - c, j = y / Sprite.SCALED_SIZE;
+                            Entity cur = BombermanGame.table[i][j];
+                            if (cur instanceof Wall) break;
+                            if (cur instanceof Brick) {
+                                ((Brick) cur).exploded = true;
+                                break;
                             }
-                            Sprite sprite = null;
-                            if (dx[c] < 0) {
+                            if (c < size) {
+                                entities.add(new Flame(i, j, Sprite.explosion_horizontal.getFxImage(), Direction.OH, entities));
+                            } else {
                                 entities.add(new Flame(i, j, Sprite.explosion_horizontal_left_last.getFxImage(), Direction.L, entities));
                             }
-                            if (dx[c] > 0) {
+                        }
+                        for (int c = 1; c <= size; c++) {
+                            int i = x / Sprite.SCALED_SIZE + c, j = y / Sprite.SCALED_SIZE;
+                            Entity cur = BombermanGame.table[i][j];
+                            if (cur instanceof Wall) break;
+                            if (cur instanceof Brick) {
+                                ((Brick) cur).exploded = true;
+                                break;
+                            }
+                            if (c < size) {
+                                entities.add(new Flame(i, j, Sprite.explosion_horizontal.getFxImage(), Direction.OH, entities));
+                            } else {
                                 entities.add(new Flame(i, j, Sprite.explosion_horizontal_right_last.getFxImage(), Direction.R, entities));
                             }
-                            if (dy[c] < 0) {
+                        }
+                        for (int c = 1; c <= size; c++) {
+                            int i = x / Sprite.SCALED_SIZE, j = y / Sprite.SCALED_SIZE - c;
+                            Entity cur = BombermanGame.table[i][j];
+                            if (cur instanceof Wall) break;
+                            if (cur instanceof Brick) {
+                                ((Brick) cur).exploded = true;
+                                break;
+                            }
+                            if (c < size) {
+                                entities.add(new Flame(i, j, Sprite.explosion_vertical.getFxImage(), Direction.OV, entities));
+                            } else {
                                 entities.add(new Flame(i, j, Sprite.explosion_vertical_top_last.getFxImage(), Direction.U, entities));
                             }
-                            if (dy[c] > 0) {
+                        }
+                        for (int c = 1; c <= size; c++) {
+                            int i = x / Sprite.SCALED_SIZE, j = y / Sprite.SCALED_SIZE + c;
+                            Entity cur = BombermanGame.table[i][j];
+                            if (cur instanceof Wall) break;
+                            if (cur instanceof Brick) {
+                                ((Brick) cur).exploded = true;
+                                break;
+                            }
+                            if (c < size) {
+                                entities.add(new Flame(i, j, Sprite.explosion_vertical.getFxImage(), Direction.OV, entities));
+                            } else {
                                 entities.add(new Flame(i, j, Sprite.explosion_vertical_down_last.getFxImage(), Direction.D, entities));
                             }
                         }
+                        Timer bombTimer = new Timer();
+                        bombTimer.schedule(new TimerTask() {
+                            @Override
+                            public void run() {
+                                for (int c = 0; c <= size; c++) {
+                                    int i = x / Sprite.SCALED_SIZE - c, j = y / Sprite.SCALED_SIZE;
+//                                    int i = (x - c + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE, j = (y + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE;
+                                    Entity cur = BombermanGame.table[i][j];
+                                    if (cur instanceof Wall) break;
+                                    if (cur instanceof Brick) {
+                                        ((Brick) cur).exploded = true;
+                                        break;
+                                    }
+                                    if (cur instanceof Balloom) ((Balloom) cur).died = true;
+                                }
+                                for (int c = 1; c <= size; c++) {
+                                    int i = x / Sprite.SCALED_SIZE + c, j = y / Sprite.SCALED_SIZE;
+//                                    int i = (x + c + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE, j = (y + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE;
+                                    Entity cur = BombermanGame.table[i][j];
+                                    if (cur instanceof Wall) break;
+                                    if (cur instanceof Brick) {
+                                        ((Brick) cur).exploded = true;
+                                        break;
+                                    }
+                                    if (cur instanceof Balloom) ((Balloom) cur).died = true;
+                                }
+                                for (int c = 1; c <= size; c++) {
+                                    int i = x / Sprite.SCALED_SIZE, j = y / Sprite.SCALED_SIZE - c;
+//                                    int i = (x + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE, j = (y - c + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE;
+                                    Entity cur = BombermanGame.table[i][j];
+                                    if (cur instanceof Wall) break;
+                                    if (cur instanceof Brick) {
+                                        ((Brick) cur).exploded = true;
+                                        break;
+                                    }
+                                    if (cur instanceof Balloom) ((Balloom) cur).died = true;
+                                }
+                                for (int c = 1; c <= size; c++) {
+                                    int i = x / Sprite.SCALED_SIZE, j = y / Sprite.SCALED_SIZE + c;
+//                                    int i = (x + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE, j = (y + c + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE;
+                                    System.out.println(i + " " + j);
+                                    Entity cur = BombermanGame.table[i][j];
+                                    if (cur instanceof Wall) break;
+                                    if (cur instanceof Brick) {
+                                        ((Brick) cur).exploded = true;
+                                        break;
+                                    }
+                                    if (cur instanceof Balloom) ((Balloom) cur).died = true;
+                                }
+                            }
+                        }, 10);
                     });
         }
         if (animate == 60) {
-            Platform.runLater( () -> {
-                entities.remove(this);
-            });
+            Platform.runLater(
+                    () -> {
+                        entities.remove(this);
+                        cnt--;
+                    });
         }
         if (animate > 1000000) {
             animate = 0;

@@ -97,41 +97,42 @@ public class BombermanGame extends Application {
                 String cur = scanner.nextLine();
                 for (int j = 0; j < width; j++) {
 //                    System.out.println(i + " " + j);
+                    Entity stillObject = null;
                     Entity object = null;
                     stillObjects.add(new Grass(j, i, Sprite.grass.getFxImage()));
                     switch (cur.charAt(j)) {
                         // Tiles:
                         case '#':
-                            object = new Wall(j, i, Sprite.wall.getFxImage());
+                            stillObject = new Wall(j, i, Sprite.wall.getFxImage());
                             break;
                         case '*':
-                             object = new Brick(j, i, Sprite.brick.getFxImage());
+                            object = new Brick(j, i, Sprite.brick.getFxImage(), entities);
                             break;
                         case 'x':
-                            object = new Portal(j, i, Sprite.portal.getFxImage());
+                            stillObject = new Portal(j, i, Sprite.portal.getFxImage());
                             break;
                         // Character:
                         case 'p':
-                            bomberman = new Bomber(j, i, Sprite.player_right.getFxImage(), keyListener, entities);
-                            entities.add(bomberman);
+                            object = new Bomber(j, i, Sprite.player_right.getFxImage(), keyListener, entities);
                             break;
                         case '1':
-                            Balloom balloon = new Balloom(j, i, Sprite.balloom_right1.getFxImage(), entities);
-                            entities.add(balloon);
+                            object = new Balloom(j, i, Sprite.balloom_right1.getFxImage(), entities);
                             break;
                         case '2':
-                            Oneal oneal = new Oneal(j, i, Sprite.oneal_right1.getFxImage());
-                            entities.add(oneal);
+                            object = new Oneal(j, i, Sprite.oneal_right1.getFxImage());
                             break;
                         // Items:
                         case 's':
-                            object = new Speed(j, i, Sprite.powerup_speed.getFxImage());
+                            stillObject = new Speed(j, i, Sprite.powerup_speed.getFxImage());
                             break;
                     }
-                    if (object != null) {
-                        stillObjects.add(object);
+                    if (stillObject != null) {
+                        stillObjects.add(stillObject);
+                        table[j][i] = stillObject;
+                    }
+                    else if (object != null) {
+                        entities.add(object);
                         table[j][i] = object;
-//                        System.out.println(j + " " + i);
                     }
                 }
             }

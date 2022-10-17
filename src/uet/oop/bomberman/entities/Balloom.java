@@ -13,10 +13,6 @@ import java.util.Random;
 
 public class Balloom extends Entity {
 
-    private int animate = 0;
-    private int die_time = 0;
-    public boolean died = false;
-
     private static final int STEP = Math.max(1, Math.round(Sprite.STEP / 2));
     private boolean moving = false;
 //    private KeyListener keyListener;
@@ -90,7 +86,7 @@ public class Balloom extends Entity {
             if (die_time == 20) {
                 Platform.runLater(() -> {
                     entities.remove(this);
-                    BombermanGame.table[x / Sprite.SCALED_SIZE][y / Sprite.SCALED_SIZE] = null;
+                    BombermanGame.table[(x + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE][(y + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE] = null;
                 });
             }
         } else {

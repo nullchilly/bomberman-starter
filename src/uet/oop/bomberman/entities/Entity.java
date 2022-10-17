@@ -20,6 +20,13 @@ public abstract class Entity {
     //Tọa độ Y tính từ góc trái trên trong Canvas
     public int y;
 
+
+    protected int animate = 0;
+
+    protected int die_time = 0;
+
+    public boolean died = false;
+
     protected Image img;
 
     protected List<Entity> entities = new ArrayList<>();

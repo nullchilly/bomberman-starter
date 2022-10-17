@@ -12,8 +12,6 @@ import java.util.List;
 
 public class Bomber extends Entity {
 
-    private int animate = 0;
-
     private List<Entity> entities = new ArrayList<>();
 
     public static final int STEP = Sprite.STEP;

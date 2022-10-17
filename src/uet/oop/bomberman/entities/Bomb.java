@@ -117,6 +117,7 @@ public class Bomb extends Entity {
                                         break;
                                     }
                                     if (cur instanceof Balloom) ((Balloom) cur).died = true;
+                                    if (cur instanceof Oneal) ((Oneal) cur).died = true;
                                 }
                                 for (int c = 1; c <= size; c++) {
                                     int i = x / Sprite.SCALED_SIZE + c, j = y / Sprite.SCALED_SIZE;
@@ -128,6 +129,7 @@ public class Bomb extends Entity {
                                         break;
                                     }
                                     if (cur instanceof Balloom) ((Balloom) cur).died = true;
+                                    if (cur instanceof Oneal) ((Oneal) cur).died = true;
                                 }
                                 for (int c = 1; c <= size; c++) {
                                     int i = x / Sprite.SCALED_SIZE, j = y / Sprite.SCALED_SIZE - c;
@@ -139,6 +141,7 @@ public class Bomb extends Entity {
                                         break;
                                     }
                                     if (cur instanceof Balloom) ((Balloom) cur).died = true;
+                                    if (cur instanceof Oneal) ((Oneal) cur).died = true;
                                 }
                                 for (int c = 1; c <= size; c++) {
                                     int i = x / Sprite.SCALED_SIZE, j = y / Sprite.SCALED_SIZE + c;
@@ -151,6 +154,7 @@ public class Bomb extends Entity {
                                         break;
                                     }
                                     if (cur instanceof Balloom) ((Balloom) cur).died = true;
+                                    if (cur instanceof Oneal) ((Oneal) cur).died = true;
                                 }
                             }
                         }, 10);

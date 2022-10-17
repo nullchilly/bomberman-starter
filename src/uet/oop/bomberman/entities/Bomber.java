@@ -96,7 +96,7 @@ public class Bomber extends Entity {
 //            Entity object = new Bomb((x + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE, (y + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE, Sprite.bomb.getFxImage());
 //            entities.add(object);
             Platform.runLater(() ->  {
-                Entity object = new Bomb((x + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE, (y + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE, Sprite.bomb.getFxImage(), entities);
+                Entity object = new Bomb((x + (8*Sprite.SCALED_SIZE)/(2*10))/Sprite.SCALED_SIZE, (y + (8*Sprite.SCALED_SIZE)/(2*10))/Sprite.SCALED_SIZE, Sprite.bomb.getFxImage(), entities);
                 entities.add(object);
             });
         }

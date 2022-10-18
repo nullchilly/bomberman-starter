@@ -84,20 +84,16 @@ public class Oneal extends Entity {
     public Direction bfs(int i, int j) {
         Queue< Pair<Integer, Pair<Integer, Direction> >> q = new LinkedList<Pair<Integer, Pair<Integer, Direction>>>();
 //        if (x < 0 || y < 0 || x >= Sprite.SCALED_SIZE * BombermanGame.WIDTH || y >= Sprite.SCALED_SIZE * BombermanGame.HEIGHT)
-        if (Entity.checkWall((i + 1) * Sprite.SCALED_SIZE, j * Sprite.SCALED_SIZE)
-                && checkWall(x + STEP + Sprite.SCALED_SIZE - 1, y) && checkWall(x + STEP + Sprite.SCALED_SIZE - 1, y + Sprite.SCALED_SIZE - 1)) {
+        if (Entity.checkWall((i + 1) * Sprite.SCALED_SIZE, j * Sprite.SCALED_SIZE)) {
             q.add(new Pair<>(i + 1, new Pair<>(j, Direction.R)));
         }
-        if (Entity.checkWall(i * Sprite.SCALED_SIZE, (j + 1) * Sprite.SCALED_SIZE)
-                && checkWall(x, y + STEP + Sprite.SCALED_SIZE - 1) && checkWall(x + Sprite.SCALED_SIZE - 1, y + STEP + Sprite.SCALED_SIZE - 1)) {
+        if (Entity.checkWall(i * Sprite.SCALED_SIZE, (j + 1) * Sprite.SCALED_SIZE)) {
             q.add(new Pair<>(i, new Pair<>(j + 1, Direction.D)));
         }
-        if (Entity.checkWall((i - 1) * Sprite.SCALED_SIZE, j * Sprite.SCALED_SIZE)
-                && checkWall(x - STEP, y) && checkWall(x - STEP, y + Sprite.SCALED_SIZE - 1)) {
+        if (Entity.checkWall((i - 1) * Sprite.SCALED_SIZE, j * Sprite.SCALED_SIZE)) {
             q.add(new Pair<>(i - 1, new Pair<>(j, Direction.L)));
         }
-        if (Entity.checkWall(i * Sprite.SCALED_SIZE, (j - 1) * Sprite.SCALED_SIZE)
-                && checkWall(x, y - STEP) && checkWall(x + Sprite.SCALED_SIZE - 1, y - STEP)) {
+        if (Entity.checkWall(i * Sprite.SCALED_SIZE, (j - 1) * Sprite.SCALED_SIZE)) {
             q.add(new Pair<>(i, new Pair<>(j - 1, Direction.U)));
         }
         check[i][j] = true;

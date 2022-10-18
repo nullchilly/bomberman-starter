@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import static uet.oop.bomberman.BombermanGame.table;
+
 public class Bomb extends Entity {
     private int animate = 0;
     public static int cnt = 0;
@@ -49,7 +51,7 @@ public class Bomb extends Entity {
                         Sprite sprite = null;
                         for (int c = 1; c <= size; c++) {
                             int i = x / Sprite.SCALED_SIZE - c, j = y / Sprite.SCALED_SIZE;
-                            Entity cur = BombermanGame.table[i][j];
+                            Entity cur = table[i][j];
                             if (cur instanceof Wall) break;
                             if (cur instanceof Brick) {
                                 ((Brick) cur).exploded = true;
@@ -63,7 +65,7 @@ public class Bomb extends Entity {
                         }
                         for (int c = 1; c <= size; c++) {
                             int i = x / Sprite.SCALED_SIZE + c, j = y / Sprite.SCALED_SIZE;
-                            Entity cur = BombermanGame.table[i][j];
+                            Entity cur = table[i][j];
                             if (cur instanceof Wall) break;
                             if (cur instanceof Brick) {
                                 ((Brick) cur).exploded = true;
@@ -77,7 +79,7 @@ public class Bomb extends Entity {
                         }
                         for (int c = 1; c <= size; c++) {
                             int i = x / Sprite.SCALED_SIZE, j = y / Sprite.SCALED_SIZE - c;
-                            Entity cur = BombermanGame.table[i][j];
+                            Entity cur = table[i][j];
                             if (cur instanceof Wall) break;
                             if (cur instanceof Brick) {
                                 ((Brick) cur).exploded = true;
@@ -91,7 +93,7 @@ public class Bomb extends Entity {
                         }
                         for (int c = 1; c <= size; c++) {
                             int i = x / Sprite.SCALED_SIZE, j = y / Sprite.SCALED_SIZE + c;
-                            Entity cur = BombermanGame.table[i][j];
+                            Entity cur = table[i][j];
                             if (cur instanceof Wall) break;
                             if (cur instanceof Brick) {
                                 ((Brick) cur).exploded = true;
@@ -110,7 +112,7 @@ public class Bomb extends Entity {
                                 for (int c = 0; c <= size; c++) {
                                     int i = x / Sprite.SCALED_SIZE - c, j = y / Sprite.SCALED_SIZE;
 //                                    int i = (x - c + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE, j = (y + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE;
-                                    Entity cur = BombermanGame.table[i][j];
+                                    Entity cur = table[i][j];
                                     if (cur instanceof Wall) break;
                                     if (cur instanceof Brick) {
                                         ((Brick) cur).exploded = true;
@@ -122,7 +124,7 @@ public class Bomb extends Entity {
                                 for (int c = 1; c <= size; c++) {
                                     int i = x / Sprite.SCALED_SIZE + c, j = y / Sprite.SCALED_SIZE;
 //                                    int i = (x + c + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE, j = (y + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE;
-                                    Entity cur = BombermanGame.table[i][j];
+                                    Entity cur = table[i][j];
                                     if (cur instanceof Wall) break;
                                     if (cur instanceof Brick) {
                                         ((Brick) cur).exploded = true;
@@ -134,7 +136,7 @@ public class Bomb extends Entity {
                                 for (int c = 1; c <= size; c++) {
                                     int i = x / Sprite.SCALED_SIZE, j = y / Sprite.SCALED_SIZE - c;
 //                                    int i = (x + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE, j = (y - c + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE;
-                                    Entity cur = BombermanGame.table[i][j];
+                                    Entity cur = table[i][j];
                                     if (cur instanceof Wall) break;
                                     if (cur instanceof Brick) {
                                         ((Brick) cur).exploded = true;
@@ -147,7 +149,7 @@ public class Bomb extends Entity {
                                     int i = x / Sprite.SCALED_SIZE, j = y / Sprite.SCALED_SIZE + c;
 //                                    int i = (x + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE, j = (y + c + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE;
                                     System.out.println(i + " " + j);
-                                    Entity cur = BombermanGame.table[i][j];
+                                    Entity cur = table[i][j];
                                     if (cur instanceof Wall) break;
                                     if (cur instanceof Brick) {
                                         ((Brick) cur).exploded = true;

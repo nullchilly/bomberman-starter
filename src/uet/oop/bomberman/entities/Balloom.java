@@ -92,7 +92,7 @@ public class Balloom extends Entity {
         } else {
             animate++;
             if (animate > 100000) animate = 0;
-            if (animate % 70 == 0) {
+            if (animate % 30 == 0 && x % Sprite.SCALED_SIZE == 0 && y % Sprite.SCALED_SIZE == 0) {
                 direction = Direction.values()[new Random().nextInt(Direction.values().length)];
 //                System.out.println("Balloom " + x / Sprite.SCALED_SIZE + " " + y / Sprite.SCALED_SIZE);
             }

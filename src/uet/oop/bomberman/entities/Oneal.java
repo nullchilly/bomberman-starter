@@ -2,17 +2,20 @@ package uet.oop.bomberman.entities;
 
 import javafx.application.Platform;
 import javafx.scene.image.Image;
+import javafx.util.Pair;
 import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.graphics.Sprite;
 
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class Oneal extends Entity {
 
     private boolean moving = false;
+    private boolean canReach = false;
+    private Entity[][] table = BombermanGame.table;
+    private boolean[][] check = new boolean[BombermanGame.WIDTH][BombermanGame.HEIGHT];
     private static final int STEP = Math.max(1, Math.round(Sprite.STEP / 2));
-
+//    private static final int STEP = Sprite.SCALED_SIZE/4;
     public Oneal(int x, int y, Image img, List<Entity> entities) {
         super(x, y, img);
         this.entities = entities;
@@ -33,7 +36,7 @@ public class Oneal extends Entity {
             switch (direction) {
                 case U:
                     sprite = Sprite.oneal_right1;
-                    if (checkWall(x, y - STEP + 3) && checkWall(x + Sprite.SCALED_SIZE - 3, y - STEP + 3)) {
+                    if (checkWall(x, y - STEP) && checkWall(x + Sprite.SCALED_SIZE - 1, y - STEP)) {
                         y -= STEP;
                         moving = true;
                     }
@@ -43,7 +46,7 @@ public class Oneal extends Entity {
                     break;
                 case D:
                     sprite = Sprite.oneal_right1;
-                    if (checkWall(x, y + STEP + Sprite.SCALED_SIZE - 3) && checkWall(x + Sprite.SCALED_SIZE - 3, y + STEP + Sprite.SCALED_SIZE - 3)) {
+                    if (checkWall(x, y + STEP + Sprite.SCALED_SIZE - 1) && checkWall(x + Sprite.SCALED_SIZE - 1, y + STEP + Sprite.SCALED_SIZE - 1)) {
                         y += STEP;
                         moving = true;
                     }
@@ -53,7 +56,7 @@ public class Oneal extends Entity {
                     break;
                 case L:
                     sprite = Sprite.oneal_left1;
-                    if (checkWall(x - STEP, y + 3) && checkWall(x - STEP, y + Sprite.SCALED_SIZE - 3)) {
+                    if (checkWall(x - STEP, y) && checkWall(x - STEP, y + Sprite.SCALED_SIZE - 1)) {
                         x -= STEP;
                         moving = true;
                     }
@@ -63,7 +66,7 @@ public class Oneal extends Entity {
                     break;
                 case R:
                     sprite = Sprite.oneal_right1;
-                    if (checkWall(x + STEP + Sprite.SCALED_SIZE - 3, y + 3) && checkWall(x + STEP + Sprite.SCALED_SIZE - 3, y + Sprite.SCALED_SIZE - 3)) {
+                    if (checkWall(x + STEP + Sprite.SCALED_SIZE - 1, y) && checkWall(x + STEP + Sprite.SCALED_SIZE - 1, y + Sprite.SCALED_SIZE - 1)) {
                         x += STEP;
                         moving = true;
                     }
@@ -78,26 +81,89 @@ public class Oneal extends Entity {
             BombermanGame.table[px][py] = this;
         });
     }
+    public Direction bfs(int i, int j) {
+        Queue< Pair<Integer, Pair<Integer, Direction> >> q = new LinkedList<Pair<Integer, Pair<Integer, Direction>>>();
+//        if (x < 0 || y < 0 || x >= Sprite.SCALED_SIZE * BombermanGame.WIDTH || y >= Sprite.SCALED_SIZE * BombermanGame.HEIGHT)
+        if (Entity.checkWall((i + 1) * Sprite.SCALED_SIZE, j * Sprite.SCALED_SIZE)
+                && checkWall(x + STEP + Sprite.SCALED_SIZE - 1, y) && checkWall(x + STEP + Sprite.SCALED_SIZE - 1, y + Sprite.SCALED_SIZE - 1)) {
+            q.add(new Pair<>(i + 1, new Pair<>(j, Direction.R)));
+        }
+        if (Entity.checkWall(i * Sprite.SCALED_SIZE, (j + 1) * Sprite.SCALED_SIZE)
+                && checkWall(x, y + STEP + Sprite.SCALED_SIZE - 1) && checkWall(x + Sprite.SCALED_SIZE - 1, y + STEP + Sprite.SCALED_SIZE - 1)) {
+            q.add(new Pair<>(i, new Pair<>(j + 1, Direction.D)));
+        }
+        if (Entity.checkWall((i - 1) * Sprite.SCALED_SIZE, j * Sprite.SCALED_SIZE)
+                && checkWall(x - STEP, y) && checkWall(x - STEP, y + Sprite.SCALED_SIZE - 1)) {
+            q.add(new Pair<>(i - 1, new Pair<>(j, Direction.L)));
+        }
+        if (Entity.checkWall(i * Sprite.SCALED_SIZE, (j - 1) * Sprite.SCALED_SIZE)
+                && checkWall(x, y - STEP) && checkWall(x + Sprite.SCALED_SIZE - 1, y - STEP)) {
+            q.add(new Pair<>(i, new Pair<>(j - 1, Direction.U)));
+        }
+        check[i][j] = true;
+        check[i + 1][j] = true;
+        check[i - 1][j] = true;
+        check[i][j + 1] = true;
+        check[i][j - 1] = true;
 
+        while(!q.isEmpty()) {
+            i = q.peek().getKey();
+            j = q.peek().getValue().getKey();
+            Direction direction = q.peek().getValue().getValue();
+            q.remove();
+            if (Entity.checkWall((i + 1) * Sprite.SCALED_SIZE, j * Sprite.SCALED_SIZE) && !check[i + 1][j]) {
+                q.add(new Pair<>(i + 1, new Pair<>(j,direction)));
+                check[i + 1][j] = true;
+            }
+            if (Entity.checkWall(i * Sprite.SCALED_SIZE, (j + 1) * Sprite.SCALED_SIZE) && !check[i][j + 1]) {
+                q.add(new Pair<>(i, new Pair<>(j + 1, direction)));
+                check[i][j + 1] = true;
+            }
+            if (Entity.checkWall((i - 1) * Sprite.SCALED_SIZE, j * Sprite.SCALED_SIZE) && !check[i - 1][j]) {
+                q.add(new Pair<>(i - 1, new Pair<>(j, direction)));
+                check[i - 1][j] = true;
+            }
+            if (Entity.checkWall(i * Sprite.SCALED_SIZE, (j - 1) * Sprite.SCALED_SIZE) && !check[i][j - 1]) {
+                q.add(new Pair<>(i, new Pair<>(j - 1, direction)));
+                check[i][j - 1] = true;
+            }
+            if (Entity.getEntity(i, j) instanceof Bomber) {
+                System.out.println("Oops");
+                canReach = true;
+                return direction;
+            }
+        }
+//        x = i * Sprite.SCALED_SIZE;
+//        y = j * Sprite.SCALED_SIZE;
+        return this.direction;
+    }
     @Override
     public void update() {
+        int px = (x + Sprite.SCALED_SIZE / 2) / Sprite.SCALED_SIZE, py = (y + Sprite.SCALED_SIZE / 2) / Sprite.SCALED_SIZE;
         if (died) {
             die_time++;
             img = Sprite.oneal_dead.getFxImage();
             if (die_time == 20) {
                 Platform.runLater(() -> {
                     entities.remove(this);
-                    BombermanGame.table[(x + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE][(y + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE] = null;
+                    BombermanGame.table[px][py] = null;
                 });
             }
         } else {
             animate++;
             if (animate > 100000) animate = 0;
-            if (animate % 70 == 0) {
-                direction = Direction.values()[new Random().nextInt(Direction.values().length)];
+            if (x % Sprite.SCALED_SIZE == 0 && y % Sprite.SCALED_SIZE == 0) {
+//                System.out.println("YES" + animate);
+                check = new boolean[BombermanGame.WIDTH][BombermanGame.HEIGHT];
+//                System.out.println(check[px][py]);
+                direction = bfs(px, py);
+//                direction = Direction.values()[new Random().nextInt(Direction.values().length)];
 //                System.out.println("Oneal " + x / Sprite.SCALED_SIZE + " " + y / Sprite.SCALED_SIZE);
+                moving = false;
             }
-            moving = false;
+            if (animate % 70 == 0 && x % Sprite.SCALED_SIZE == 0 && y % Sprite.SCALED_SIZE == 0 && !canReach) {
+                direction = Direction.values()[new Random().nextInt(Direction.values().length)];
+            }
             chooseSprite();
         }
     }

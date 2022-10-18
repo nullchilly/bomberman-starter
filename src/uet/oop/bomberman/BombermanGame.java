@@ -18,15 +18,15 @@ import java.util.List;
 public class BombermanGame extends Application {
     public static int time = 0;
     public static int animate = 0;
-    public static final int WIDTH = 31;
-    public static final int HEIGHT = 13;
+    public static int WIDTH;
+    public static int HEIGHT;
     
     private GraphicsContext gc;
     private Canvas canvas;
     public List<Entity> entities = new ArrayList<>();
     public List<Entity> flames = new ArrayList<>();
     public List<Entity> stillObjects = new ArrayList<>();
-    public static Entity[][] table = new Entity[WIDTH][HEIGHT];
+    public static Entity[][] table;
     private KeyListener keyListener;
     public Entity bomberman;
 
@@ -44,54 +44,44 @@ public class BombermanGame extends Application {
     }
     @Override
     public void start(Stage stage) {
-        System.out.println(Sprite.width);
-        // Tao Canvas
-        canvas = new Canvas(Sprite.SCALED_SIZE * WIDTH, Sprite.SCALED_SIZE * HEIGHT);
-        gc = canvas.getGraphicsContext2D();
-
-        // Tao root container
-        Group root = new Group();
-        root.getChildren().add(canvas);
-
-        // Tao scene
-        Scene scene = new Scene(root);
-        keyListener = new KeyListener(scene);
-
-        // Them scene vao stage
-        stage.setScene(scene);
-        stage.show();
-
-        AnimationTimer timer = new AnimationTimer() {
-            @Override
-            public void handle(long l) {
-                fps();
-                render();
-                update();
-            }
-        };
-
-        timer.start();
-
-//        Timer bombTimer = new Timer();
-//        bombTimer.schedule(new TimerTask() {
-//
-//            @Override
-//            public void run() {
-//                createBomb(scene);
-//            }
-//        }, 1000, 3000);
-
-        createMap(1);
-    }
-
-    public void createMap(int level) {
+        int level = 2;
         File file = new File(System.getProperty("user.dir") + "/res/levels/Level" + level + ".txt");
         try {
             Scanner scanner = new Scanner(file);
             int height = scanner.nextInt(); // level
             height = scanner.nextInt();
             int width = scanner.nextInt();
+            HEIGHT = height;
+            WIDTH = width;
+            table = new Entity[WIDTH][HEIGHT];
             System.out.println(height + " " + width);
+            // Tao Canvas
+            canvas = new Canvas(Sprite.SCALED_SIZE * WIDTH, Sprite.SCALED_SIZE * HEIGHT);
+            gc = canvas.getGraphicsContext2D();
+
+            // Tao root container
+            Group root = new Group();
+            root.getChildren().add(canvas);
+
+            // Tao scene
+            Scene scene = new Scene(root);
+            keyListener = new KeyListener(scene);
+
+            // Them scene vao stage
+            stage.setScene(scene);
+            stage.show();
+
+            AnimationTimer timer = new AnimationTimer() {
+                @Override
+                public void handle(long l) {
+                    fps();
+                    render();
+                    update();
+                }
+            };
+
+            timer.start();
+
             scanner.nextLine();
             for (int i = 0; i < height; i++) {
                 String cur = scanner.nextLine();
@@ -129,8 +119,7 @@ public class BombermanGame extends Application {
                     if (stillObject != null) {
                         stillObjects.add(stillObject);
                         table[j][i] = stillObject;
-                    }
-                    else if (object != null) {
+                    } else if (object != null) {
                         entities.add(object);
                         table[j][i] = object;
                     }
@@ -141,12 +130,6 @@ public class BombermanGame extends Application {
             System.out.println(e.getMessage());
         }
     }
-
-//    public void createBomb(Scene scene) {
-//        Entity object = new Bomb((bomberman.x + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE, (bomberman.y + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE, Sprite.bomb.getFxImage());
-//        entities.add(object);
-////        Platform.runLater(() -> root.getChildren().add(e)) -- Fix different thread
-//    }
 
     public void update() {
         entities.forEach(Entity::update);

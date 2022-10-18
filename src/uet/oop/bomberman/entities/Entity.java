@@ -58,13 +58,13 @@ public abstract class Entity {
     }
 
     public static boolean checkWall(int x, int y) {
-        if (x < 0 || y < 0 || x >= Sprite.SCALED_SIZE * BombermanGame.WIDTH || y >= Sprite.SCALED_SIZE * BombermanGame.HEIGHT) {
-            return false;
-        }
+//        if (x <= 0 || y <= 0 || x >= Sprite.SCALED_SIZE * BombermanGame.WIDTH || y >= Sprite.SCALED_SIZE * BombermanGame.HEIGHT) {
+//            return false;
+//        }
 
         x /= Sprite.SCALED_SIZE;
         y /= Sprite.SCALED_SIZE;
         Entity cur = getEntity(x, y);
-        return !(cur instanceof Wall ||  cur instanceof Brick);
+        return !(cur instanceof Wall) &&  !(cur instanceof Brick);
     }
 }

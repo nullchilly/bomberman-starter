@@ -10,6 +10,8 @@ import uet.oop.bomberman.graphics.Sprite;
 import java.util.ArrayList;
 import java.util.List;
 
+import static uet.oop.bomberman.BombermanGame.table;
+
 public class Bomber extends Entity {
 
     private List<Entity> entities = new ArrayList<>();
@@ -60,6 +62,9 @@ public class Bomber extends Entity {
         animate++;
         if (animate > 100000) animate = 0;
         moving = false;
+        int px = (x + (75*Sprite.SCALED_SIZE)/(2*100))/Sprite.SCALED_SIZE;
+        int py = (y + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE;
+        table[px][py] = null;
         if (keyListener.isPressed(KeyCode.D)) {
             direction = Direction.R;
             if (checkWall(x + STEP + Sprite.SCALED_SIZE - 12, y + 3) && checkWall(x + STEP + Sprite.SCALED_SIZE - 12, y + Sprite.SCALED_SIZE - 3)) {
@@ -94,10 +99,13 @@ public class Bomber extends Entity {
 //            Entity object = new Bomb((x + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE, (y + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE, Sprite.bomb.getFxImage());
 //            entities.add(object);
             Platform.runLater(() ->  {
-                Entity object = new Bomb((x + (8*Sprite.SCALED_SIZE)/(2*10))/Sprite.SCALED_SIZE, (y + (8*Sprite.SCALED_SIZE)/(2*10))/Sprite.SCALED_SIZE, Sprite.bomb.getFxImage(), entities);
+                Entity object = new Bomb((x + (75*Sprite.SCALED_SIZE)/(2*100))/Sprite.SCALED_SIZE, (y + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE, Sprite.bomb.getFxImage(), entities);
                 entities.add(object);
             });
         }
+        px = (x + (75*Sprite.SCALED_SIZE)/(2*100))/Sprite.SCALED_SIZE;
+        py = (y + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE;
+        table[px][py] = this;
     }
 
     public void updateBomber() {}

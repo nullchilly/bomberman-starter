@@ -11,11 +11,13 @@ import java.util.*;
 public class Oneal extends Entity {
 
     private boolean moving = false;
+    private int px;
+    private int py;
     private boolean canReach = false;
     private Entity[][] table = BombermanGame.table;
     private boolean[][] check = new boolean[BombermanGame.WIDTH][BombermanGame.HEIGHT];
     private static final int STEP = Math.max(1, Math.round(Sprite.STEP / 2));
-//    private static final int STEP = Sprite.SCALED_SIZE/4;
+
     public Oneal(int x, int y, Image img, List<Entity> entities) {
         super(x, y, img);
         this.entities = entities;
@@ -26,12 +28,23 @@ public class Oneal extends Entity {
         img = sprite.getFxImage();
     }
 
-    private void chooseSprite() {
-//        System.out.println(Sprite.STEP);
+    private void findDirection() {
+        animate++;
+        if (animate > 100000) animate = 0;
+        if (x % Sprite.SCALED_SIZE == 0 && y % Sprite.SCALED_SIZE == 0) {
+            check = new boolean[BombermanGame.WIDTH][BombermanGame.HEIGHT];
+            direction = bfs(px, py);
+            moving = false;
+        }
+        if (animate % 70 == 0 && x % Sprite.SCALED_SIZE == 0 && y % Sprite.SCALED_SIZE == 0 && !canReach) {
+            direction = Direction.values()[new Random().nextInt(Direction.values().length)];
+            moving = false;
+        }
+    }
+    private void onealMoving() {
         Platform.runLater(() -> {
             int px = (x + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE, py = (y + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE;
             BombermanGame.table[px][py] = null;
-//            System.out.println(px + " " + py);
             Sprite sprite = Sprite.oneal_right1;
             switch (direction) {
                 case U:
@@ -83,7 +96,6 @@ public class Oneal extends Entity {
     }
     public Direction bfs(int i, int j) {
         Queue< Pair<Integer, Pair<Integer, Direction> >> q = new LinkedList<Pair<Integer, Pair<Integer, Direction>>>();
-//        if (x < 0 || y < 0 || x >= Sprite.SCALED_SIZE * BombermanGame.WIDTH || y >= Sprite.SCALED_SIZE * BombermanGame.HEIGHT)
         if (Entity.checkWall((i + 1) * Sprite.SCALED_SIZE, j * Sprite.SCALED_SIZE)) {
             q.add(new Pair<>(i + 1, new Pair<>(j, Direction.R)));
         }
@@ -129,38 +141,18 @@ public class Oneal extends Entity {
                 return direction;
             }
         }
-//        x = i * Sprite.SCALED_SIZE;
-//        y = j * Sprite.SCALED_SIZE;
         return this.direction;
     }
     @Override
     public void update() {
-        int px = (x + Sprite.SCALED_SIZE / 2) / Sprite.SCALED_SIZE, py = (y + Sprite.SCALED_SIZE / 2) / Sprite.SCALED_SIZE;
+        px = (x + Sprite.SCALED_SIZE / 2) / Sprite.SCALED_SIZE;
+        py = (y + Sprite.SCALED_SIZE / 2) / Sprite.SCALED_SIZE;
         if (died) {
-            die_time++;
-            img = Sprite.oneal_dead.getFxImage();
-            if (die_time == 20) {
-                Platform.runLater(() -> {
-                    entities.remove(this);
-                    BombermanGame.table[px][py] = null;
-                });
-            }
-        } else {
-            animate++;
-            if (animate > 100000) animate = 0;
-            if (x % Sprite.SCALED_SIZE == 0 && y % Sprite.SCALED_SIZE == 0) {
-//                System.out.println("YES" + animate);
-                check = new boolean[BombermanGame.WIDTH][BombermanGame.HEIGHT];
-//                System.out.println(check[px][py]);
-                direction = bfs(px, py);
-//                direction = Direction.values()[new Random().nextInt(Direction.values().length)];
-//                System.out.println("Oneal " + x / Sprite.SCALED_SIZE + " " + y / Sprite.SCALED_SIZE);
-                moving = false;
-            }
-            if (animate % 70 == 0 && x % Sprite.SCALED_SIZE == 0 && y % Sprite.SCALED_SIZE == 0 && !canReach) {
-                direction = Direction.values()[new Random().nextInt(Direction.values().length)];
-            }
-            chooseSprite();
+            dieEnemy(Sprite.oneal_dead);
+            return;
         }
+
+        findDirection();
+        onealMoving();
     }
 }

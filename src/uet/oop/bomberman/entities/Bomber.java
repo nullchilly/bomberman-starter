@@ -56,15 +56,7 @@ public class Bomber extends Entity {
         }
         img = sprite.getFxImage();
     }
-
-    @Override
-    public void update() {
-        animate++;
-        if (animate > 100000) animate = 0;
-        moving = false;
-        int px = (x + (75*Sprite.SCALED_SIZE)/(2*100))/Sprite.SCALED_SIZE;
-        int py = (y + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE;
-        table[px][py] = null;
+    public void bomberMoving() {
         if (keyListener.isPressed(KeyCode.D)) {
             direction = Direction.R;
             if (checkWall(x + STEP + Sprite.SCALED_SIZE - 12, y + 3) && checkWall(x + STEP + Sprite.SCALED_SIZE - 12, y + Sprite.SCALED_SIZE - 3)) {
@@ -93,16 +85,27 @@ public class Bomber extends Entity {
                 moving = true;
             }
         }
-        chooseSprite();
+    }
 
+    public void placeBomb() {
         if (keyListener.isPressed(KeyCode.SPACE) && Bomb.cnt == 0) {
-//            Entity object = new Bomb((x + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE, (y + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE, Sprite.bomb.getFxImage());
-//            entities.add(object);
             Platform.runLater(() ->  {
                 Entity object = new Bomb((x + (75*Sprite.SCALED_SIZE)/(2*100))/Sprite.SCALED_SIZE, (y + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE, Sprite.bomb.getFxImage(), entities);
                 entities.add(object);
             });
         }
+    }
+    @Override
+    public void update() {
+        animate++;
+        if (animate > 100000) animate = 0;
+        moving = false;
+        int px = (x + (75*Sprite.SCALED_SIZE)/(2*100))/Sprite.SCALED_SIZE;
+        int py = (y + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE;
+        table[px][py] = null;
+        bomberMoving();
+        chooseSprite();
+        placeBomb();
         px = (x + (75*Sprite.SCALED_SIZE)/(2*100))/Sprite.SCALED_SIZE;
         py = (y + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE;
         table[px][py] = this;

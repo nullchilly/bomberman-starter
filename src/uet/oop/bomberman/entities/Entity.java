@@ -1,5 +1,6 @@
 package uet.oop.bomberman.entities;
 
+import javafx.application.Platform;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -15,17 +16,17 @@ import java.util.List;
 
 public abstract class Entity {
     //Tọa độ X tính từ góc trái trên trong Canvas
-    public int x;
+    protected int x;
 
     //Tọa độ Y tính từ góc trái trên trong Canvas
-    public int y;
+    protected int y;
 
 
     protected int animate = 0;
 
     protected int die_time = 0;
 
-    public boolean died = false;
+    protected boolean died = false;
 
     protected Image img;
 
@@ -67,4 +68,27 @@ public abstract class Entity {
         Entity cur = getEntity(x, y);
         return !(cur instanceof Wall) &&  !(cur instanceof Brick);
     }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public void setDied() {
+        this.died = true;
+    }
+    public void dieEnemy(Sprite sprite) {
+        die_time++;
+        img = sprite.getFxImage();
+        if (die_time == 20) {
+            Platform.runLater(() -> {
+                entities.remove(this);
+                BombermanGame.table[(x + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE][(y + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE] = null;
+            });
+        }
+    }
+
 }

@@ -15,19 +15,22 @@ public class Balloom extends Entity {
 
     private static final int STEP = Math.max(1, Math.round(Sprite.STEP / 2));
     private boolean moving = false;
-//    private KeyListener keyListener;
 
     public Balloom(int x, int y, Image img, List<Entity> entities) {
         super(x, y, img);
         this.entities = entities;
     }
 
-    private void chooseSprite() {
-//        System.out.println(Sprite.STEP);
+    private void findDirection() {
+        if (animate > 100000) animate = 0;
+        if (animate % 30 == 0 && x % Sprite.SCALED_SIZE == 0 && y % Sprite.SCALED_SIZE == 0) {
+            direction = Direction.values()[new Random().nextInt(Direction.values().length)];
+        }
+    }
+    private void balloomMoving() {
         Platform.runLater(() -> {
             int px = (x + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE, py = (y + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE;
             BombermanGame.table[px][py] = null;
-//            System.out.println(px + " " + py);
             Sprite sprite = Sprite.balloom_right1;
             switch (direction) {
                 case U:
@@ -81,25 +84,13 @@ public class Balloom extends Entity {
     @Override
     public void update() {
         if (died) {
-            die_time++;
-            img = Sprite.balloom_dead.getFxImage();
-            if (die_time == 20) {
-                Platform.runLater(() -> {
-                    entities.remove(this);
-                    BombermanGame.table[(x + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE][(y + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE] = null;
-                });
-            }
-        } else {
-            animate++;
-            if (animate > 100000) animate = 0;
-            if (animate % 30 == 0 && x % Sprite.SCALED_SIZE == 0 && y % Sprite.SCALED_SIZE == 0) {
-                direction = Direction.values()[new Random().nextInt(Direction.values().length)];
-//                System.out.println("Balloom " + x / Sprite.SCALED_SIZE + " " + y / Sprite.SCALED_SIZE);
-            }
-            moving = false;
-            chooseSprite();
+            dieEnemy(Sprite.balloom_dead);
+            return;
         }
+        animate++;
+        moving = false;
+        findDirection();
+        balloomMoving();
     }
-
     public void updateBalloon() {}
 }

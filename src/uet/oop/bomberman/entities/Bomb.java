@@ -54,7 +54,7 @@ public class Bomb extends Entity {
                             Entity cur = table[i][j];
                             if (cur instanceof Wall) break;
                             if (cur instanceof Brick) {
-                                ((Brick) cur).exploded = true;
+                                ((Brick) cur).setExploded();
                                 break;
                             }
                             if (c < size) {
@@ -68,7 +68,7 @@ public class Bomb extends Entity {
                             Entity cur = table[i][j];
                             if (cur instanceof Wall) break;
                             if (cur instanceof Brick) {
-                                ((Brick) cur).exploded = true;
+                                ((Brick) cur).setExploded();
                                 break;
                             }
                             if (c < size) {
@@ -82,7 +82,7 @@ public class Bomb extends Entity {
                             Entity cur = table[i][j];
                             if (cur instanceof Wall) break;
                             if (cur instanceof Brick) {
-                                ((Brick) cur).exploded = true;
+                                ((Brick) cur).setExploded();
                                 break;
                             }
                             if (c < size) {
@@ -96,7 +96,7 @@ public class Bomb extends Entity {
                             Entity cur = table[i][j];
                             if (cur instanceof Wall) break;
                             if (cur instanceof Brick) {
-                                ((Brick) cur).exploded = true;
+                                ((Brick) cur).setExploded();
                                 break;
                             }
                             if (c < size) {
@@ -111,52 +111,48 @@ public class Bomb extends Entity {
                             public void run() {
                                 for (int c = 0; c <= size; c++) {
                                     int i = x / Sprite.SCALED_SIZE - c, j = y / Sprite.SCALED_SIZE;
-//                                    int i = (x - c + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE, j = (y + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE;
                                     Entity cur = table[i][j];
                                     if (cur instanceof Wall) break;
                                     if (cur instanceof Brick) {
-                                        ((Brick) cur).exploded = true;
+                                        ((Brick) cur).setExploded();
                                         break;
                                     }
-                                    if (cur instanceof Balloom) ((Balloom) cur).died = true;
-                                    if (cur instanceof Oneal) ((Oneal) cur).died = true;
+                                    if (cur instanceof Balloom) ((Balloom) cur).setDied();
+                                    if (cur instanceof Oneal) ((Oneal) cur).setDied();
                                 }
                                 for (int c = 1; c <= size; c++) {
                                     int i = x / Sprite.SCALED_SIZE + c, j = y / Sprite.SCALED_SIZE;
-//                                    int i = (x + c + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE, j = (y + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE;
                                     Entity cur = table[i][j];
                                     if (cur instanceof Wall) break;
                                     if (cur instanceof Brick) {
-                                        ((Brick) cur).exploded = true;
+                                        ((Brick) cur).setExploded();
                                         break;
                                     }
-                                    if (cur instanceof Balloom) ((Balloom) cur).died = true;
-                                    if (cur instanceof Oneal) ((Oneal) cur).died = true;
+                                    if (cur instanceof Balloom) ((Balloom) cur).setDied();
+                                    if (cur instanceof Oneal) ((Oneal) cur).setDied();
                                 }
                                 for (int c = 1; c <= size; c++) {
                                     int i = x / Sprite.SCALED_SIZE, j = y / Sprite.SCALED_SIZE - c;
-//                                    int i = (x + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE, j = (y - c + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE;
                                     Entity cur = table[i][j];
                                     if (cur instanceof Wall) break;
                                     if (cur instanceof Brick) {
-                                        ((Brick) cur).exploded = true;
+                                        ((Brick) cur).setExploded();
                                         break;
                                     }
-                                    if (cur instanceof Balloom) ((Balloom) cur).died = true;
-                                    if (cur instanceof Oneal) ((Oneal) cur).died = true;
+                                    if (cur instanceof Balloom) ((Balloom) cur).setDied();
+                                    if (cur instanceof Oneal) ((Oneal) cur).setDied();
                                 }
                                 for (int c = 1; c <= size; c++) {
                                     int i = x / Sprite.SCALED_SIZE, j = y / Sprite.SCALED_SIZE + c;
-//                                    int i = (x + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE, j = (y + c + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE;
                                     System.out.println(i + " " + j);
                                     Entity cur = table[i][j];
                                     if (cur instanceof Wall) break;
                                     if (cur instanceof Brick) {
-                                        ((Brick) cur).exploded = true;
+                                        ((Brick) cur).setExploded();
                                         break;
                                     }
-                                    if (cur instanceof Balloom) ((Balloom) cur).died = true;
-                                    if (cur instanceof Oneal) ((Oneal) cur).died = true;
+                                    if (cur instanceof Balloom) ((Balloom) cur).setDied();
+                                    if (cur instanceof Oneal) ((Oneal) cur).setDied();
                                 }
                             }
                         }, 10);

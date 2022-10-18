@@ -97,23 +97,22 @@ public class Oneal extends Entity {
     public Direction bfs(int i, int j) {
         Queue< Pair<Integer, Pair<Integer, Direction> >> q = new LinkedList<Pair<Integer, Pair<Integer, Direction>>>();
         if (Entity.checkWall((i + 1) * Sprite.SCALED_SIZE, j * Sprite.SCALED_SIZE)) {
+            check[i + 1][j] = true;
             q.add(new Pair<>(i + 1, new Pair<>(j, Direction.R)));
         }
         if (Entity.checkWall(i * Sprite.SCALED_SIZE, (j + 1) * Sprite.SCALED_SIZE)) {
+            check[i][j + 1] = true;
             q.add(new Pair<>(i, new Pair<>(j + 1, Direction.D)));
         }
         if (Entity.checkWall((i - 1) * Sprite.SCALED_SIZE, j * Sprite.SCALED_SIZE)) {
+            check[i - 1][j] = true;
             q.add(new Pair<>(i - 1, new Pair<>(j, Direction.L)));
         }
         if (Entity.checkWall(i * Sprite.SCALED_SIZE, (j - 1) * Sprite.SCALED_SIZE)) {
+            check[i][j - 1] = true;
             q.add(new Pair<>(i, new Pair<>(j - 1, Direction.U)));
         }
         check[i][j] = true;
-        check[i + 1][j] = true;
-        check[i - 1][j] = true;
-        check[i][j + 1] = true;
-        check[i][j - 1] = true;
-
         while(!q.isEmpty()) {
             i = q.peek().getKey();
             j = q.peek().getValue().getKey();

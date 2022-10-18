@@ -53,6 +53,7 @@ public class BombermanGame extends Application {
             int width = scanner.nextInt();
             HEIGHT = height;
             WIDTH = width;
+//            System.out.println(WIDTH + " " + HEIGHT);
             table = new Entity[WIDTH][HEIGHT];
             System.out.println(height + " " + width);
             // Tao Canvas

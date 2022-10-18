@@ -43,6 +43,9 @@ public class Bomb extends Entity {
     @Override
     public void update() {
         animate++;
+        int px = x / Sprite.SCALED_SIZE;
+        int py = y / Sprite.SCALED_SIZE;
+        table[px][py] = this;
         if (animate == 50) {
             exploded = true;
             Platform.runLater(
@@ -161,6 +164,7 @@ public class Bomb extends Entity {
         if (animate == 60) {
             Platform.runLater(
                     () -> {
+                        table[px][py] = null;
                         entities.remove(this);
                         cnt--;
                     });

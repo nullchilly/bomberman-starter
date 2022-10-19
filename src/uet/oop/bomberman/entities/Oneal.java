@@ -8,6 +8,8 @@ import uet.oop.bomberman.graphics.Sprite;
 
 import java.util.*;
 
+import static uet.oop.bomberman.BombermanGame.bomber;
+
 public class Oneal extends Entity {
 
     private boolean moving = false;
@@ -94,6 +96,14 @@ public class Oneal extends Entity {
             BombermanGame.table[px][py] = this;
         });
     }
+
+    private boolean checkCollision(int a, int b) {
+        a = (a + Sprite.SCALED_SIZE / 2) / Sprite.SCALED_SIZE;
+        b = (b + Sprite.SCALED_SIZE / 2) / Sprite.SCALED_SIZE;
+        System.out.println(a + " " + b);
+        return a == b;
+    }
+
     public Direction bfs(int i, int j) {
         Queue< Pair<Integer, Pair<Integer, Direction> >> q = new LinkedList<Pair<Integer, Pair<Integer, Direction>>>();
         if (Entity.checkWall((i + 1) * Sprite.SCALED_SIZE, j * Sprite.SCALED_SIZE)) {
@@ -134,8 +144,13 @@ public class Oneal extends Entity {
                 q.add(new Pair<>(i, new Pair<>(j - 1, direction)));
                 check[i][j - 1] = true;
             }
-            if (Entity.getEntity(i, j) instanceof Bomber) {
-                System.out.println("Oops");
+            Entity cur = Entity.getEntity(i, j);
+            if (cur instanceof Bomber) {
+//                System.out.println(i + " " + j + " " + px + " " + py);
+//                if (i == px && i == py) {
+//                    Platform.exit();
+//                }
+//                System.out.println("Oops");
                 canReach = true;
                 return direction;
             }
@@ -146,6 +161,9 @@ public class Oneal extends Entity {
     public void update() {
         px = (x + Sprite.SCALED_SIZE / 2) / Sprite.SCALED_SIZE;
         py = (y + Sprite.SCALED_SIZE / 2) / Sprite.SCALED_SIZE;
+        if (bomber.getPlayerX() == px && bomber.getPlayerY() == py) {
+            bomber.setDied();
+        }
         if (died) {
             dieEnemy(Sprite.oneal_dead);
             return;

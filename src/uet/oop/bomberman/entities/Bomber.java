@@ -1,5 +1,6 @@
 package uet.oop.bomberman.entities;
 
+import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
@@ -15,9 +16,11 @@ import static uet.oop.bomberman.BombermanGame.table;
 public class Bomber extends Entity {
 
     private List<Entity> entities = new ArrayList<>();
-
     public static final int STEP = Sprite.STEP;
     private boolean moving = false;
+
+    private boolean died = false;
+    private int diedTick = 0;
     private KeyListener keyListener;
 
     public Bomber(int x, int y, Image img, KeyListener keyListener, List<Entity> entities) {
@@ -26,7 +29,15 @@ public class Bomber extends Entity {
         this.keyListener = keyListener;
     }
 
+    public void setDied() {
+        this.died = true;
+    }
+
     private void chooseSprite() {
+        if (died) {
+            img = Sprite.movingSprite(Sprite.player_dead1, Sprite.player_dead2, Sprite.player_dead3, animate, 20).getFxImage();
+            return;
+        }
         Sprite sprite = Sprite.player_right;
         switch (direction) {
             case U:
@@ -97,11 +108,18 @@ public class Bomber extends Entity {
     }
     @Override
     public void update() {
+        if (died) {
+            diedTick++;
+            if (diedTick == 20) {
+                Platform.exit();
+            }
+        }
         animate++;
         if (animate > 100000) animate = 0;
         moving = false;
         int px = (x + (75*Sprite.SCALED_SIZE)/(2*100))/Sprite.SCALED_SIZE;
         int py = (y + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE;
+//        System.out.println(table[px][py].getClass().getName());
         table[px][py] = null;
         bomberMoving();
         chooseSprite();
@@ -111,5 +129,11 @@ public class Bomber extends Entity {
         table[px][py] = this;
     }
 
+    public int getPlayerX() {
+        return (x + (75*Sprite.SCALED_SIZE)/(2*100))/Sprite.SCALED_SIZE;
+    }
+    public int getPlayerY() {
+        return (y + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE;
+    }
     public void updateBomber() {}
 }

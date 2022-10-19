@@ -20,6 +20,7 @@ public class BombermanGame extends Application {
     public static int animate = 0;
     public static int WIDTH;
     public static int HEIGHT;
+    public static Bomber bomber;
     
     private GraphicsContext gc;
     private Canvas canvas;
@@ -44,7 +45,7 @@ public class BombermanGame extends Application {
     }
     @Override
     public void start(Stage stage) {
-        int level = 2;
+        int level = 1;
         File file = new File(System.getProperty("user.dir") + "/res/levels/Level" + level + ".txt");
         try {
             Scanner scanner = new Scanner(file);
@@ -55,7 +56,6 @@ public class BombermanGame extends Application {
             WIDTH = width;
 //            System.out.println(WIDTH + " " + HEIGHT);
             table = new Entity[WIDTH][HEIGHT];
-            System.out.println(height + " " + width);
             // Tao Canvas
             canvas = new Canvas(Sprite.SCALED_SIZE * WIDTH, Sprite.SCALED_SIZE * HEIGHT);
             gc = canvas.getGraphicsContext2D();
@@ -105,6 +105,7 @@ public class BombermanGame extends Application {
                         // Character:
                         case 'p':
                             object = new Bomber(j, i, Sprite.player_right.getFxImage(), keyListener, entities);
+                            bomber = (Bomber) object;
                             break;
                         case '1':
                             object = new Balloom(j, i, Sprite.balloom_right1.getFxImage(), entities);
@@ -113,6 +114,9 @@ public class BombermanGame extends Application {
                             object = new Oneal(j, i, Sprite.oneal_right1.getFxImage(), entities);
                             break;
                         // Items:
+                        case 'f':
+                            object = new FlameItem(j, i, Sprite.powerup_flames.getFxImage(), entities);
+                            break;
                         case 's':
                             stillObject = new Speed(j, i, Sprite.powerup_speed.getFxImage());
                             break;
@@ -140,5 +144,6 @@ public class BombermanGame extends Application {
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
         stillObjects.forEach(g -> g.render(gc));
         entities.forEach(g -> g.render(gc));
+        bomber.render(gc);
     }
 }

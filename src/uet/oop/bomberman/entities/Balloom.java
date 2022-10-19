@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import static uet.oop.bomberman.BombermanGame.bomber;
+
 public class Balloom extends Entity {
 
     private static final int STEP = Math.max(1, Math.round(Sprite.STEP / 2));
@@ -86,6 +88,11 @@ public class Balloom extends Entity {
         if (died) {
             dieEnemy(Sprite.balloom_dead);
             return;
+        }
+        int px = (x + Sprite.SCALED_SIZE / 2) / Sprite.SCALED_SIZE;
+        int py = (y + Sprite.SCALED_SIZE / 2) / Sprite.SCALED_SIZE;
+        if (bomber.getPlayerX() == px && bomber.getPlayerY() == py) {
+            bomber.setDied();
         }
         animate++;
         moving = false;

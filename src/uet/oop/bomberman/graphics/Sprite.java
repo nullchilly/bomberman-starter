@@ -12,11 +12,12 @@ import java.nio.IntBuffer;
  */
 public class Sprite {
 
-    static GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
-    public static int width = gd.getDisplayMode().getWidth();
-    public static int height = gd.getDisplayMode().getHeight();
+//    static GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+//    public static int width = gd.getDisplayMode().getWidth();
+//    public static int height = gd.getDisplayMode().getHeight();
 	public static final int DEFAULT_SIZE = 16;
-    public static final int STEP = (int) Math.ceil(width / 500);
+//    public static final int STEP = (int) Math.ceil(width / 500);
+    public static final int STEP = 3;
 	public static final int SCALED_SIZE = DEFAULT_SIZE * STEP;
     private static final int TRANSPARENT_COLOR = 0xffff00ff;
 	public final int SIZE;

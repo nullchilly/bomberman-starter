@@ -144,8 +144,9 @@ public class Oneal extends Entity {
                 q.add(new Pair<>(i, new Pair<>(j - 1, direction)));
                 check[i][j - 1] = true;
             }
-            Entity cur = Entity.getEntity(i, j);
-            if (cur instanceof Bomber) {
+//            Entity cur = Entity.getEntity(i, j);
+//            if (cur instanceof Bomber) {
+            if (bomber.getPlayerX() == i && bomber.getPlayerY() == j) {
 //                System.out.println(i + " " + j + " " + px + " " + py);
 //                if (i == px && i == py) {
 //                    Platform.exit();

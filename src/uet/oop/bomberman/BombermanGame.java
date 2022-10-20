@@ -91,6 +91,9 @@ public class BombermanGame extends Application {
                         } catch (InterruptedException e) {
                             throw new RuntimeException(e);
                         }
+                    } else {
+
+                            System.out.println(frameTime + " " + (long)FPS_GAME );
                     }
 //                    fps();
                     lastUpdate = System.nanoTime();

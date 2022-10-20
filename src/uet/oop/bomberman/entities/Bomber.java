@@ -109,7 +109,7 @@ public class Bomber extends Entity {
 
     public void placeBomb() {
         if (keyListener.isPressed(KeyCode.SPACE) && Bomb.cnt < 10 && !(table[getPlayerX()][getPlayerY()] instanceof Bomb)) {
-            System.out.println(Bomb.cnt);
+//            System.out.println(Bomb.cnt);
             Platform.runLater(() ->  {
                 Entity object = new Bomb(getPlayerX(), getPlayerY(), Sprite.bomb.getFxImage(), entities);
                 entities.add(object);

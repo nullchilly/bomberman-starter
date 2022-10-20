@@ -2,7 +2,7 @@
 
     - [ ] Thiết kế cây thừa kế cho các đối tượng game +2đ
 
-    - [ ] Xây dựng bản đồ màn chơi từ tệp cấu hình (có mẫu tệp cấu hình, xem [tại đây](https://raw.githubusercontent.com/bqcuong/bomberman-starter/starter-2/res/levels/Level1.txt)) +1đ
+    - [x] Xây dựng bản đồ màn chơi từ tệp cấu hình (có mẫu tệp cấu hình, xem [tại đây](https://raw.githubusercontent.com/bqcuong/bomberman-starter/starter-2/res/levels/Level1.txt)) +1đ
 
     - [x] Di chuyển Bomber theo sự điều khiển từ người chơi +1đ
 

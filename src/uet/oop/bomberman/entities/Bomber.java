@@ -11,6 +11,7 @@ import uet.oop.bomberman.graphics.Sprite;
 import java.util.ArrayList;
 import java.util.List;
 
+import static uet.oop.bomberman.BombermanGame.bomber;
 import static uet.oop.bomberman.BombermanGame.table;
 
 public class Bomber extends Entity {
@@ -125,11 +126,20 @@ public class Bomber extends Entity {
             chooseSprite();
             return;
         }
+        alreadyPlaceBomb = false;
 
         moving = false;
+        int px = (x + (75*Sprite.SCALED_SIZE)/(2*100))/Sprite.SCALED_SIZE;
+        int py = (y + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE;
+        if (table[px][py] instanceof FlameItem) {
+            if (((FlameItem) table[px][py]).pickedup == false) {
+                Bomb.size++;
+            }
+            ((FlameItem) table[px][py]).pickedup = true;
+        }
         bomberMoving();
-        placeBomb();
         chooseSprite();
+        placeBomb();
     }
 
     public int getPlayerX() {

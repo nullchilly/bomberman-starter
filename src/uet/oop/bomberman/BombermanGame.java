@@ -17,6 +17,7 @@ import java.util.List;
 
 public class BombermanGame extends Application {
     public static int time = 0;
+    public static long FPS_GAME = 1000/60;
     public static int animate = 0;
     public static int WIDTH;
     public static int HEIGHT;
@@ -73,11 +74,26 @@ public class BombermanGame extends Application {
             stage.show();
 
             AnimationTimer timer = new AnimationTimer() {
+                private long lastUpdate = 0;
+                private long frameTime = 0;
                 @Override
-                public void handle(long l) {
-                    fps();
+                public void handle(long now) {
                     render();
                     update();
+                    frameTime = (long)(now - lastUpdate)/1000000;
+//                    System.out.println(frameTime + " " + FPS_GAME);
+                    if (frameTime < FPS_GAME) {
+                        try {
+//                            System.out.println(frameTime + " " + (long)FPS_GAME );
+                            Thread.sleep(FPS_GAME - frameTime);
+//                            Thread.sleep(0);
+
+                        } catch (InterruptedException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+//                    fps();
+                    lastUpdate = System.nanoTime();
                 }
             };
 

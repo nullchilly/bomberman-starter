@@ -26,6 +26,7 @@ public class Bomb extends Entity {
         super(x, y, img);
         this.entities = entities;
         cnt++;
+        table[x][y] = this;
     }
 
     public void getImg() {
@@ -69,6 +70,7 @@ public class Bomb extends Entity {
         int px = x / Sprite.SCALED_SIZE;
         int py = y / Sprite.SCALED_SIZE;
         table[px][py] = this;
+
         if (animate == 50) {
             exploded = true;
             Platform.runLater(

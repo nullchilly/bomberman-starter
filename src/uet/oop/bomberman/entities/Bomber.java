@@ -18,6 +18,7 @@ public class Bomber extends Entity {
     private List<Entity> entities = new ArrayList<>();
     public static final int STEP = Sprite.STEP;
     private boolean moving = false;
+    private boolean alreadyPlaceBomb = false;
 
     private boolean died = false;
     private int diedTick = 0;
@@ -34,6 +35,8 @@ public class Bomber extends Entity {
     }
 
     private void chooseSprite() {
+        animate++;
+        if (animate > 100000) animate = 0;
         if (died) {
             img = Sprite.movingSprite(Sprite.player_dead1, Sprite.player_dead2, Sprite.player_dead3, animate, 20).getFxImage();
             return;
@@ -99,9 +102,11 @@ public class Bomber extends Entity {
     }
 
     public void placeBomb() {
-        if (keyListener.isPressed(KeyCode.SPACE) && Bomb.cnt == 0) {
+        if (keyListener.isPressed(KeyCode.SPACE) && Bomb.cnt < 2 && !(table[getPlayerX()][getPlayerX()] instanceof Bomb)) {
+            alreadyPlaceBomb = true;
+//            System.out.println(Bomb.cnt);
             Platform.runLater(() ->  {
-                Entity object = new Bomb((x + (75*Sprite.SCALED_SIZE)/(2*100))/Sprite.SCALED_SIZE, (y + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE, Sprite.bomb.getFxImage(), entities);
+                Entity object = new Bomb(getPlayerX(), getPlayerY(), Sprite.bomb.getFxImage(), entities);
                 entities.add(object);
             });
         }
@@ -110,22 +115,21 @@ public class Bomber extends Entity {
     public void update() {
         if (died) {
             diedTick++;
-            if (diedTick == 20) {
+            if (diedTick == 30) {
                 Platform.exit();
             }
+            chooseSprite();
+            return;
         }
-        animate++;
-        if (animate > 100000) animate = 0;
+        alreadyPlaceBomb = false;
+
         moving = false;
         int px = (x + (75*Sprite.SCALED_SIZE)/(2*100))/Sprite.SCALED_SIZE;
         int py = (y + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE;
-//        System.out.println(table[px][py].getClass().getName());
         table[px][py] = null;
         bomberMoving();
         chooseSprite();
         placeBomb();
-        px = (x + (75*Sprite.SCALED_SIZE)/(2*100))/Sprite.SCALED_SIZE;
-        py = (y + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE;
         table[px][py] = this;
     }
 

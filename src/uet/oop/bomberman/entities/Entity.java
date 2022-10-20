@@ -14,6 +14,8 @@ import uet.oop.bomberman.graphics.Sprite;
 import java.util.ArrayList;
 import java.util.List;
 
+import static uet.oop.bomberman.BombermanGame.table;
+
 public abstract class Entity {
     //Tọa độ X tính từ góc trái trên trong Canvas
     protected int x;

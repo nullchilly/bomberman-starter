@@ -6,10 +6,7 @@ import javafx.util.Pair;
 import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.graphics.Sprite;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
 
 import static uet.oop.bomberman.BombermanGame.bomber;
 import static uet.oop.bomberman.BombermanGame.table;
@@ -52,6 +49,17 @@ public class Bomb extends Entity {
         }
         if (cur instanceof Brick) {
             ((Brick) cur).setExploded();
+            Random random = new Random();
+            int p = random.nextInt(100);
+            if (p < 10) {
+                // bombpowerup
+            } else if (p < 20) {
+                // flamepowerup
+            } else if (p < 30) {
+                // speedpowereup
+            } else {
+                // grass
+            }
             return true;
         }
         return false;

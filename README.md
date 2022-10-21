@@ -16,7 +16,7 @@
 
 - Gói tùy chọn (tối đa +2đ)
 
-    - [ ] Nâng cấp thuật toán tìm đường cho Enemy +0.5đ
+    - [x] Nâng cấp thuật toán tìm đường cho Enemy +0.5đ
        Cài đặt thêm các loại Enemy khác: +0.25đ cho mỗi loại enemy
 
     - [ ] Cài đặt thuật toán AI cho Bomber (tự chơi) +1đ

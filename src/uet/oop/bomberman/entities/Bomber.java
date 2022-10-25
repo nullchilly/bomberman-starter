@@ -6,6 +6,7 @@ import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.KeyListener;
+import uet.oop.bomberman.Sound;
 import uet.oop.bomberman.graphics.Sprite;
 
 import java.util.ArrayList;
@@ -113,6 +114,7 @@ public class Bomber extends Entity {
             Platform.runLater(() ->  {
                 Entity object = new Bomb(getPlayerX(), getPlayerY(), Sprite.bomb.getFxImage(), entities);
                 entities.add(object);
+                Sound.play("bomb.mp3");
             });
         }
     }

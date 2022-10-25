@@ -10,6 +10,7 @@ import javafx.stage.Stage;
 import uet.oop.bomberman.entities.*;
 import uet.oop.bomberman.graphics.Sprite;
 
+//import javax.print.attribute.standard.Media;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.*;
@@ -32,6 +33,12 @@ public class BombermanGame extends Application {
     private KeyListener keyListener;
     public Entity bomberman;
 
+    public enum STATE {
+        MENU, SINGLE, MULTIPLAYER, PAUSE, END;
+    }
+
+    public STATE gameState = STATE.SINGLE;
+
     public static void main(String[] args) {
         Application.launch(BombermanGame.class);
     }
@@ -44,8 +51,9 @@ public class BombermanGame extends Application {
             throw new RuntimeException(e);
         }
     }
-    @Override
-    public void start(Stage stage) {
+
+    public void single(Stage stage) {
+        Sound.play("main.mp3");
         int level = 1;
         File file = new File(System.getProperty("user.dir") + "/res/levels/Level" + level + ".txt");
         try {
@@ -93,7 +101,7 @@ public class BombermanGame extends Application {
                         }
                     } else {
 
-                            System.out.println(frameTime + " " + (long)FPS_GAME );
+                        System.out.println(frameTime + " " + (long)FPS_GAME );
 
                     }
 //                    if (frameTime != 0) {
@@ -156,6 +164,30 @@ public class BombermanGame extends Application {
             scanner.close();
         } catch (FileNotFoundException e) {
             System.out.println(e.getMessage());
+        }
+    }
+
+    @Override
+    public void start(Stage stage) {
+        switch (gameState) {
+            case MENU:
+                break;
+
+            case SINGLE:
+                single(stage);
+                break;
+
+            case MULTIPLAYER:
+                break;
+
+            case PAUSE:
+                break;
+
+            case END:
+                System.exit(0);
+                break;
+            default:
+                throw new IllegalArgumentException("Invalid game state");
         }
     }
 

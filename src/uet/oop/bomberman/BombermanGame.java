@@ -2,10 +2,15 @@ package uet.oop.bomberman;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import uet.oop.bomberman.entities.*;
 import uet.oop.bomberman.graphics.Sprite;
@@ -37,7 +42,7 @@ public class BombermanGame extends Application {
         MENU, SINGLE, MULTIPLAYER, PAUSE, END;
     }
 
-    public STATE gameState = STATE.SINGLE;
+    public static STATE gameState = STATE.MENU;
 
     public static void main(String[] args) {
         Application.launch(BombermanGame.class);
@@ -167,10 +172,44 @@ public class BombermanGame extends Application {
         }
     }
 
+    public void menu(Stage stage) {
+        //Creating a Button
+        Button button = new Button();
+        button.setText("Single player");
+        button.setTranslateX(Sprite.SCALED_SIZE * 15);
+        button.setTranslateY(Sprite.SCALED_SIZE * 10);
+        button.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                gameState = STATE.SINGLE;
+                start(stage);
+            }
+        });
+        //Setting the stage
+        Group root = new Group(button);
+        Scene scene = new Scene(root, Sprite.SCALED_SIZE * 30, Sprite.SCALED_SIZE * 20, Color.BLACK);
+        stage.setTitle("Bomberman NES");
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    public void end(Stage stage) {
+        Text text = new Text();
+        text.setText("GAME OVER");
+        text.setX(50);
+        text.setY(50);
+        Group root = new Group(text);
+        Scene scene = new Scene(root, Sprite.SCALED_SIZE * 30, Sprite.SCALED_SIZE * 20, Color.BLACK);
+        stage.setTitle("Bomberman is over party");
+        stage.setScene(scene);
+        stage.show();
+    }
+
     @Override
     public void start(Stage stage) {
         switch (gameState) {
             case MENU:
+                menu(stage);
                 break;
 
             case SINGLE:
@@ -184,7 +223,7 @@ public class BombermanGame extends Application {
                 break;
 
             case END:
-                System.exit(0);
+                end(stage);
                 break;
             default:
                 throw new IllegalArgumentException("Invalid game state");
@@ -196,9 +235,27 @@ public class BombermanGame extends Application {
     }
 
     public void render() {
-        gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-        stillObjects.forEach(g -> g.render(gc));
-        entities.forEach(g -> g.render(gc));
-        bomber.render(gc);
+        switch (gameState) {
+            case MENU:
+                break;
+
+            case SINGLE:
+                gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+                stillObjects.forEach(g -> g.render(gc));
+                entities.forEach(g -> g.render(gc));
+                bomber.render(gc);
+                break;
+
+            case MULTIPLAYER:
+                break;
+
+            case PAUSE:
+                break;
+
+            case END:
+                break;
+            default:
+                throw new IllegalArgumentException("Invalid game state");
+        }
     }
 }

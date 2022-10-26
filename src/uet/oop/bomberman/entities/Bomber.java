@@ -123,7 +123,8 @@ public class Bomber extends Entity {
         if (died) {
             diedTick++;
             if (diedTick == 30) {
-                Platform.exit();
+                BombermanGame.gameState = BombermanGame.STATE.END;
+//                Platform.exit();
             }
             chooseSprite();
             return;

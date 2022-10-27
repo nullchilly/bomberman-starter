@@ -2,6 +2,7 @@ package uet.oop.bomberman;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
@@ -37,12 +38,14 @@ public class BombermanGame extends Application {
     public static Entity[][] table;
     private KeyListener keyListener;
     public Entity bomberman;
-
+    public Stage my_stage;
     public enum STATE {
         MENU, SINGLE, MULTIPLAYER, PAUSE, END;
     }
 
     public static STATE gameState = STATE.MENU;
+
+    public boolean isEnd = false;
 
     public static void main(String[] args) {
         Application.launch(BombermanGame.class);
@@ -58,6 +61,9 @@ public class BombermanGame extends Application {
     }
 
     public void single(Stage stage) {
+        entities = new ArrayList<>();
+        flames = new ArrayList<>();
+        stillObjects = new ArrayList<>();
         Sound.play("main.mp3");
         int level = 1;
         File file = new File(System.getProperty("user.dir") + "/res/levels/Level" + level + ".txt");
@@ -104,11 +110,12 @@ public class BombermanGame extends Application {
                         } catch (InterruptedException e) {
                             throw new RuntimeException(e);
                         }
-                    } else {
-
-                        System.out.println(frameTime + " " + (long)FPS_GAME );
-
                     }
+//                    else {
+//
+//                        System.out.println(frameTime + " " + (long)FPS_GAME );
+
+//                    }
 //                    if (frameTime != 0) {
 //                        System.out.println(1000 / (double)frameTime);
 //                    }
@@ -194,19 +201,29 @@ public class BombermanGame extends Application {
     }
 
     public void end(Stage stage) {
-        Text text = new Text();
-        text.setText("GAME OVER");
-        text.setX(50);
-        text.setY(50);
-        Group root = new Group(text);
+        Button button = new Button();
+        button.setText("Replay");
+        button.setTranslateX(Sprite.SCALED_SIZE * 15);
+        button.setTranslateY(Sprite.SCALED_SIZE * 10);
+        button.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                gameState = STATE.SINGLE;
+                isEnd = false;
+                start(stage);
+            }
+        });
+        //Setting the stage
+        Group root = new Group(button);
         Scene scene = new Scene(root, Sprite.SCALED_SIZE * 30, Sprite.SCALED_SIZE * 20, Color.BLACK);
-        stage.setTitle("Bomberman is over party");
+        stage.setTitle("Bomberman NES");
         stage.setScene(scene);
         stage.show();
     }
 
     @Override
     public void start(Stage stage) {
+        my_stage = stage;
         switch (gameState) {
             case MENU:
                 menu(stage);
@@ -223,7 +240,6 @@ public class BombermanGame extends Application {
                 break;
 
             case END:
-                end(stage);
                 break;
             default:
                 throw new IllegalArgumentException("Invalid game state");
@@ -253,6 +269,11 @@ public class BombermanGame extends Application {
                 break;
 
             case END:
+                if (isEnd == false) {
+                    end(my_stage);
+                    isEnd = true;
+//                    Platform.exit();
+                }
                 break;
             default:
                 throw new IllegalArgumentException("Invalid game state");

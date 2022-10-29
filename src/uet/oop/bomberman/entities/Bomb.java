@@ -74,7 +74,7 @@ public class Bomb extends Entity {
         if (cur instanceof Balloom) ((Balloom) cur).setDied();
         if (cur instanceof Oneal) ((Oneal) cur).setDied();
         if (cur instanceof FlameItem) ((FlameItem) cur).setDied();
-        if (cur instanceof Speed) ((Speed) cur).setDied();
+        if (cur instanceof SpeedItem) ((SpeedItem) cur).setDied();
         if (bomber.getPlayerX() == i && bomber.getPlayerY() == j ) bomber.setDied();
     }
 

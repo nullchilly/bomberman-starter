@@ -121,7 +121,7 @@ public class BombermanGame extends Application {
                             object = new FlameItem(j, i, Sprite.powerup_flames.getFxImage(), entities);
                             break;
                         case 's':
-                            object = new Speed(j, i, Sprite.powerup_speed.getFxImage(), entities);
+                            object = new SpeedItem(j, i, Sprite.powerup_speed.getFxImage(), entities);
                             break;
                     }
                     if (stillObject != null) {
@@ -169,7 +169,7 @@ public class BombermanGame extends Application {
                             throw new RuntimeException(e);
                         }
                     } else {
-                        System.out.println(1000/frameTime);
+//                        System.out.println(1000/frameTime);
                     }
                     lastUpdate = System.nanoTime();
                 }

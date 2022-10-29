@@ -141,12 +141,12 @@ public class Bomber extends Entity {
 //                table[px][py] = null;
             }
             ((FlameItem) table[px][py]).pick();
-        } else if (table[px][py] instanceof Speed) {
-            if (!((Speed) table[px][py]).isPickedup()) {
+        } else if (table[px][py] instanceof SpeedItem) {
+            if (!((SpeedItem) table[px][py]).isPickedup()) {
                 STEP++;
 //                table[px][py] = null;
             }
-            ((Speed) table[px][py]).pick();
+            ((SpeedItem) table[px][py]).pick();
         }
         bomberMoving();
         chooseSprite();

@@ -38,7 +38,6 @@ public class BombermanGame extends Application {
     public static Entity[][] table;
     private KeyListener keyListener;
     public Entity bomberman;
-    public Stage my_stage;
     public enum STATE {
         MENU, SINGLE, MULTIPLAYER, PAUSE, END;
     }
@@ -97,7 +96,7 @@ public class BombermanGame extends Application {
                 private long frameTime = 0;
                 @Override
                 public void handle(long now) {
-                    render();
+                    render(stage);
                     update();
                     frameTime = (long)(now - lastUpdate)/1000000;
                     if (frameTime < FPS_GAME) {
@@ -237,7 +236,7 @@ public class BombermanGame extends Application {
         entities.forEach(Entity::update);
     }
 
-    public void render() {
+    public void render(Stage stage) {
         switch (gameState) {
             case MENU:
                 break;
@@ -257,7 +256,7 @@ public class BombermanGame extends Application {
 
             case END:
                 if (isEnd == false) {
-                    end(my_stage);
+                    end(stage);
                     isEnd = true;
 //                    Platform.exit();
                 }

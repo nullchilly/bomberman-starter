@@ -2,26 +2,18 @@ package uet.oop.bomberman.entities;
 
 import javafx.application.Platform;
 import javafx.scene.image.Image;
+import uet.oop.bomberman.Sound;
 import uet.oop.bomberman.graphics.Sprite;
 
 import java.util.List;
 
 import static uet.oop.bomberman.BombermanGame.table;
 
-public class SpeedItem extends Entity {
-    private boolean pickedup = false;
+public class SpeedItem extends Item {
     public SpeedItem(int x, int y, Image img, List<Entity> entities) {
-        super(x, y, img);
-        this.entities = entities;
+        super(x, y, img, entities);
     }
 
-    public void pick() {
-        this.pickedup = true;
-    }
-
-    public boolean isPickedup() {
-        return pickedup;
-    }
 
     @Override
     public void update() {

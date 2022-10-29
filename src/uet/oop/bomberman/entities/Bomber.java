@@ -147,6 +147,9 @@ public class Bomber extends Entity {
     public void update() {
         if (died) {
             diedTick++;
+            if (diedTick == 0) {
+                (new Sound("lose_game.mp3")).play();
+            }
             if (diedTick == 30) {
                 BombermanGame.gameState = BombermanGame.STATE.END;
 //                Platform.exit();

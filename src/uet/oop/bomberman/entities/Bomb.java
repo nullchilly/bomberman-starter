@@ -60,7 +60,6 @@ public class Bomb extends Entity {
                 } else if (p < 30) {
                     droppedItem = new Speed(i, j, Sprite.powerup_speed.getFxImage(), entities);
                     // speedpowereup
-
                 } else {
                     // grass
                 }

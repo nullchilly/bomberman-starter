@@ -8,21 +8,10 @@ import java.util.List;
 
 import static uet.oop.bomberman.BombermanGame.table;
 
-public class BombItem extends Entity {
-    private boolean pickedup = false;
+public class BombItem extends Item {
     public BombItem(int x, int y, Image img, List<Entity> entities) {
-        super(x, y, img);
-        this.entities = entities;
+        super(x, y, img, entities);
     }
-
-    public void pick() {
-        this.pickedup = true;
-    }
-
-    public boolean isPickedup() {
-        return pickedup;
-    }
-
     @Override
     public void update() {
         img = Sprite.powerup_bombs.getFxImage();

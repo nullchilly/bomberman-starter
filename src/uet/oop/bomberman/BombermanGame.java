@@ -182,6 +182,12 @@ public class BombermanGame extends Application {
     }
 
     public void menu(Stage stage) {
+        for (Sound sound : bgMusic) {
+            sound.stop();
+        }
+        Sound start = new Sound("title.mp3");
+        start.play();
+        bgMusic.add(start);
         //Creating a Button
         Button button = new Button();
         button.setText("Single player");

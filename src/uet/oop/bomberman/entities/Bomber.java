@@ -114,7 +114,8 @@ public class Bomber extends Entity {
             Platform.runLater(() ->  {
                 Entity object = new Bomb(getPlayerX(), getPlayerY(), Sprite.bomb.getFxImage(), entities);
                 entities.add(object);
-                Sound.play("bomb.mp3");
+                Sound bomb = new Sound("bomb.mp3");
+                bomb.play();
             });
         }
     }

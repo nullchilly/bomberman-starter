@@ -10,6 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -38,6 +39,7 @@ public class BombermanGame extends Application {
     public static Entity[][] table;
     private KeyListener keyListener;
     public Entity bomberman;
+    public List<Sound> bgMusic = new ArrayList<>();
     public enum STATE {
         MENU, SINGLE, MULTIPLAYER, PAUSE, END;
     }
@@ -46,24 +48,17 @@ public class BombermanGame extends Application {
 
     public boolean isEnd = false;
 
-    public static void main(String[] args) {
-        Application.launch(BombermanGame.class);
-    }
-
-    public void fps() {
-        try {
-            Thread.sleep(10);
-
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+    public void setup(Stage stage) {
+        for (Sound sound : bgMusic) {
+            sound.stop();
         }
-    }
-
-    public void single(Stage stage) {
         entities = new ArrayList<>();
         flames = new ArrayList<>();
         stillObjects = new ArrayList<>();
-        Sound.play("main.mp3");
+        bgMusic = new ArrayList<>();
+        Sound main = new Sound("main.mp3");
+        main.play();
+        bgMusic.add(main);
         int level = 1;
         File file = new File(System.getProperty("user.dir") + "/res/levels/Level" + level + ".txt");
         try {
@@ -90,27 +85,6 @@ public class BombermanGame extends Application {
             // Them scene vao stage
             stage.setScene(scene);
             stage.show();
-
-            AnimationTimer timer = new AnimationTimer() {
-                private long lastUpdate = 0;
-                private long frameTime = 0;
-                @Override
-                public void handle(long now) {
-                    render(stage);
-                    update();
-                    frameTime = (long)(now - lastUpdate)/1000000;
-                    if (frameTime < FPS_GAME) {
-                        try {
-                            Thread.sleep(FPS_GAME - frameTime);
-                        } catch (InterruptedException e) {
-                            throw new RuntimeException(e);
-                        }
-                    }
-                    lastUpdate = System.nanoTime();
-                }
-            };
-
-            timer.start();
 
             scanner.nextLine();
             for (int i = 0; i < height; i++) {
@@ -165,6 +139,45 @@ public class BombermanGame extends Application {
         }
     }
 
+    public static void main(String[] args) {
+        Application.launch(BombermanGame.class);
+    }
+
+    public void fps() {
+        try {
+            Thread.sleep(10);
+
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void single(Stage stage) {
+            setup(stage);
+            AnimationTimer timer = new AnimationTimer() {
+                private long lastUpdate = 0;
+                private long frameTime = 0;
+                @Override
+                public void handle(long now) {
+                    render(stage);
+                    update();
+                    frameTime = (long)(now - lastUpdate)/1000000;
+                    if (frameTime < FPS_GAME) {
+                        try {
+                            Thread.sleep(FPS_GAME - frameTime);
+                        } catch (InterruptedException e) {
+                            throw new RuntimeException(e);
+                        }
+                    } else {
+                        System.out.println(1000/frameTime);
+                    }
+                    lastUpdate = System.nanoTime();
+                }
+            };
+
+            timer.start();
+    }
+
     public void menu(Stage stage) {
         //Creating a Button
         Button button = new Button();
@@ -187,6 +200,12 @@ public class BombermanGame extends Application {
     }
 
     public void end(Stage stage) {
+        for (Sound sound : bgMusic) {
+            sound.stop();
+        }
+        Sound died = new Sound("ending.mp3");
+        died.play();
+        bgMusic.add(died);
         Button button = new Button();
         button.setText("Replay");
         button.setTranslateX(Sprite.SCALED_SIZE * 15);
@@ -196,7 +215,7 @@ public class BombermanGame extends Application {
             public void handle(ActionEvent event) {
                 gameState = STATE.SINGLE;
                 isEnd = false;
-                start(stage);
+                setup(stage);
             }
         });
         //Setting the stage
@@ -209,7 +228,6 @@ public class BombermanGame extends Application {
 
     @Override
     public void start(Stage stage) {
-        my_stage = stage;
         switch (gameState) {
             case MENU:
                 menu(stage);
@@ -258,7 +276,6 @@ public class BombermanGame extends Application {
                 if (isEnd == false) {
                     end(stage);
                     isEnd = true;
-//                    Platform.exit();
                 }
                 break;
             default:

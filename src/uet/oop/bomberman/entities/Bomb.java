@@ -16,6 +16,7 @@ public class Bomb extends Entity {
     public static int cnt = 0;
     public static int size = 1;
     private boolean exploded = false;
+    private Entity droppedItem;
 
     private List<Entity> entities;
 
@@ -51,15 +52,18 @@ public class Bomb extends Entity {
             ((Brick) cur).setExploded();
             Random random = new Random();
             int p = random.nextInt(100);
-            if (p < 10) {
-                // bombpowerup
-            } else if (p < 20) {
-                // flamepowerup
-            } else if (p < 30) {
-                // speedpowereup
-            } else {
-                // grass
-            }
+                Entity droppedItem = null;
+                if (p < 10) {
+                    // bombpowerup
+                } else if (p < 20) {
+                    // flamepowerup
+                } else if (p < 30) {
+                    droppedItem = new Speed(i, j, Sprite.powerup_speed.getFxImage(), entities);
+                    // speedpowereup
+
+                } else {
+                    // grass
+                }
             return true;
         }
         return false;
@@ -154,7 +158,12 @@ public class Bomb extends Entity {
         if (animate == 80) {
             Platform.runLater(
                     () -> {
-                        table[px][py] = null;
+                        if (droppedItem != null) {
+                            table[px][py] = droppedItem;
+                            entities.add(droppedItem);
+                        } else {
+                            table[px][py] = null;
+                        }
                         entities.remove(this);
                         cnt--;
                     });

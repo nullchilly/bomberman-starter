@@ -68,13 +68,17 @@ public class Bomb extends Entity {
         }
         return false;
     }
-
+    public void setExplode() {
+        this.animate = 70;
+    }
     private void setDied(int i, int j) {
         Entity cur = table[i][j];
         if (cur instanceof Balloom) ((Balloom) cur).setDied();
         if (cur instanceof Oneal) ((Oneal) cur).setDied();
         if (cur instanceof FlameItem) ((FlameItem) cur).setDied();
         if (cur instanceof SpeedItem) ((SpeedItem) cur).setDied();
+        if (cur instanceof BombItem) ((BombItem) cur).setDied();
+        if (cur instanceof Bomb) ((Bomb) cur).setExplode();
         if (bomber.getPlayerX() == i && bomber.getPlayerY() == j ) bomber.setDied();
     }
 

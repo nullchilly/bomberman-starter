@@ -20,6 +20,7 @@ public class Bomber extends Entity {
     private List<Entity> entities = new ArrayList<>();
     public int STEP = Sprite.STEP;
     private boolean moving = false;
+    private int bombQuantity = 3;
     private boolean alreadyPlaceBomb = false;
 
     private boolean died = false;
@@ -72,6 +73,29 @@ public class Bomber extends Entity {
         }
         img = sprite.getFxImage();
     }
+    public void getItem() {
+        int px = (x + (75*Sprite.SCALED_SIZE)/(2*100))/Sprite.SCALED_SIZE;
+        int py = (y + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE;
+        if (table[px][py] instanceof FlameItem) {
+            if (!((FlameItem) table[px][py]).isPickedup()) {
+                Bomb.size++;
+//                table[px][py] = null;
+            }
+            ((FlameItem) table[px][py]).pick();
+        } else if (table[px][py] instanceof SpeedItem) {
+            if (!((SpeedItem) table[px][py]).isPickedup()) {
+                STEP++;
+//                table[px][py] = null;
+            }
+            ((SpeedItem) table[px][py]).pick();
+        } else if (table[px][py] instanceof BombItem) {
+            if (!((BombItem) table[px][py]).isPickedup()) {
+                bombQuantity++;
+//                table[px][py] = null;
+            }
+            ((BombItem) table[px][py]).pick();
+        }
+    }
     public void bomberMoving() {
         int px = (x + (75*Sprite.SCALED_SIZE)/(2*100))/Sprite.SCALED_SIZE;
         int py = (y + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE;
@@ -109,7 +133,7 @@ public class Bomber extends Entity {
     }
 
     public void placeBomb() {
-        if (keyListener.isPressed(KeyCode.SPACE) && Bomb.cnt < 10 && !(table[getPlayerX()][getPlayerY()] instanceof Bomb)) {
+        if (keyListener.isPressed(KeyCode.SPACE) && Bomb.cnt < bombQuantity && !(table[getPlayerX()][getPlayerY()] instanceof Bomb)) {
 //            System.out.println(Bomb.cnt);
             Platform.runLater(() ->  {
                 Entity object = new Bomb(getPlayerX(), getPlayerY(), Sprite.bomb.getFxImage(), entities);
@@ -133,21 +157,7 @@ public class Bomber extends Entity {
         alreadyPlaceBomb = false;
 
         moving = false;
-        int px = (x + (75*Sprite.SCALED_SIZE)/(2*100))/Sprite.SCALED_SIZE;
-        int py = (y + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE;
-        if (table[px][py] instanceof FlameItem) {
-            if (!((FlameItem) table[px][py]).isPickedup()) {
-                Bomb.size++;
-//                table[px][py] = null;
-            }
-            ((FlameItem) table[px][py]).pick();
-        } else if (table[px][py] instanceof SpeedItem) {
-            if (!((SpeedItem) table[px][py]).isPickedup()) {
-                STEP++;
-//                table[px][py] = null;
-            }
-            ((SpeedItem) table[px][py]).pick();
-        }
+        getItem();
         bomberMoving();
         chooseSprite();
         placeBomb();

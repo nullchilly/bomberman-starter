@@ -123,6 +123,9 @@ public class BombermanGame extends Application {
                         case 's':
                             object = new SpeedItem(j, i, Sprite.powerup_speed.getFxImage(), entities);
                             break;
+                        case 'b':
+                            object = new BombItem(j, i, Sprite.powerup_bombs.getFxImage(), entities);
+                            break;
                     }
                     if (stillObject != null) {
                         stillObjects.add(stillObject);

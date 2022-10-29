@@ -18,7 +18,7 @@ import static uet.oop.bomberman.BombermanGame.table;
 public class Bomber extends Entity {
 
     private List<Entity> entities = new ArrayList<>();
-    public static final int STEP = Sprite.STEP;
+    public int STEP = Sprite.STEP;
     private boolean moving = false;
     private boolean alreadyPlaceBomb = false;
 
@@ -135,10 +135,17 @@ public class Bomber extends Entity {
         int px = (x + (75*Sprite.SCALED_SIZE)/(2*100))/Sprite.SCALED_SIZE;
         int py = (y + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE;
         if (table[px][py] instanceof FlameItem) {
-            if (((FlameItem) table[px][py]).pickedup == false) {
+            if (!((FlameItem) table[px][py]).isPickedup()) {
                 Bomb.size++;
+//                table[px][py] = null;
             }
-            ((FlameItem) table[px][py]).pickedup = true;
+            ((FlameItem) table[px][py]).pick();
+        } else if (table[px][py] instanceof Speed) {
+            if (!((Speed) table[px][py]).isPickedup()) {
+                STEP++;
+//                table[px][py] = null;
+            }
+            ((Speed) table[px][py]).pick();
         }
         bomberMoving();
         chooseSprite();

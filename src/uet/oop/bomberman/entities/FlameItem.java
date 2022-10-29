@@ -6,18 +6,29 @@ import uet.oop.bomberman.graphics.Sprite;
 
 import java.util.List;
 
+import static uet.oop.bomberman.BombermanGame.table;
+
 public class FlameItem extends Entity {
-    public boolean pickedup = false;
+    private boolean pickedup = false;
     public FlameItem(int x, int y, Image img, List<Entity> entities) {
         super(x, y, img);
         this.entities = entities;
     }
 
+    public void pick() {
+        this.pickedup = true;
+    }
+
+    public boolean isPickedup() {
+        return pickedup;
+    }
+
     @Override
     public void update() {
         img = Sprite.powerup_flames.getFxImage();
-        if (pickedup) {
+        if (pickedup || died) {
             Platform.runLater(() -> {
+                table[x/Sprite.SCALED_SIZE][y/Sprite.SCALED_SIZE] = null;
                 entities.remove(this);
             });
         }

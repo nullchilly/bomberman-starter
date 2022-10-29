@@ -23,6 +23,7 @@ public abstract class Entity {
     //Tọa độ Y tính từ góc trái trên trong Canvas
     protected int y;
 
+    protected Sprite sprite;
 
     protected int animate = 0;
 
@@ -91,6 +92,10 @@ public abstract class Entity {
                 BombermanGame.table[(x + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE][(y + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE] = null;
             });
         }
+    }
+
+    public Sprite getSprite() {
+        return this.sprite;
     }
 
 }

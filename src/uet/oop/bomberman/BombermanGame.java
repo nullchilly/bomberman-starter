@@ -100,26 +100,13 @@ public class BombermanGame extends Application {
                     render();
                     update();
                     frameTime = (long)(now - lastUpdate)/1000000;
-//                    System.out.println(frameTime + " " + FPS_GAME);
                     if (frameTime < FPS_GAME) {
                         try {
-//                            System.out.println(frameTime + " " + (long)FPS_GAME );
                             Thread.sleep(FPS_GAME - frameTime);
-//                            Thread.sleep(0);
-
                         } catch (InterruptedException e) {
                             throw new RuntimeException(e);
                         }
                     }
-//                    else {
-//
-//                        System.out.println(frameTime + " " + (long)FPS_GAME );
-
-//                    }
-//                    if (frameTime != 0) {
-//                        System.out.println(1000 / (double)frameTime);
-//                    }
-//                    fps();
                     lastUpdate = System.nanoTime();
                 }
             };
@@ -161,7 +148,7 @@ public class BombermanGame extends Application {
                             object = new FlameItem(j, i, Sprite.powerup_flames.getFxImage(), entities);
                             break;
                         case 's':
-                            stillObject = new Speed(j, i, Sprite.powerup_speed.getFxImage());
+                            object = new Speed(j, i, Sprite.powerup_speed.getFxImage(), entities);
                             break;
                     }
                     if (stillObject != null) {

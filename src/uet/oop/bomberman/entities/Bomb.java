@@ -27,7 +27,7 @@ public class Bomb extends Entity {
     }
 
     public void getImg() {
-        Sprite sprite = null;
+        sprite = null;
         if (exploded) {
             sprite =
                     Sprite.movingSprite(
@@ -69,6 +69,8 @@ public class Bomb extends Entity {
         Entity cur = table[i][j];
         if (cur instanceof Balloom) ((Balloom) cur).setDied();
         if (cur instanceof Oneal) ((Oneal) cur).setDied();
+        if (cur instanceof FlameItem) ((FlameItem) cur).setDied();
+        if (cur instanceof Speed) ((Speed) cur).setDied();
         if (bomber.getPlayerX() == i && bomber.getPlayerY() == j ) bomber.setDied();
     }
 
@@ -79,7 +81,7 @@ public class Bomb extends Entity {
         int py = y / Sprite.SCALED_SIZE;
         table[px][py] = this;
 
-        if (animate == 50) {
+        if (animate == 70) {
             exploded = true;
             Platform.runLater(
                     () -> {
@@ -149,7 +151,7 @@ public class Bomb extends Entity {
                         }, 10);
                     });
         }
-        if (animate == 60) {
+        if (animate == 80) {
             Platform.runLater(
                     () -> {
                         table[px][py] = null;

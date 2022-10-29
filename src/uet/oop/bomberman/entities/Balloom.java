@@ -33,7 +33,7 @@ public class Balloom extends Entity {
         Platform.runLater(() -> {
             int px = (x + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE, py = (y + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE;
             BombermanGame.table[px][py] = null;
-            Sprite sprite = Sprite.balloom_right1;
+            sprite = Sprite.balloom_right1;
             switch (direction) {
                 case U:
                     sprite = Sprite.balloom_left2;

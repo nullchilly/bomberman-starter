@@ -1,4 +1,5 @@
-package uet.oop.bomberman;
+package core;
+
 import java.util.HashSet;
 import java.util.Set;
 import javafx.event.EventHandler;

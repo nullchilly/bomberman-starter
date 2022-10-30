@@ -1,8 +1,7 @@
-package uet.oop.bomberman;
+package core;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
@@ -10,12 +9,10 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
-import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import uet.oop.bomberman.entities.*;
-import uet.oop.bomberman.graphics.Sprite;
+import entities.*;
+import graphics.Sprite;
 
 //import javax.print.attribute.standard.Media;
 import java.io.File;
@@ -23,7 +20,7 @@ import java.io.FileNotFoundException;
 import java.util.*;
 import java.util.List;
 
-public class BombermanGame extends Application {
+public class Game extends Application {
     public static int time = 0;
     public static long FPS_GAME = 1000/60;
     public static int animate = 0;
@@ -143,7 +140,7 @@ public class BombermanGame extends Application {
     }
 
     public static void main(String[] args) {
-        Application.launch(BombermanGame.class);
+        Application.launch(Game.class);
     }
 
     public void fps() {

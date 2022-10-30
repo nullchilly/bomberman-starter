@@ -1,15 +1,13 @@
-package uet.oop.bomberman.entities;
+package entities;
 
 import javafx.application.Platform;
 import javafx.scene.image.Image;
-import javafx.util.Pair;
-import uet.oop.bomberman.BombermanGame;
-import uet.oop.bomberman.graphics.Sprite;
+import graphics.Sprite;
 
 import java.util.*;
 
-import static uet.oop.bomberman.BombermanGame.bomber;
-import static uet.oop.bomberman.BombermanGame.table;
+import static core.Game.bomber;
+import static core.Game.table;
 
 public class Bomb extends Entity {
     private int animate = 0;

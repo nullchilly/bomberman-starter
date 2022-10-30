@@ -1,13 +1,12 @@
-package uet.oop.bomberman.entities;
+package entities;
 
 import javafx.application.Platform;
 import javafx.scene.image.Image;
-import uet.oop.bomberman.Sound;
-import uet.oop.bomberman.graphics.Sprite;
+import graphics.Sprite;
 
 import java.util.List;
 
-import static uet.oop.bomberman.BombermanGame.table;
+import static core.Game.table;
 
 public class SpeedItem extends Item {
     public SpeedItem(int x, int y, Image img, List<Entity> entities) {

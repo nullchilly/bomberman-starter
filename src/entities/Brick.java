@@ -1,9 +1,9 @@
-package uet.oop.bomberman.entities;
+package entities;
 
+import core.Game;
 import javafx.application.Platform;
 import javafx.scene.image.Image;
-import uet.oop.bomberman.BombermanGame;
-import uet.oop.bomberman.graphics.Sprite;
+import graphics.Sprite;
 
 import java.util.List;
 
@@ -23,7 +23,7 @@ public class Brick extends Entity {
         if (animate == 10) {
             Platform.runLater(() -> {
                 entities.remove(this);
-                BombermanGame.table[x / Sprite.SCALED_SIZE][y / Sprite.SCALED_SIZE] = null;
+                Game.table[x / Sprite.SCALED_SIZE][y / Sprite.SCALED_SIZE] = null;
             });
         }
     }

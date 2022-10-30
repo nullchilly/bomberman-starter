@@ -1,19 +1,17 @@
-package uet.oop.bomberman.entities;
+package entities;
 
-import javafx.application.Application;
+import core.Game;
+import core.KeyListener;
+import core.Sound;
 import javafx.application.Platform;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
-import uet.oop.bomberman.BombermanGame;
-import uet.oop.bomberman.KeyListener;
-import uet.oop.bomberman.Sound;
-import uet.oop.bomberman.graphics.Sprite;
+import graphics.Sprite;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static uet.oop.bomberman.BombermanGame.bomber;
-import static uet.oop.bomberman.BombermanGame.table;
+import static core.Game.table;
 
 public class Bomber extends Entity {
 
@@ -151,7 +149,7 @@ public class Bomber extends Entity {
                 (new Sound("lose_game.mp3")).play();
             }
             if (diedTick == 30) {
-                BombermanGame.gameState = BombermanGame.STATE.END;
+                Game.gameState = Game.STATE.END;
 //                Platform.exit();
             }
             chooseSprite();

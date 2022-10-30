@@ -1,8 +1,7 @@
-package uet.oop.bomberman.entities;
+package entities;
 
+import core.Sound;
 import javafx.scene.image.Image;
-import uet.oop.bomberman.Sound;
-import uet.oop.bomberman.graphics.Sprite;
 
 import java.util.List;
 

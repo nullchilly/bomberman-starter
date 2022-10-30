@@ -1,20 +1,13 @@
-package uet.oop.bomberman.entities;
+package entities;
 
+import core.Game;
 import javafx.application.Platform;
-import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.Shape;
-import uet.oop.bomberman.BombermanGame;
-import uet.oop.bomberman.graphics.Sprite;
+import graphics.Sprite;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static uet.oop.bomberman.BombermanGame.table;
 
 public abstract class Entity {
     //Tọa độ X tính từ góc trái trên trong Canvas
@@ -58,11 +51,11 @@ public abstract class Entity {
     public abstract void update();
 
     public static Entity getEntity(int x, int y) {
-        return BombermanGame.table[x][y];
+        return Game.table[x][y];
     }
 
     public static boolean checkWall(int x, int y) {
-        if (x < 0 || y < 0 || x > Sprite.SCALED_SIZE * BombermanGame.WIDTH || y > Sprite.SCALED_SIZE * BombermanGame.HEIGHT) {
+        if (x < 0 || y < 0 || x > Sprite.SCALED_SIZE * Game.WIDTH || y > Sprite.SCALED_SIZE * Game.HEIGHT) {
             return false;
         }
 
@@ -89,7 +82,7 @@ public abstract class Entity {
         if (die_time == 20) {
             Platform.runLater(() -> {
                 entities.remove(this);
-                BombermanGame.table[(x + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE][(y + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE] = null;
+                Game.table[(x + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE][(y + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE] = null;
             });
         }
     }

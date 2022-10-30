@@ -62,7 +62,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>uet.oop.bomberman.BombermanGame</mainClass>
+                            <mainClass>core.Game</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
@@ -72,7 +72,7 @@
                 <artifactId>javafx-maven-plugin</artifactId>
                 <version>0.0.8</version>
                 <configuration>
-                    <mainClass>uet.oop.bomberman.BombermanGame</mainClass>
+                    <mainClass>core.Game</mainClass>
                 </configuration>
             </plugin>
         </plugins>

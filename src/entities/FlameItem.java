@@ -1,21 +1,21 @@
-package uet.oop.bomberman.entities;
+package entities;
 
 import javafx.application.Platform;
 import javafx.scene.image.Image;
-import uet.oop.bomberman.graphics.Sprite;
+import graphics.Sprite;
 
 import java.util.List;
 
-import static uet.oop.bomberman.BombermanGame.table;
+import static core.Game.table;
 
-public class BombItem extends Item {
-    public BombItem(int x, int y, Image img, List<Entity> entities) {
+public class FlameItem extends Item {
+    public FlameItem(int x, int y, Image img, List<Entity> entities) {
         super(x, y, img, entities);
     }
+
     @Override
     public void update() {
-        img = Sprite.powerup_bombs.getFxImage();
-
+        img = Sprite.powerup_flames.getFxImage();
         if (pickedup || died) {
             Platform.runLater(() -> {
                 table[x/Sprite.SCALED_SIZE][y/Sprite.SCALED_SIZE] = null;

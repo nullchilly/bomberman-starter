@@ -1,17 +1,14 @@
-package uet.oop.bomberman.entities;
+package entities;
 
+import core.Game;
 import javafx.application.Platform;
 import javafx.scene.image.Image;
-import javafx.scene.input.KeyCode;
-import uet.oop.bomberman.BombermanGame;
-import uet.oop.bomberman.KeyListener;
-import uet.oop.bomberman.graphics.Sprite;
+import graphics.Sprite;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import static uet.oop.bomberman.BombermanGame.bomber;
+import static core.Game.bomber;
 
 public class Balloom extends Entity {
 
@@ -32,7 +29,7 @@ public class Balloom extends Entity {
     private void balloomMoving() {
         Platform.runLater(() -> {
             int px = (x + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE, py = (y + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE;
-            BombermanGame.table[px][py] = null;
+            Game.table[px][py] = null;
             sprite = Sprite.balloom_right1;
             switch (direction) {
                 case U:
@@ -79,7 +76,7 @@ public class Balloom extends Entity {
             img = sprite.getFxImage();
             px = (x + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE;
             py = (y + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE;
-            BombermanGame.table[px][py] = this;
+            Game.table[px][py] = this;
         });
     }
 

@@ -1,4 +1,4 @@
-package uet.oop.bomberman;
+package core;
 
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;

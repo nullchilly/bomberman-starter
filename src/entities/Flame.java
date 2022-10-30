@@ -1,11 +1,9 @@
-package uet.oop.bomberman.entities;
+package entities;
 
 import javafx.application.Platform;
 import javafx.scene.image.Image;
-import uet.oop.bomberman.BombermanGame;
-import uet.oop.bomberman.graphics.Sprite;
+import graphics.Sprite;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Flame extends Entity {

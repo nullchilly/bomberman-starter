@@ -1,14 +1,14 @@
-package uet.oop.bomberman.entities;
+package entities;
 
+import core.Game;
 import javafx.application.Platform;
 import javafx.scene.image.Image;
 import javafx.util.Pair;
-import uet.oop.bomberman.BombermanGame;
-import uet.oop.bomberman.graphics.Sprite;
+import graphics.Sprite;
 
 import java.util.*;
 
-import static uet.oop.bomberman.BombermanGame.bomber;
+import static core.Game.bomber;
 
 public class Oneal extends Entity {
 
@@ -16,8 +16,8 @@ public class Oneal extends Entity {
     private int px;
     private int py;
     private boolean canReach = false;
-    private Entity[][] table = BombermanGame.table;
-    private boolean[][] check = new boolean[BombermanGame.WIDTH][BombermanGame.HEIGHT];
+    private Entity[][] table = Game.table;
+    private boolean[][] check = new boolean[Game.WIDTH][Game.HEIGHT];
     private static final int STEP = Math.max(1, Math.round(Sprite.STEP / 2));
 
     public Oneal(int x, int y, Image img, List<Entity> entities) {
@@ -34,7 +34,7 @@ public class Oneal extends Entity {
         animate++;
         if (animate > 100000) animate = 0;
         if (x % Sprite.SCALED_SIZE == 0 && y % Sprite.SCALED_SIZE == 0) {
-            check = new boolean[BombermanGame.WIDTH][BombermanGame.HEIGHT];
+            check = new boolean[Game.WIDTH][Game.HEIGHT];
             direction = bfs(px, py);
             moving = false;
         }
@@ -46,7 +46,7 @@ public class Oneal extends Entity {
     private void onealMoving() {
         Platform.runLater(() -> {
             int px = (x + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE, py = (y + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE;
-            BombermanGame.table[px][py] = null;
+            Game.table[px][py] = null;
             sprite = Sprite.oneal_right1;
             switch (direction) {
                 case U:
@@ -93,7 +93,7 @@ public class Oneal extends Entity {
             img = sprite.getFxImage();
             px = (x + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE;
             py = (y + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE;
-            BombermanGame.table[px][py] = this;
+            Game.table[px][py] = this;
         });
     }
 

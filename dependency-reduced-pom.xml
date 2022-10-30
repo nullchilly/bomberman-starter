@@ -27,7 +27,7 @@
               <shadedArtifactAttached>true</shadedArtifactAttached>
               <transformers>
                 <transformer>
-                  <mainClass>uet.oop.bomberman.SuperMain</mainClass>
+                  <mainClass>bomberman.SuperMain</mainClass>
                 </transformer>
               </transformers>
             </configuration>
@@ -48,7 +48,7 @@
         <version>0.0.8</version>
         <configuration>
           <javafx-version>15</javafx-version>
-          <mainClass>uet.oop.bomberman.BombermanGame</mainClass>
+          <mainClass>core.Game</mainClass>
         </configuration>
       </plugin>
       <plugin>
@@ -57,7 +57,7 @@
         <configuration>
           <archive>
             <manifest>
-              <mainClass>uet.oop.bomberman.BombermanGame</mainClass>
+              <mainClass>core.Game</mainClass>
             </manifest>
           </archive>
         </configuration>

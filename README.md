@@ -24,7 +24,7 @@
     - [ ] Phát triển hệ thống server-client để nhiều người có thể cùng chơi qua mạng LAN hoặc Internet +1đ
     - [ ] Những ý tưởng khác sẽ được đánh giá và cộng điểm theo mức tương ứng
 
-# Bài tập lớn OOP - Bomberman Game
+# Bài tập lớn OOP - Bomberman core.Game
 
 Trong bài tập lớn này, nhiệm vụ của bạn là viết một phiên bản Java mô phỏng lại trò chơi [Bomberman](https://www.youtube.com/watch?v=mKIOVwqgSXM) kinh điển của NES.
 

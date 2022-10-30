@@ -5,10 +5,10 @@ import entities.character.Bomber;
 import entities.character.Oneal;
 import entities.items.BombItem;
 import entities.items.FlameItem;
+import entities.items.PortalItem;
 import entities.items.SpeedItem;
 import entities.tiles.Brick;
 import entities.tiles.Grass;
-import entities.tiles.Portal;
 import entities.tiles.Wall;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
@@ -33,7 +33,8 @@ public class Game extends Application {
     public static int WIDTH;
     public static int HEIGHT;
     public static Bomber bomber;
-    
+    public static int level = 1;
+    public static int cnt_enemy = 0;
     private GraphicsContext gc;
     private Canvas canvas;
     public List<Entity> entities = new ArrayList<>();
@@ -43,14 +44,14 @@ public class Game extends Application {
 //    public Entity bomberman;
     public List<Sound> bgMusic = new ArrayList<>();
     public enum STATE {
-        MENU, SINGLE, MULTIPLAYER, PAUSE, END
+        MENU, SINGLE, MULTIPLAYER, PAUSE, END, NEXT_LV
     }
 
     public static STATE gameState = STATE.MENU;
 
     public boolean isEnd = false;
 
-    public void setup(Stage stage) {
+    public void setup(Stage stage, int level) {
         for (Sound sound : bgMusic) {
             sound.stop();
         }
@@ -61,7 +62,7 @@ public class Game extends Application {
         Sound main = new Sound("main.mp3");
         main.play();
         bgMusic.add(main);
-        int level = 1;
+//        int level = 1;
         File file = new File(System.getProperty("user.dir") + "/res/levels/Level" + level + ".txt");
         try {
             Scanner scanner = new Scanner(file);
@@ -87,7 +88,7 @@ public class Game extends Application {
             // Them scene vao stage
             stage.setScene(scene);
             stage.show();
-
+            cnt_enemy = 0;
             scanner.nextLine();
             for (int i = 0; i < height; i++) {
                 String cur = scanner.nextLine();
@@ -105,7 +106,7 @@ public class Game extends Application {
                             object = new Brick(j, i, Sprite.brick.getFxImage(), entities);
                             break;
                         case 'x':
-                            stillObject = new Portal(j, i, Sprite.portal.getFxImage());
+                            object = new PortalItem(j, i, Sprite.portal.getFxImage(), entities);
                             break;
                         // Character:
                         case 'p':
@@ -114,9 +115,11 @@ public class Game extends Application {
                             break;
                         case '1':
                             object = new Balloom(j, i, Sprite.balloom_right1.getFxImage(), entities);
+                            cnt_enemy++;
                             break;
                         case '2':
                             object = new Oneal(j, i, Sprite.oneal_right1.getFxImage(), entities);
+                            cnt_enemy++;
                             break;
                         // Items:
                         case 'f':
@@ -149,14 +152,14 @@ public class Game extends Application {
     }
 
     public void single(Stage stage) {
-            setup(stage);
+            setup(stage, level);
             AnimationTimer timer = new AnimationTimer() {
                 private long lastUpdate = 0;
 
                 @Override
                 public void handle(long now) {
-                    render(stage);
                     update();
+                    render(stage);
                     long frameTime = (now - lastUpdate) / 1000000;
                     if (frameTime < FPS_GAME) {
                         try {
@@ -213,7 +216,7 @@ public class Game extends Application {
         button.setOnAction(event -> {
             gameState = STATE.SINGLE;
             isEnd = false;
-            setup(stage);
+            setup(stage, level);
         });
         //Setting the stage
         Group root = new Group(button);
@@ -249,6 +252,7 @@ public class Game extends Application {
 
     public void update() {
         entities.forEach(Entity::update);
+//        if (cnt_enemy == 0) gameState = STATE.NEXT_LV;
     }
 
     public void render(Stage stage) {
@@ -268,7 +272,10 @@ public class Game extends Application {
 
             case PAUSE:
                 break;
-
+            case NEXT_LV:
+                gameState = STATE.SINGLE;
+                setup(stage, ++level);
+                break;
             case END:
                 if (!isEnd) {
                     end(stage);

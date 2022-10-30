@@ -11,6 +11,8 @@ import graphics.Sprite;
 import java.util.ArrayList;
 import java.util.List;
 
+import static core.Game.cnt_enemy;
+
 public abstract class Entity {
     //Tọa độ X tính từ góc trái trên trong Canvas
     protected int x;
@@ -76,6 +78,7 @@ public abstract class Entity {
         img = sprite.getFxImage();
         if (die_time == 20) {
             Platform.runLater(() -> {
+                cnt_enemy--;
                 entities.remove(this);
                 Game.table[(x + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE][(y + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE] = null;
             });

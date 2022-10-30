@@ -19,13 +19,14 @@ import static core.Game.table;
 public class Bomb extends Entity {
     private int animate = 0;
     public static int cnt = 0;
-    public static int size = 1;
+    private int size = 1;
     private boolean exploded = false;
 
     private final List<Entity> entities;
 
-    public Bomb(int x, int y, Image img, List<Entity> entities) {
+    public Bomb(int x, int y, Image img, List<Entity> entities, int size) {
         super(x, y, img);
+        this.size = size;
         this.entities = entities;
         cnt++;
         table[x][y] = this;
@@ -99,7 +100,6 @@ public class Bomb extends Entity {
             exploded = true;
             Platform.runLater(
                     () -> {
-                        int size = Bomb.size;
                         for (int c = 1; c <= size; c++) {
                             int i = x / Sprite.SCALED_SIZE - c, j = y / Sprite.SCALED_SIZE;
                             if (checkBreak(i, j)) break;

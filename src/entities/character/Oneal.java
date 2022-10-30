@@ -11,7 +11,8 @@ import java.util.*;
 
 import static core.Game.bomber;
 
-public class Oneal extends Entity {
+public class
+Oneal extends Entity {
 
     private boolean moving = false;
     private int px;

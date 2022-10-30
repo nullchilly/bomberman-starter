@@ -20,6 +20,6 @@ public abstract class Item extends Entity {
     }
 
     public boolean isPickedup() {
-        return !pickedup;
+        return pickedup;
     }
 }

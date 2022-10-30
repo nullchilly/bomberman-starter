@@ -7,6 +7,7 @@ import entities.Bomb;
 import entities.Entity;
 import entities.items.BombItem;
 import entities.items.FlameItem;
+import entities.items.PortalItem;
 import entities.items.SpeedItem;
 import javafx.application.Platform;
 import javafx.scene.image.Image;
@@ -15,7 +16,7 @@ import graphics.Sprite;
 
 import java.util.List;
 
-import static core.Game.table;
+import static core.Game.*;
 
 public class Bomber extends Entity {
 
@@ -23,7 +24,7 @@ public class Bomber extends Entity {
     public int STEP = Sprite.STEP;
     private boolean moving = false;
     private int bombQuantity = 3;
-
+    private int bomb_size = 1;
     private boolean died = false;
     private int diedTick = 0;
     private final KeyListener keyListener;
@@ -78,23 +79,30 @@ public class Bomber extends Entity {
         int px = (x + (75*Sprite.SCALED_SIZE)/(2*100))/Sprite.SCALED_SIZE;
         int py = (y + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE;
         if (table[px][py] instanceof FlameItem) {
-            if (((FlameItem) table[px][py]).isPickedup()) {
-                Bomb.size++;
+            if (!((FlameItem) table[px][py]).isPickedup()) {
+                bomb_size++;
 //                table[px][py] = null;
             }
             ((FlameItem) table[px][py]).pick();
         } else if (table[px][py] instanceof SpeedItem) {
-            if (((SpeedItem) table[px][py]).isPickedup()) {
+            if (!((SpeedItem) table[px][py]).isPickedup()) {
                 STEP++;
 //                table[px][py] = null;
             }
             ((SpeedItem) table[px][py]).pick();
         } else if (table[px][py] instanceof BombItem) {
-            if (((BombItem) table[px][py]).isPickedup()) {
+            if (!((BombItem) table[px][py]).isPickedup()) {
                 bombQuantity++;
 //                table[px][py] = null;
             }
             ((BombItem) table[px][py]).pick();
+        }
+        else if (table[px][py] instanceof PortalItem) {
+//            if (((PortalItem) table[px][py]).isPickedup()) {
+                if(cnt_enemy == 0) gameState = Game.STATE.NEXT_LV;
+//                table[px][py] = null;
+//            }
+//            ((PortalItem) table[px][py]).pick();
         }
     }
     public void bomberMoving() {
@@ -137,7 +145,7 @@ public class Bomber extends Entity {
         if (keyListener.isPressed(KeyCode.SPACE) && Bomb.cnt < bombQuantity && !(table[getPlayerX()][getPlayerY()] instanceof Bomb)) {
 //            System.out.println(Bomb.cnt);
             Platform.runLater(() ->  {
-                Entity object = new Bomb(getPlayerX(), getPlayerY(), Sprite.bomb.getFxImage(), entities);
+                Entity object = new Bomb(getPlayerX(), getPlayerY(), Sprite.bomb.getFxImage(), entities, bomb_size);
                 entities.add(object);
                 Sound bomb = new Sound("bomb.mp3");
                 bomb.play();

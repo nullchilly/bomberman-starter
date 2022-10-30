@@ -8,11 +8,10 @@ import java.util.List;
 
 public class Flame extends Entity {
     private int animate = 0;
-    private boolean exploded = false;
 
-    private Direction direction;
+    private final Direction direction;
 
-    private List<Entity> entities;
+    private final List<Entity> entities;
 
     public Flame(int x, int y, Image img, Direction direction, List<Entity> entities) {
         super(x, y, img);
@@ -48,17 +47,9 @@ public class Flame extends Entity {
     @Override
     public void update() {
         animate++;
-//        if (animate == 50) {
-//            exploded = true;
-//        }
         if (animate == 10) {
-            Platform.runLater(() -> {
-                entities.remove(this);
-            });
+            Platform.runLater(() -> entities.remove(this));
         }
-//        if (animate > 1000000) {
-//            animate = 0;
-//        }
         getImg();
     }
 }

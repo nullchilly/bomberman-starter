@@ -1,5 +1,12 @@
 package entities;
 
+import entities.character.Balloom;
+import entities.character.Oneal;
+import entities.items.BombItem;
+import entities.items.FlameItem;
+import entities.items.SpeedItem;
+import entities.tiles.Brick;
+import entities.tiles.Wall;
 import javafx.application.Platform;
 import javafx.scene.image.Image;
 import graphics.Sprite;
@@ -16,7 +23,7 @@ public class Bomb extends Entity {
     private boolean exploded = false;
     private Entity droppedItem;
 
-    private List<Entity> entities;
+    private final List<Entity> entities;
 
     public Bomb(int x, int y, Image img, List<Entity> entities) {
         super(x, y, img);
@@ -26,7 +33,6 @@ public class Bomb extends Entity {
     }
 
     public void getImg() {
-        sprite = null;
         if (exploded) {
             sprite =
                     Sprite.movingSprite(
@@ -56,7 +62,7 @@ public class Bomb extends Entity {
                 } else if (p < 20) {
                     // flamepowerup
                 } else if (p < 30) {
-                    droppedItem = new Speed(i, j, Sprite.powerup_speed.getFxImage(), entities);
+                    droppedItem = new SpeedItem(i, j, Sprite.powerup_speed.getFxImage(), entities);
                     // speedpowereup
                 } else {
                     // grass
@@ -75,11 +81,11 @@ public class Bomb extends Entity {
     }
     private void setDied(int i, int j) {
         Entity cur = table[i][j];
-        if (cur instanceof Balloom) ((Balloom) cur).setDied();
-        if (cur instanceof Oneal) ((Oneal) cur).setDied();
-        if (cur instanceof FlameItem) ((FlameItem) cur).setDied();
-        if (cur instanceof SpeedItem) ((SpeedItem) cur).setDied();
-        if (cur instanceof BombItem) ((BombItem) cur).setDied();
+        if (cur instanceof Balloom) cur.setDied();
+        if (cur instanceof Oneal) cur.setDied();
+        if (cur instanceof FlameItem) cur.setDied();
+        if (cur instanceof SpeedItem) cur.setDied();
+        if (cur instanceof BombItem) cur.setDied();
         if (cur instanceof Bomb && !((Bomb) cur).isExploded()) ((Bomb) cur).setExplode();
         if (bomber.getPlayerX() == i && bomber.getPlayerY() == j ) bomber.setDied();
     }
@@ -96,7 +102,6 @@ public class Bomb extends Entity {
             Platform.runLater(
                     () -> {
                         int size = Bomb.size;
-                        Sprite sprite = null;
                         for (int c = 1; c <= size; c++) {
                             int i = x / Sprite.SCALED_SIZE - c, j = y / Sprite.SCALED_SIZE;
                             if (checkBreak(i, j)) break;

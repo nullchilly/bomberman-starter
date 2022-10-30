@@ -1,6 +1,7 @@
-package entities;
+package entities.tiles;
 
 import core.Game;
+import entities.Entity;
 import javafx.application.Platform;
 import javafx.scene.image.Image;
 import graphics.Sprite;
@@ -9,7 +10,7 @@ import java.util.List;
 
 public class Brick extends Entity {
     private boolean exploded = false;
-    private List<Entity> entities;
+    private final List<Entity> entities;
     public Brick(int x, int y, Image img, List<Entity> entities) {
         super(x, y, img);
         this.entities = entities;

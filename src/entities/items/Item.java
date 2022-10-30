@@ -1,6 +1,7 @@
-package entities;
+package entities.items;
 
 import core.Sound;
+import entities.Entity;
 import javafx.scene.image.Image;
 
 import java.util.List;
@@ -19,6 +20,6 @@ public abstract class Item extends Entity {
     }
 
     public boolean isPickedup() {
-        return pickedup;
+        return !pickedup;
     }
 }

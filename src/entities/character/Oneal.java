@@ -1,6 +1,7 @@
-package entities;
+package entities.character;
 
 import core.Game;
+import entities.Entity;
 import javafx.application.Platform;
 import javafx.scene.image.Image;
 import javafx.util.Pair;
@@ -16,18 +17,12 @@ public class Oneal extends Entity {
     private int px;
     private int py;
     private boolean canReach = false;
-    private Entity[][] table = Game.table;
     private boolean[][] check = new boolean[Game.WIDTH][Game.HEIGHT];
-    private static final int STEP = Math.max(1, Math.round(Sprite.STEP / 2));
+    private static final int STEP = Math.max(1, Sprite.STEP / 2);
 
     public Oneal(int x, int y, Image img, List<Entity> entities) {
         super(x, y, img);
         this.entities = entities;
-    }
-
-    public void getImg(boolean exploded) {
-        Sprite sprite = Sprite.movingSprite(Sprite.oneal_right1, Sprite.oneal_right2, animate, 20);
-        img = sprite.getFxImage();
     }
 
     private void findDirection() {
@@ -50,7 +45,6 @@ public class Oneal extends Entity {
             sprite = Sprite.oneal_right1;
             switch (direction) {
                 case U:
-                    sprite = Sprite.oneal_right1;
                     if (checkWall(x, y - STEP) && checkWall(x + Sprite.SCALED_SIZE - 1, y - STEP)) {
                         y -= STEP;
                         moving = true;
@@ -60,7 +54,6 @@ public class Oneal extends Entity {
                     }
                     break;
                 case D:
-                    sprite = Sprite.oneal_right1;
                     if (checkWall(x, y + STEP + Sprite.SCALED_SIZE - 1) && checkWall(x + Sprite.SCALED_SIZE - 1, y + STEP + Sprite.SCALED_SIZE - 1)) {
                         y += STEP;
                         moving = true;
@@ -80,7 +73,6 @@ public class Oneal extends Entity {
                     }
                     break;
                 case R:
-                    sprite = Sprite.oneal_right1;
                     if (checkWall(x + STEP + Sprite.SCALED_SIZE - 1, y) && checkWall(x + STEP + Sprite.SCALED_SIZE - 1, y + Sprite.SCALED_SIZE - 1)) {
                         x += STEP;
                         moving = true;
@@ -97,15 +89,8 @@ public class Oneal extends Entity {
         });
     }
 
-    private boolean checkCollision(int a, int b) {
-        a = (a + Sprite.SCALED_SIZE / 2) / Sprite.SCALED_SIZE;
-        b = (b + Sprite.SCALED_SIZE / 2) / Sprite.SCALED_SIZE;
-        System.out.println(a + " " + b);
-        return a == b;
-    }
-
     public Direction bfs(int i, int j) {
-        Queue< Pair<Integer, Pair<Integer, Direction> >> q = new LinkedList<Pair<Integer, Pair<Integer, Direction>>>();
+        Queue< Pair<Integer, Pair<Integer, Direction> >> q = new LinkedList<>();
         if (Entity.checkWall((i + 1) * Sprite.SCALED_SIZE, j * Sprite.SCALED_SIZE)) {
             check[i + 1][j] = true;
             q.add(new Pair<>(i + 1, new Pair<>(j, Direction.R)));
@@ -125,7 +110,9 @@ public class Oneal extends Entity {
         check[i][j] = true;
         while(!q.isEmpty()) {
             i = q.peek().getKey();
+            assert q.peek() != null;
             j = q.peek().getValue().getKey();
+            assert q.peek() != null;
             Direction direction = q.peek().getValue().getValue();
             q.remove();
             if (Entity.checkWall((i + 1) * Sprite.SCALED_SIZE, j * Sprite.SCALED_SIZE) && !check[i + 1][j]) {

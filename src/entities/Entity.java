@@ -1,6 +1,8 @@
 package entities;
 
 import core.Game;
+import entities.tiles.Brick;
+import entities.tiles.Wall;
 import javafx.application.Platform;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -28,14 +30,7 @@ public abstract class Entity {
 
     protected List<Entity> entities = new ArrayList<>();
 
-    protected static enum Direction {
-        L,
-        R,
-        U,
-        D,
-        OH,
-        OV,
-    };
+    protected enum Direction { L, R, U, D, OH, OV }
     protected Direction direction = Direction.R;
 
     //Khởi tạo đối tượng, chuyển từ tọa độ đơn vị sang tọa độ trong canvas

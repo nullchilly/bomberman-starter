@@ -1,9 +1,17 @@
 package core;
 
+import entities.character.Balloom;
+import entities.character.Bomber;
+import entities.character.Oneal;
+import entities.items.BombItem;
+import entities.items.FlameItem;
+import entities.items.SpeedItem;
+import entities.tiles.Brick;
+import entities.tiles.Grass;
+import entities.tiles.Portal;
+import entities.tiles.Wall;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -21,9 +29,7 @@ import java.util.*;
 import java.util.List;
 
 public class Game extends Application {
-    public static int time = 0;
     public static long FPS_GAME = 1000/60;
-    public static int animate = 0;
     public static int WIDTH;
     public static int HEIGHT;
     public static Bomber bomber;
@@ -34,11 +40,10 @@ public class Game extends Application {
     public List<Entity> flames = new ArrayList<>();
     public List<Entity> stillObjects = new ArrayList<>();
     public static Entity[][] table;
-    private KeyListener keyListener;
-    public Entity bomberman;
+//    public Entity bomberman;
     public List<Sound> bgMusic = new ArrayList<>();
     public enum STATE {
-        MENU, SINGLE, MULTIPLAYER, PAUSE, END;
+        MENU, SINGLE, MULTIPLAYER, PAUSE, END
     }
 
     public static STATE gameState = STATE.MENU;
@@ -60,8 +65,8 @@ public class Game extends Application {
         File file = new File(System.getProperty("user.dir") + "/res/levels/Level" + level + ".txt");
         try {
             Scanner scanner = new Scanner(file);
-            int height = scanner.nextInt(); // level
-            height = scanner.nextInt();
+            scanner.nextInt(); // level
+            int height = scanner.nextInt();
             int width = scanner.nextInt();
             HEIGHT = height;
             WIDTH = width;
@@ -77,7 +82,7 @@ public class Game extends Application {
 
             // Tao scene
             Scene scene = new Scene(root);
-            keyListener = new KeyListener(scene);
+            KeyListener keyListener = new KeyListener(scene);
 
             // Them scene vao stage
             stage.setScene(scene);
@@ -143,34 +148,26 @@ public class Game extends Application {
         Application.launch(Game.class);
     }
 
-    public void fps() {
-        try {
-            Thread.sleep(10);
-
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     public void single(Stage stage) {
             setup(stage);
             AnimationTimer timer = new AnimationTimer() {
                 private long lastUpdate = 0;
-                private long frameTime = 0;
+
                 @Override
                 public void handle(long now) {
                     render(stage);
                     update();
-                    frameTime = (long)(now - lastUpdate)/1000000;
+                    long frameTime = (now - lastUpdate) / 1000000;
                     if (frameTime < FPS_GAME) {
                         try {
                             Thread.sleep(FPS_GAME - frameTime);
                         } catch (InterruptedException e) {
                             throw new RuntimeException(e);
                         }
-                    } else {
-//                        System.out.println(1000/frameTime);
                     }
+//                    else {
+//                        System.out.println(1000/frameTime);
+//                    }
                     lastUpdate = System.nanoTime();
                 }
             };
@@ -190,12 +187,9 @@ public class Game extends Application {
         button.setText("Single player");
         button.setTranslateX(Sprite.SCALED_SIZE * 15);
         button.setTranslateY(Sprite.SCALED_SIZE * 10);
-        button.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                gameState = STATE.SINGLE;
-                start(stage);
-            }
+        button.setOnAction(event -> {
+            gameState = STATE.SINGLE;
+            start(stage);
         });
         //Setting the stage
         Group root = new Group(button);
@@ -216,13 +210,10 @@ public class Game extends Application {
         button.setText("Replay");
         button.setTranslateX(Sprite.SCALED_SIZE * 15);
         button.setTranslateY(Sprite.SCALED_SIZE * 10);
-        button.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                gameState = STATE.SINGLE;
-                isEnd = false;
-                setup(stage);
-            }
+        button.setOnAction(event -> {
+            gameState = STATE.SINGLE;
+            isEnd = false;
+            setup(stage);
         });
         //Setting the stage
         Group root = new Group(button);
@@ -279,7 +270,7 @@ public class Game extends Application {
                 break;
 
             case END:
-                if (isEnd == false) {
+                if (!isEnd) {
                     end(stage);
                     isEnd = true;
                 }

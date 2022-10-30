@@ -1,29 +1,32 @@
-package entities;
+package entities.character;
 
 import core.Game;
 import core.KeyListener;
 import core.Sound;
+import entities.Bomb;
+import entities.Entity;
+import entities.items.BombItem;
+import entities.items.FlameItem;
+import entities.items.SpeedItem;
 import javafx.application.Platform;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import graphics.Sprite;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static core.Game.table;
 
 public class Bomber extends Entity {
 
-    private List<Entity> entities = new ArrayList<>();
+    private final List<Entity> entities;
     public int STEP = Sprite.STEP;
     private boolean moving = false;
     private int bombQuantity = 3;
-    private boolean alreadyPlaceBomb = false;
 
     private boolean died = false;
     private int diedTick = 0;
-    private KeyListener keyListener;
+    private final KeyListener keyListener;
 
     public Bomber(int x, int y, Image img, KeyListener keyListener, List<Entity> entities) {
         super(x, y, img);
@@ -42,7 +45,7 @@ public class Bomber extends Entity {
             img = Sprite.movingSprite(Sprite.player_dead1, Sprite.player_dead2, Sprite.player_dead3, animate, 20).getFxImage();
             return;
         }
-        Sprite sprite = Sprite.player_right;
+        Sprite sprite;
         switch (direction) {
             case U:
                 sprite = Sprite.player_up;
@@ -75,19 +78,19 @@ public class Bomber extends Entity {
         int px = (x + (75*Sprite.SCALED_SIZE)/(2*100))/Sprite.SCALED_SIZE;
         int py = (y + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE;
         if (table[px][py] instanceof FlameItem) {
-            if (!((FlameItem) table[px][py]).isPickedup()) {
+            if (((FlameItem) table[px][py]).isPickedup()) {
                 Bomb.size++;
 //                table[px][py] = null;
             }
             ((FlameItem) table[px][py]).pick();
         } else if (table[px][py] instanceof SpeedItem) {
-            if (!((SpeedItem) table[px][py]).isPickedup()) {
+            if (((SpeedItem) table[px][py]).isPickedup()) {
                 STEP++;
 //                table[px][py] = null;
             }
             ((SpeedItem) table[px][py]).pick();
         } else if (table[px][py] instanceof BombItem) {
-            if (!((BombItem) table[px][py]).isPickedup()) {
+            if (((BombItem) table[px][py]).isPickedup()) {
                 bombQuantity++;
 //                table[px][py] = null;
             }
@@ -155,7 +158,6 @@ public class Bomber extends Entity {
             chooseSprite();
             return;
         }
-        alreadyPlaceBomb = false;
 
         moving = false;
         getItem();
@@ -170,5 +172,4 @@ public class Bomber extends Entity {
     public int getPlayerY() {
         return (y + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE;
     }
-    public void updateBomber() {}
 }

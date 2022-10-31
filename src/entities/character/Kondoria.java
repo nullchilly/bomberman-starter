@@ -1,32 +1,20 @@
 package entities.character;
 
 import core.Game;
-import entities.Entity;
 import entities.items.Item;
 import entities.tiles.Brick;
 import graphics.Sprite;
 import javafx.scene.image.Image;
 
-import java.util.List;
-import java.util.Random;
-
-import static core.Game.bomber;
 import static core.Game.table;
 
-public class Kondoria extends Entity {
+public class Kondoria extends Enemy {
 
     private static final int STEP = Math.max(1, Sprite.STEP / 2);
     private boolean moving = false;
 
     public Kondoria(int x, int y, Image img) {
         super(x, y, img);
-    }
-
-    private void findDirection() {
-        if (animate > 100000) animate = 0;
-        if (animate % 30 == 0 && x % Sprite.SCALED_SIZE == 0 && y % Sprite.SCALED_SIZE == 0) {
-            direction = Direction.values()[new Random().nextInt(Direction.values().length)];
-        }
     }
 
     private void kondoriaMoving() {
@@ -97,13 +85,9 @@ public class Kondoria extends Entity {
             gotHurt(Sprite.kondoria_dead);
             return;
         }
-        int px = (x + Sprite.SCALED_SIZE / 2) / Sprite.SCALED_SIZE;
-        int py = (y + Sprite.SCALED_SIZE / 2) / Sprite.SCALED_SIZE;
-        if (bomber.getPlayerX() == px && bomber.getPlayerY() == py && bomber.isProtectded()) {
-            bomber.setHurt();
-        }
         animate++;
         moving = false;
+        checkCollideWithBomber();
         findDirection();
         kondoriaMoving();
     }

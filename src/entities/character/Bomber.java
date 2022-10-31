@@ -4,16 +4,12 @@ import core.Game;
 import core.KeyListener;
 import core.Sound;
 import entities.Bomb;
-import entities.Entity;
-import entities.Flame;
 import entities.items.*;
 import entities.tiles.Brick;
 import graphics.Sprite;
 import javafx.application.Platform;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
-
-import java.util.List;
 
 import static core.Game.*;
 

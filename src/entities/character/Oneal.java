@@ -1,10 +1,8 @@
 package entities.character;
 
 import core.Game;
-import entities.Entity;
 import entities.items.Item;
 import entities.items.PortalItem;
-import javafx.application.Platform;
 import javafx.scene.image.Image;
 import javafx.util.Pair;
 import graphics.Sprite;
@@ -14,8 +12,7 @@ import java.util.*;
 import static core.Game.bomber;
 import static core.Game.table;
 
-public class
-Oneal extends Entity {
+public class Oneal extends Enemy {
 
     private boolean moving = false;
     private int px;
@@ -28,7 +25,7 @@ Oneal extends Entity {
         super(x, y, img);
     }
 
-    private void findDirection() {
+    protected void findDirection() {
         animate++;
         if (animate > 100000) animate = 0;
         if (x % Sprite.SCALED_SIZE == 0 && y % Sprite.SCALED_SIZE == 0) {
@@ -162,14 +159,11 @@ Oneal extends Entity {
     public void update() {
         px = (x + Sprite.SCALED_SIZE / 2) / Sprite.SCALED_SIZE;
         py = (y + Sprite.SCALED_SIZE / 2) / Sprite.SCALED_SIZE;
-        if (bomber.getPlayerX() == px && bomber.getPlayerY() == py && bomber.isProtectded()) {
-            bomber.setHurt();
-        }
         if (hurt) {
             gotHurt(Sprite.oneal_dead);
             return;
         }
-
+        checkCollideWithBomber();
         findDirection();
         onealMoving();
     }

@@ -1,10 +1,8 @@
 package entities.items;
 
 import core.Sound;
-import entities.Entity;
+import entities.character.Entity;
 import javafx.scene.image.Image;
-
-import java.util.List;
 
 public abstract class Item extends Entity {
     protected boolean pickedup = false;

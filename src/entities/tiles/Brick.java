@@ -1,14 +1,12 @@
 package entities.tiles;
 
 import core.Game;
-import entities.Entity;
+import entities.character.Entity;
 import graphics.Sprite;
 import javafx.application.Platform;
 import javafx.scene.image.Image;
 
 import static core.Game.entities;
-
-import java.util.List;
 
 public class Brick extends Entity {
     private boolean exploded = false;

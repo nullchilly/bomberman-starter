@@ -1,5 +1,6 @@
 package entities;
 
+import entities.character.Entity;
 import javafx.application.Platform;
 import javafx.scene.image.Image;
 import graphics.Sprite;

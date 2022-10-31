@@ -1,15 +1,12 @@
-package entities;
+package entities.character;
 
 import core.Game;
-import entities.character.Kondoria;
+import entities.Bomb;
 import entities.tiles.Brick;
 import entities.tiles.Wall;
 import graphics.Sprite;
-import javafx.application.Platform;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-
-import static core.Game.enemies;
 
 public abstract class Entity {
     //Tọa độ X tính từ góc trái trên trong Canvas
@@ -116,20 +113,6 @@ public abstract class Entity {
         life--;
     }
 
-    public void gotHurt(Sprite sprite) {
-        hurt_time++;
-        img = sprite.getFxImage;
-        if (hurt_time == 20) {
-            hurt_time = 0;
-            hurt = false;
-            if (life == 0) {
-                Platform.runLater(() -> {
-                    enemies.remove(this);
-                    Game.table[(x + Sprite.SCALED_SIZE / 2) / Sprite.SCALED_SIZE][(y + Sprite.SCALED_SIZE / 2) / Sprite.SCALED_SIZE] = old_cur;
-                });
-            }
-        }
-    }
 
     public void setHurt() {
         if (!hurt) {

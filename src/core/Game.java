@@ -1,6 +1,6 @@
 package core;
 
-import entities.Entity;
+import entities.character.Entity;
 import entities.character.*;
 import entities.items.*;
 import entities.tiles.Brick;

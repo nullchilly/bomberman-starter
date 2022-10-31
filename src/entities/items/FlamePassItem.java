@@ -1,11 +1,8 @@
 package entities.items;
 
-import entities.Entity;
 import graphics.Sprite;
 import javafx.application.Platform;
 import javafx.scene.image.Image;
-
-import java.util.List;
 
 import static core.Game.table;
 import static core.Game.entities;

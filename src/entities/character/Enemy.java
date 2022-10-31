@@ -11,6 +11,8 @@ import static core.Game.bomber;
 import static core.Game.enemies;
 
 public abstract class Enemy extends Entity{
+
+    protected Entity old_cur = null;
     public Enemy(int x, int y, Image Img) {
         super(x, y, Img);
     }

@@ -18,6 +18,10 @@ public class Doll extends Enemy {
 
     private void dollMoving() {
         int px = (x + Sprite.SCALED_SIZE / 2) / Sprite.SCALED_SIZE, py = (y + Sprite.SCALED_SIZE / 2) / Sprite.SCALED_SIZE;
+        if (table[px][py] instanceof Item) {
+            old_cur = table[px][py];
+            System.out.println("Whoops");
+        }
         Game.table[px][py] = null;
         sprite = Sprite.doll_left1;
         switch (direction) {

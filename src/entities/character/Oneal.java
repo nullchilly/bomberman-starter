@@ -40,7 +40,7 @@ public class Oneal extends Enemy {
     }
     private void onealMoving() {
         int px = (x + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE, py = (y + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE;
-        if (table[px][py] instanceof PortalItem) {
+        if (table[px][py] instanceof Item) {
             old_cur = table[px][py];
             System.out.println("Whoops");
         }

@@ -25,8 +25,6 @@ public abstract class Entity {
 
     protected boolean died = false;
     protected boolean hurt = false;
-    protected Entity old_cur = null;
-
 
     protected Image img;
 

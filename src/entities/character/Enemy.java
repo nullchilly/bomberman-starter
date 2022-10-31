@@ -1,6 +1,7 @@
 package entities.character;
 
 import core.Game;
+import core.Sound;
 import graphics.Sprite;
 import javafx.application.Platform;
 import javafx.scene.image.Image;
@@ -28,6 +29,10 @@ public abstract class Enemy extends Entity{
 
     protected void gotHurt(Sprite sprite) {
         hurt_time++;
+        if (hurt_time == 1) {
+            Sound sound = new Sound("died.wav");
+            sound.play();
+        }
         img = sprite.getFxImage;
         if (hurt_time == 20) {
             hurt_time = 0;

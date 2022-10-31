@@ -201,9 +201,13 @@ public class Bomber extends Entity {
     @Override
     public void update() {
         if (hurt) {
-            hurtTick++;
+            Sound sound;
             if (hurtTick == 0 && life == 0) {
-                (new Sound("lose_game.wav")).play();
+                sound = new Sound("game_over.wav");
+                sound.play();
+            } else if (hurtTick == 0 && life != 0) {
+                sound = new Sound("died.wav");
+                sound.play();
             }
             if (hurtTick == 30) {
                 if (life == 0) {
@@ -215,6 +219,7 @@ public class Bomber extends Entity {
 //                Platform.exit();
             }
             chooseSprite();
+            hurtTick++;
             return;
         }
         protection_time = Math.max(0, protection_time - 1);

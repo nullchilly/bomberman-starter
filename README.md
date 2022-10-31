@@ -1,6 +1,6 @@
 - Gói bắt buộc (+8đ)
 
-    - [ ] Thiết kế cây thừa kế cho các đối tượng game +2đ
+    - [?] Thiết kế cây thừa kế cho các đối tượng game +2đ
 
     - [x] Xây dựng bản đồ màn chơi từ tệp cấu hình (có mẫu tệp cấu hình, xem [tại đây](https://raw.githubusercontent.com/bqcuong/bomberman-starter/starter-2/res/levels/Level1.txt)) +1đ
 
@@ -12,7 +12,7 @@
 
     - [x] Xử lý bom nổ +1đ
 
-    - [ ] Xử lý khi Bomber sử dụng các Item và khi đi vào vị trí Portal +1đ
+    - [x] Xử lý khi Bomber sử dụng các Item và khi đi vào vị trí Portal +1đ
 
 - Gói tùy chọn (tối đa +2đ)
 
@@ -20,7 +20,7 @@
        Cài đặt thêm các loại Enemy khác: +0.25đ cho mỗi loại enemy
 
     - [ ] Cài đặt thuật toán AI cho Bomber (tự chơi) +1đ
-    - [ ] Xử lý hiệu ứng âm thanh (thêm music & sound effects) +1đ
+    - [?] Xử lý hiệu ứng âm thanh (thêm music & sound effects) +1đ
     - [ ] Phát triển hệ thống server-client để nhiều người có thể cùng chơi qua mạng LAN hoặc Internet +1đ
     - [ ] Những ý tưởng khác sẽ được đánh giá và cộng điểm theo mức tương ứng
 
@@ -28,7 +28,7 @@
 
 Trong bài tập lớn này, nhiệm vụ của bạn là viết một phiên bản Java mô phỏng lại trò chơi [Bomberman](https://www.youtube.com/watch?v=mKIOVwqgSXM) kinh điển của NES.
 
-<img src="res/demo.png" alt="drawing" width="400"/>
+<img src="res/demo.png" alt="drawing" width="722"/>
 
 Bạn có thể sử dụng mã nguồn tại repository này để phát triển hoặc tự phát triển từ đầu.
 

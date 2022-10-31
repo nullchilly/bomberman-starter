@@ -8,11 +8,13 @@ import entities.items.PortalItem;
 import entities.items.SpeedItem;
 import entities.tiles.Brick;
 import entities.tiles.Wall;
+import graphics.Sprite;
 import javafx.application.Platform;
 import javafx.scene.image.Image;
-import graphics.Sprite;
 
-import java.util.*;
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import static core.Game.bomber;
 import static core.Game.table;
@@ -20,7 +22,7 @@ import static core.Game.table;
 public class Bomb extends Entity {
     private int animate = 0;
     public static int cnt = 0;
-    private int size = 1;
+    private final int size;
     private boolean exploded = false;
     private Entity portalPos = null;
     private final List<Entity> entities;
@@ -70,6 +72,7 @@ public class Bomb extends Entity {
     public void setExplode() {
         this.animate = 69;
     }
+
     private void setDied(int i, int j) {
         Entity cur = table[i][j];
         if (cur instanceof Balloom) cur.setDied();
@@ -78,7 +81,7 @@ public class Bomb extends Entity {
         if (cur instanceof SpeedItem) cur.setDied();
         if (cur instanceof BombItem) cur.setDied();
         if (cur instanceof Bomb && !((Bomb) cur).isExploded()) ((Bomb) cur).setExplode();
-        if (bomber.getPlayerX() == i && bomber.getPlayerY() == j ) bomber.setDied();
+        if (bomber.getPlayerX() == i && bomber.getPlayerY() == j) bomber.setDied();
     }
 
     @Override
@@ -160,7 +163,6 @@ public class Bomb extends Entity {
                     });
         }
         if (animate == 80) {
-            Entity finalCur = portalPos;
             Platform.runLater(
                     () -> {
                         table[px][py] = portalPos;

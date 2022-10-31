@@ -7,18 +7,14 @@ import javafx.util.Duration;
 import java.io.File;
 
 public class Sound {
-    private MediaPlayer mediaPlayer;
+    private final MediaPlayer mediaPlayer;
 
     public Sound(String s) {
         String musicFile = "res/sound/" + s;     // For example
 
         Media sound = new Media(new File(musicFile).toURI().toString());
         mediaPlayer = new MediaPlayer(sound);
-        mediaPlayer.setOnEndOfMedia(new Runnable() {
-            public void run() {
-                mediaPlayer.seek(Duration.ZERO);
-            }
-        });
+        mediaPlayer.setOnEndOfMedia(() -> mediaPlayer.seek(Duration.ZERO));
     }
 
     public void play() {

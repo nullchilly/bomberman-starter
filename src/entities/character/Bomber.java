@@ -9,10 +9,10 @@ import entities.items.BombItem;
 import entities.items.FlameItem;
 import entities.items.PortalItem;
 import entities.items.SpeedItem;
+import graphics.Sprite;
 import javafx.application.Platform;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
-import graphics.Sprite;
 
 import java.util.List;
 
@@ -23,7 +23,7 @@ public class Bomber extends Entity {
     private final List<Entity> entities;
     public int STEP = Sprite.STEP;
     private boolean moving = false;
-    private int bombQuantity = 1;
+    private int bombQuantity;
     private int bomb_size = 1;
     private boolean died = false;
     private int diedTick = 0;
@@ -76,9 +76,10 @@ public class Bomber extends Entity {
         }
         img = sprite.getFxImage;
     }
+
     public void getItem() {
-        int px = (x + (75*Sprite.SCALED_SIZE)/(2*100))/Sprite.SCALED_SIZE;
-        int py = (y + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE;
+        int px = (x + (75 * Sprite.SCALED_SIZE) / (2 * 100)) / Sprite.SCALED_SIZE;
+        int py = (y + Sprite.SCALED_SIZE / 2) / Sprite.SCALED_SIZE;
         if (table[px][py] instanceof FlameItem) {
             if (!((FlameItem) table[px][py]).isPickedup()) {
                 bomb_size++;
@@ -97,18 +98,18 @@ public class Bomber extends Entity {
 //                table[px][py] = null;
             }
             ((BombItem) table[px][py]).pick();
-        }
-        else if (table[px][py] instanceof PortalItem) {
+        } else if (table[px][py] instanceof PortalItem) {
 //            if (((PortalItem) table[px][py]).isPickedup()) {
-                if(cnt_enemy == 0) gameState = Game.STATE.NEXT_LV;
+            if (cnt_enemy == 0) gameState = Game.STATE.NEXT_LV;
 //                table[px][py] = null;
 //            }
 //            ((PortalItem) table[px][py]).pick();
         }
     }
+
     public void bomberMoving() {
-        int px = (x + (75*Sprite.SCALED_SIZE)/(2*100))/Sprite.SCALED_SIZE;
-        int py = (y + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE;
+        int px = (x + (75 * Sprite.SCALED_SIZE) / (2 * 100)) / Sprite.SCALED_SIZE;
+        int py = (y + Sprite.SCALED_SIZE / 2) / Sprite.SCALED_SIZE;
         Entity cur = table[px][py];
         table[px][py] = null;
         if (keyListener.isPressed(KeyCode.D)) {
@@ -151,7 +152,7 @@ public class Bomber extends Entity {
     public void placeBomb() {
         if (keyListener.isPressed(KeyCode.SPACE) && Bomb.cnt < bombQuantity && !(table[getPlayerX()][getPlayerY()] instanceof Bomb)) {
 //            System.out.println(Bomb.cnt);
-            Platform.runLater(() ->  {
+            Platform.runLater(() -> {
                 Entity object = new Bomb(getPlayerX(), getPlayerY(), Sprite.bomb.getFxImage, entities, bomb_size);
                 entities.add(object);
                 Sound bomb = new Sound("bomb.mp3");
@@ -159,6 +160,7 @@ public class Bomber extends Entity {
             });
         }
     }
+
     @Override
     public void update() {
         if (died) {
@@ -182,9 +184,10 @@ public class Bomber extends Entity {
     }
 
     public int getPlayerX() {
-        return (x + (75*Sprite.SCALED_SIZE)/(2*100))/Sprite.SCALED_SIZE;
+        return (x + (75 * Sprite.SCALED_SIZE) / (2 * 100)) / Sprite.SCALED_SIZE;
     }
+
     public int getPlayerY() {
-        return (y + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE;
+        return (y + Sprite.SCALED_SIZE / 2) / Sprite.SCALED_SIZE;
     }
 }

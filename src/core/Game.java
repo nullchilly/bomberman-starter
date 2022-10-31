@@ -1,5 +1,6 @@
 package core;
 
+import entities.Entity;
 import entities.character.Balloom;
 import entities.character.Bomber;
 import entities.character.Oneal;
@@ -10,6 +11,7 @@ import entities.items.SpeedItem;
 import entities.tiles.Brick;
 import entities.tiles.Grass;
 import entities.tiles.Wall;
+import graphics.Sprite;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Group;
@@ -19,38 +21,35 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import entities.*;
-import graphics.Sprite;
 
-//import javax.print.attribute.standard.Media;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.*;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class Game extends Application {
-    public static long FPS_GAME = 1000/60;
+    public static long FPS_GAME = 1000 / 60;
     public static int WIDTH;
     public static int HEIGHT;
     public static Bomber bomber;
     public static int level = 1;
     public static int cnt_enemy = 0;
-    private GraphicsContext gc;
-    private Canvas canvas;
+    public static Entity[][] table;
+    public static Entity[][] hiddenTable;
+    public static STATE gameState = STATE.MENU;
     public List<Entity> entities = new ArrayList<>();
     public List<Entity> flames = new ArrayList<>();
     public List<Entity> stillObjects = new ArrayList<>();
-    public static Entity[][] table;
-    public static Entity[][] hiddenTable;
-//    public Entity bomberman;
+    //    public Entity bomberman;
     public List<Sound> bgMusic = new ArrayList<>();
-    public enum STATE {
-        MENU, SINGLE, MULTIPLAYER, PAUSE, END, NEXT_LV
-    }
-
-    public static STATE gameState = STATE.MENU;
-
     public boolean isEnd = false;
+    private GraphicsContext gc;
+    private Canvas canvas;
+
+    public static void main(String[] args) {
+        Application.launch(Game.class);
+    }
 
     public void setup(Stage stage, int level) {
         for (Sound sound : bgMusic) {
@@ -152,10 +151,6 @@ public class Game extends Application {
         } catch (FileNotFoundException e) {
             System.out.println(e.getMessage());
         }
-    }
-
-    public static void main(String[] args) {
-        Application.launch(Game.class);
     }
 
     public void single(Stage stage) {
@@ -292,5 +287,9 @@ public class Game extends Application {
             default:
                 throw new IllegalArgumentException("Invalid game state");
         }
+    }
+
+    public enum STATE {
+        MENU, SINGLE, MULTIPLAYER, PAUSE, END, NEXT_LV
     }
 }

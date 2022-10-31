@@ -3,10 +3,8 @@ package entities.character;
 import core.Game;
 import entities.Entity;
 import entities.items.Item;
-import entities.items.PortalItem;
-import javafx.application.Platform;
-import javafx.scene.image.Image;
 import graphics.Sprite;
+import javafx.scene.image.Image;
 
 import java.util.List;
 import java.util.Random;
@@ -30,8 +28,9 @@ public class Balloom extends Entity {
             direction = Direction.values()[new Random().nextInt(Direction.values().length)];
         }
     }
+
     private void balloomMoving() {
-        int px = (x + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE, py = (y + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE;
+        int px = (x + Sprite.SCALED_SIZE / 2) / Sprite.SCALED_SIZE, py = (y + Sprite.SCALED_SIZE / 2) / Sprite.SCALED_SIZE;
         Game.table[px][py] = null;
         sprite = Sprite.balloom_right1;
         switch (direction) {
@@ -75,8 +74,8 @@ public class Balloom extends Entity {
                 break;
         }
         img = sprite.getFxImage;
-        int new_px = (x + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE;
-        int new_py = (y + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE;
+        int new_px = (x + Sprite.SCALED_SIZE / 2) / Sprite.SCALED_SIZE;
+        int new_py = (y + Sprite.SCALED_SIZE / 2) / Sprite.SCALED_SIZE;
         if (new_px != px || new_py != py) {
             Game.table[px][py] = old_cur;
             old_cur = null;

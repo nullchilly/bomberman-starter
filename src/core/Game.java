@@ -107,9 +107,6 @@ public class Game extends Application {
                         case '*':
                             object = new Brick(j, i, Sprite.brick.getFxImage, entities);
                             break;
-                        case 'x':
-                            object = new PortalItem(j, i, Sprite.portal.getFxImage, entities);
-                            break;
                         // Character:
                         case 'p':
                             object = new Bomber(j, i, Sprite.player_right.getFxImage, keyListener, entities);
@@ -132,6 +129,9 @@ public class Game extends Application {
                             break;
                         case 'b':
                             hiddenObject = new BombItem(j, i, Sprite.powerup_bombs.getFxImage, entities);
+                            break;
+                        case 'x':
+                            hiddenObject = new PortalItem(j, i, Sprite.portal.getFxImage, entities);
                             break;
                     }
                     if (stillObject != null) {

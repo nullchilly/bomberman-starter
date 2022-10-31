@@ -17,9 +17,8 @@ public class Balloom extends Entity {
     private static final int STEP = Math.max(1, Sprite.STEP / 2);
     private boolean moving = false;
 
-    public Balloom(int x, int y, Image img, List<Entity> entities) {
+    public Balloom(int x, int y, Image img) {
         super(x, y, img);
-        this.entities = entities;
     }
 
     private void findDirection() {

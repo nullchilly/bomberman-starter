@@ -8,10 +8,11 @@ import javafx.scene.image.Image;
 import java.util.List;
 
 import static core.Game.table;
+import static core.Game.entities;
 
 public class FlameItem extends Item {
-    public FlameItem(int x, int y, Image img, List<Entity> entities) {
-        super(x, y, img, entities);
+    public FlameItem(int x, int y, Image img) {
+        super(x, y, img);
     }
 
     @Override

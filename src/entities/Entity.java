@@ -3,15 +3,13 @@ package entities;
 import core.Game;
 import entities.tiles.Brick;
 import entities.tiles.Wall;
+import graphics.Sprite;
 import javafx.application.Platform;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import graphics.Sprite;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static core.Game.cnt_enemy;
+import static core.Game.enemies;
 
 public abstract class Entity {
     //Tọa độ X tính từ góc trái trên trong Canvas
@@ -31,8 +29,6 @@ public abstract class Entity {
 
 
     protected Image img;
-
-    protected List<Entity> entities = new ArrayList<>();
 
     protected enum Direction { L, R, U, D, OH, OV }
     protected Direction direction = Direction.R;
@@ -72,6 +68,14 @@ public abstract class Entity {
         return y;
     }
 
+    public int getTileX() {
+        return (x + Sprite.SCALED_SIZE / 2) / Sprite.SCALED_SIZE;
+    }
+
+    public int getTileY() {
+        return (y + Sprite.SCALED_SIZE / 2) / Sprite.SCALED_SIZE;
+    }
+
     public void setDied() {
         this.died = true;
     }
@@ -81,7 +85,7 @@ public abstract class Entity {
         if (die_time == 20) {
             Platform.runLater(() -> {
                 cnt_enemy--;
-                entities.remove(this);
+                enemies.remove(this);
                 Game.table[(x + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE][(y + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE] = old_cur;
             });
         }

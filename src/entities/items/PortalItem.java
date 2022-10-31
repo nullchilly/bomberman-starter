@@ -7,8 +7,8 @@ import javafx.scene.image.Image;
 import java.util.List;
 
 public class PortalItem extends Item {
-    public PortalItem(int x, int y, Image img, List<Entity> entities) {
-        super(x, y, img, entities);
+    public PortalItem(int x, int y, Image img) {
+        super(x, y, img);
     }
 
     @Override

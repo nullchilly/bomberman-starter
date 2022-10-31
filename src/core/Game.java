@@ -38,7 +38,8 @@ public class Game extends Application {
     public static Entity[][] table;
     public static Entity[][] hiddenTable;
     public static STATE gameState = STATE.MENU;
-    public List<Entity> entities = new ArrayList<>();
+    public static List<Entity> entities = new ArrayList<>();
+    public static List<Entity> enemies= new ArrayList<>();
     public List<Entity> flames = new ArrayList<>();
     public List<Entity> stillObjects = new ArrayList<>();
     //    public Entity bomberman;
@@ -56,6 +57,7 @@ public class Game extends Application {
             sound.stop();
         }
         entities = new ArrayList<>();
+        enemies = new ArrayList<>();
         flames = new ArrayList<>();
         stillObjects = new ArrayList<>();
         bgMusic = new ArrayList<>();
@@ -97,6 +99,7 @@ public class Game extends Application {
                     Entity stillObject = null;
                     Entity object = null;
                     Entity hiddenObject = null;
+                    Entity enemy = null;
                     stillObjects.add(new Grass(j, i, Sprite.grass.getFxImage));
                     switch (cur.charAt(j)) {
                         // Tiles:
@@ -104,33 +107,33 @@ public class Game extends Application {
                             stillObject = new Wall(j, i, Sprite.wall.getFxImage);
                             break;
                         case '*':
-                            object = new Brick(j, i, Sprite.brick.getFxImage, entities);
+                            object = new Brick(j, i, Sprite.brick.getFxImage);
                             break;
                         // Character:
                         case 'p':
-                            object = new Bomber(j, i, Sprite.player_right.getFxImage, keyListener, entities);
+                            object = new Bomber(j, i, Sprite.player_right.getFxImage, keyListener);
                             bomber = (Bomber) object;
                             break;
                         case '1':
-                            object = new Balloom(j, i, Sprite.balloom_right1.getFxImage, entities);
+                            enemy = new Balloom(j, i, Sprite.balloom_right1.getFxImage);
                             cnt_enemy++;
                             break;
                         case '2':
-                            object = new Oneal(j, i, Sprite.oneal_right1.getFxImage, entities);
+                            enemy = new Oneal(j, i, Sprite.oneal_right1.getFxImage);
                             cnt_enemy++;
                             break;
                         // Items:
                         case 'f':
-                            hiddenObject = new FlameItem(j, i, Sprite.powerup_flames.getFxImage, entities);
+                            hiddenObject = new FlameItem(j, i, Sprite.powerup_flames.getFxImage);
                             break;
                         case 's':
-                            hiddenObject = new SpeedItem(j, i, Sprite.powerup_speed.getFxImage, entities);
+                            hiddenObject = new SpeedItem(j, i, Sprite.powerup_speed.getFxImage);
                             break;
                         case 'b':
-                            hiddenObject = new BombItem(j, i, Sprite.powerup_bombs.getFxImage, entities);
+                            hiddenObject = new BombItem(j, i, Sprite.powerup_bombs.getFxImage);
                             break;
                         case 'x':
-                            hiddenObject = new PortalItem(j, i, Sprite.portal.getFxImage, entities);
+                            hiddenObject = new PortalItem(j, i, Sprite.portal.getFxImage);
                             break;
                     }
                     if (stillObject != null) {
@@ -140,10 +143,13 @@ public class Game extends Application {
                         entities.add(object);
                         table[j][i] = object;
                     } else if (hiddenObject != null) {
-                        object = new Brick(j, i, Sprite.brick.getFxImage, entities);
+                        object = new Brick(j, i, Sprite.brick.getFxImage);
                         entities.add(object);
                         table[j][i] = object;
                         hiddenTable[j][i] = hiddenObject;
+                    } else if (enemy != null) {
+                        enemies.add(enemy);
+                        table[j][i] = enemy;
                     }
                 }
             }
@@ -254,6 +260,7 @@ public class Game extends Application {
 
     public void update() {
         entities.forEach(Entity::update);
+        enemies.forEach(Entity::update);
 //        if (cnt_enemy == 0) gameState = STATE.NEXT_LV;
     }
 
@@ -263,6 +270,7 @@ public class Game extends Application {
                 gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
                 stillObjects.forEach(g -> g.render(gc));
                 entities.forEach(g -> g.render(gc));
+                enemies.forEach(g -> g.render(gc));
                 bomber.render(gc);
                 break;
 

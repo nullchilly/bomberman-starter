@@ -9,9 +9,8 @@ import java.util.List;
 public abstract class Item extends Entity {
     protected boolean pickedup = false;
 
-    public Item(int x, int y, Image img, List<Entity> entities) {
+    public Item(int x, int y, Image img) {
         super(x, y, img);
-        this.entities = entities;
     }
 
     public void pick() {

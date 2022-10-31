@@ -24,9 +24,8 @@ Oneal extends Entity {
     private boolean[][] check = new boolean[Game.WIDTH][Game.HEIGHT];
     private static final int STEP = Math.max(1, Sprite.STEP / 2);
 
-    public Oneal(int x, int y, Image img, List<Entity> entities) {
+    public Oneal(int x, int y, Image img) {
         super(x, y, img);
-        this.entities = entities;
     }
 
     private void findDirection() {

@@ -20,7 +20,6 @@ import static core.Game.*;
 
 public class Bomber extends Entity {
 
-    private final List<Entity> entities;
     public int STEP = Sprite.STEP;
     private boolean moving = false;
     private int bombQuantity;
@@ -29,9 +28,8 @@ public class Bomber extends Entity {
     private int diedTick = 0;
     private final KeyListener keyListener;
 
-    public Bomber(int x, int y, Image img, KeyListener keyListener, List<Entity> entities) {
+    public Bomber(int x, int y, Image img, KeyListener keyListener) {
         super(x, y, img);
-        this.entities = entities;
         this.keyListener = keyListener;
         bombQuantity = 1;
     }

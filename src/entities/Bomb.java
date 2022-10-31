@@ -16,8 +16,7 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import static core.Game.bomber;
-import static core.Game.table;
+import static core.Game.*;
 
 public class Bomb extends Entity {
     private int animate = 0;
@@ -75,8 +74,14 @@ public class Bomb extends Entity {
 
     private void setDied(int i, int j) {
         Entity cur = table[i][j];
-        if (cur instanceof Balloom) cur.setDied();
-        if (cur instanceof Oneal) cur.setDied();
+        if (cur instanceof Balloom || cur instanceof Oneal) {
+            for (Entity e : enemies) {
+                if (e.getTileX() == i && e.getTileY() == j) {
+                    e.setDied();
+                }
+            }
+        }
+//        if (cur instanceof Oneal) cur.setDied();
         if (cur instanceof FlameItem) cur.setDied();
         if (cur instanceof SpeedItem) cur.setDied();
         if (cur instanceof BombItem) cur.setDied();

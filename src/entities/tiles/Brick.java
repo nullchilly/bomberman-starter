@@ -6,15 +6,15 @@ import graphics.Sprite;
 import javafx.application.Platform;
 import javafx.scene.image.Image;
 
+import static core.Game.entities;
+
 import java.util.List;
 
 public class Brick extends Entity {
     private boolean exploded = false;
-    private final List<Entity> entities;
 
-    public Brick(int x, int y, Image img, List<Entity> entities) {
+    public Brick(int x, int y, Image img) {
         super(x, y, img);
-        this.entities = entities;
     }
 
     private int animate = 0;

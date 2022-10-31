@@ -8,7 +8,6 @@ import javafx.application.Platform;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
-import static core.Game.cnt_enemy;
 import static core.Game.enemies;
 
 public abstract class Entity {
@@ -84,7 +83,7 @@ public abstract class Entity {
         img = sprite.getFxImage;
         if (die_time == 20) {
             Platform.runLater(() -> {
-                cnt_enemy--;
+//                cnt_enemy--;
                 enemies.remove(this);
                 Game.table[(x + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE][(y + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE] = old_cur;
             });

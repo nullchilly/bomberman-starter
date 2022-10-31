@@ -33,8 +33,8 @@ public class Game extends Application {
     public static int WIDTH;
     public static int HEIGHT;
     public static Bomber bomber;
-    public static int level = 1;
-    public static int cnt_enemy = 0;
+    public static int level = 0;
+//    public static int cnt_enemy = 0;
     public static Entity[][] table;
     public static Entity[][] hiddenTable;
     public static STATE gameState = STATE.MENU;
@@ -91,7 +91,7 @@ public class Game extends Application {
             // Them scene vao stage
             stage.setScene(scene);
             stage.show();
-            cnt_enemy = 0;
+//            cnt_enemy = 0;
             scanner.nextLine();
             for (int i = 0; i < height; i++) {
                 String cur = scanner.nextLine();
@@ -116,11 +116,11 @@ public class Game extends Application {
                             break;
                         case '1':
                             enemy = new Balloom(j, i, Sprite.balloom_right1.getFxImage);
-                            cnt_enemy++;
+//                            cnt_enemy++;
                             break;
                         case '2':
                             enemy = new Oneal(j, i, Sprite.oneal_right1.getFxImage);
-                            cnt_enemy++;
+//                            cnt_enemy++;
                             break;
                         // Items:
                         case 'f':

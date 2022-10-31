@@ -98,7 +98,7 @@ public class Bomber extends Entity {
             ((BombItem) table[px][py]).pick();
         } else if (table[px][py] instanceof PortalItem) {
 //            if (((PortalItem) table[px][py]).isPickedup()) {
-            if (cnt_enemy == 0) gameState = Game.STATE.NEXT_LV;
+            if (enemies.isEmpty()) gameState = Game.STATE.NEXT_LV;
 //                table[px][py] = null;
 //            }
 //            ((PortalItem) table[px][py]).pick();

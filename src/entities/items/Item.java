@@ -1,5 +1,6 @@
 package entities.items;
 
+import core.Game;
 import core.Sound;
 import entities.character.Entity;
 import javafx.scene.image.Image;
@@ -14,6 +15,12 @@ public abstract class Item extends Entity {
     public void pick() {
         this.pickedup = true;
         (new Sound("collect_item.wav")).play();
+        for (Sound sound : Game.bgMusic) {
+            sound.stop();
+        }
+        Sound newBg = new Sound("powerup_get.wav");
+        newBg.play();
+        Game.bgMusic.add(newBg);
     }
 
     public boolean isPickedup() {

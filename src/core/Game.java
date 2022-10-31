@@ -38,7 +38,7 @@ public class Game extends Application {
     public List<Entity> flames = new ArrayList<>();
     public List<Entity> stillObjects = new ArrayList<>();
     //    public Entity bomberman;
-    public List<Sound> bgMusic = new ArrayList<>();
+    public static List<Sound> bgMusic = new ArrayList<>();
     public boolean isEnd = false;
     private GraphicsContext gc;
     private Canvas canvas;

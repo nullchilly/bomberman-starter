@@ -14,11 +14,15 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -204,16 +208,46 @@ public class Game extends Application {
         bgMusic.add(start);
         //Creating a Button
         Button button = new Button();
-        button.setText("Single player");
-        button.setTranslateX(Sprite.SCALED_SIZE * 15);
-        button.setTranslateY(Sprite.SCALED_SIZE * 10);
+//        button.setText("Single player");
+        button.setPrefSize(160, 60);
+        button.setTranslateX(Sprite.SCALED_SIZE * 30 / 2 - 80);
+        button.setTranslateY(Sprite.SCALED_SIZE * 15 / 2 + 30);
+        InputStream stream = null;
+        try {
+            stream = new FileInputStream("res/start.png");
+        } catch (Exception e) {
+            e.getMessage();
+        }
+        Image img = new Image(stream);
+        ImageView view = new ImageView();
+        view.setImage(img);
+//        view.setFitHeight(70);
+//        view.setPreserveRatio(true);
+        button.setGraphic(view);
         button.setOnAction(event -> {
             gameState = STATE.SINGLE;
             start(stage);
         });
-        //Setting the stage
-        Group root = new Group(button);
-        Scene scene = new Scene(root, Sprite.SCALED_SIZE * 30, Sprite.SCALED_SIZE * 20, Color.BLACK);
+
+        try {
+            stream = new FileInputStream("res/menu.jpeg");
+        } catch (Exception e) {
+            e.getMessage();
+        }
+        Image image = new Image(stream);
+        ImageView imageView = new ImageView();
+        imageView.setImage(image);
+        imageView.setX(0);
+        imageView.setY(0);
+        imageView.setFitHeight(Sprite.SCALED_SIZE * 15);
+        imageView.setFitWidth(Sprite.SCALED_SIZE * 30);
+//        imageView.setPreserveRatio(true);
+        //Setting the Scene object
+        Group root = new Group(imageView);
+//        Scene scene = new Scene(root, 595, 370);
+//        Group root = new Group(button);
+        root.getChildren().add(button);
+        Scene scene = new Scene(root, Sprite.SCALED_SIZE * 30, Sprite.SCALED_SIZE * 15, Color.BLACK);
         stage.setTitle("Bomberman NES");
         stage.setScene(scene);
         stage.show();

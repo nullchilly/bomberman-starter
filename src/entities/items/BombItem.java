@@ -15,7 +15,7 @@ public class BombItem extends Item {
     }
     @Override
     public void update() {
-        img = Sprite.powerup_bombs.getFxImage();
+        img = Sprite.powerup_bombs.getFxImage;
 
         if (pickedup || died) {
             Platform.runLater(() -> {

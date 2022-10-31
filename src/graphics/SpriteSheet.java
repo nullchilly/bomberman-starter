@@ -29,6 +29,7 @@ public class SpriteSheet {
 		try {
 			URL a = SpriteSheet.class.getResource(_path);
 			image = ImageIO.read(a);
+            System.out.println(image);
 			int w = image.getWidth();
 			int h = image.getHeight();
 			image.getRGB(0, 0, w, h, _pixels, 0, w);

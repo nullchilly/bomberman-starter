@@ -23,7 +23,7 @@ public class Bomber extends Entity {
     private final List<Entity> entities;
     public int STEP = Sprite.STEP;
     private boolean moving = false;
-    private int bombQuantity = 3;
+    private int bombQuantity = 1;
     private int bomb_size = 1;
     private boolean died = false;
     private int diedTick = 0;
@@ -43,7 +43,7 @@ public class Bomber extends Entity {
         animate++;
         if (animate > 100000) animate = 0;
         if (died) {
-            img = Sprite.movingSprite(Sprite.player_dead1, Sprite.player_dead2, Sprite.player_dead3, animate, 20).getFxImage();
+            img = Sprite.movingSprite(Sprite.player_dead1, Sprite.player_dead2, Sprite.player_dead3, animate, 20).getFxImage;
             return;
         }
         Sprite sprite;
@@ -73,7 +73,7 @@ public class Bomber extends Entity {
                 }
                 break;
         }
-        img = sprite.getFxImage();
+        img = sprite.getFxImage;
     }
     public void getItem() {
         int px = (x + (75*Sprite.SCALED_SIZE)/(2*100))/Sprite.SCALED_SIZE;
@@ -112,6 +112,9 @@ public class Bomber extends Entity {
         table[px][py] = null;
         if (keyListener.isPressed(KeyCode.D)) {
             direction = Direction.R;
+//            if (animate % 10 == 0) {
+//                (new Sound("walkh.mp3")).play();
+//            }
             if (checkWall(x + STEP + Sprite.SCALED_SIZE - 12, y + 3) && checkWall(x + STEP + Sprite.SCALED_SIZE - 12, y + Sprite.SCALED_SIZE - 3)) {
                 x += STEP;
                 moving = true;
@@ -119,6 +122,9 @@ public class Bomber extends Entity {
         }
         if (keyListener.isPressed(KeyCode.A)) {
             direction = Direction.L;
+//            if (animate % 20 == 0) {
+//                (new Sound("walkh.mp3")).play();
+//            }
             if (checkWall(x - STEP, y + 3) && checkWall(x - STEP, y + Sprite.SCALED_SIZE - 3)) {
                 x -= STEP;
                 moving = true;
@@ -145,7 +151,7 @@ public class Bomber extends Entity {
         if (keyListener.isPressed(KeyCode.SPACE) && Bomb.cnt < bombQuantity && !(table[getPlayerX()][getPlayerY()] instanceof Bomb)) {
 //            System.out.println(Bomb.cnt);
             Platform.runLater(() ->  {
-                Entity object = new Bomb(getPlayerX(), getPlayerY(), Sprite.bomb.getFxImage(), entities, bomb_size);
+                Entity object = new Bomb(getPlayerX(), getPlayerY(), Sprite.bomb.getFxImage, entities, bomb_size);
                 entities.add(object);
                 Sound bomb = new Sound("bomb.mp3");
                 bomb.play();

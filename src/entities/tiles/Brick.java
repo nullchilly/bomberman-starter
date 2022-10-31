@@ -19,7 +19,7 @@ public class Brick extends Entity {
 
     public void brickExploded() {
         Sprite sprite = Sprite.movingSprite(Sprite.brick_exploded, Sprite.brick_exploded1, Sprite.brick_exploded2, animate, 20);
-        img = sprite.getFxImage();
+        img = sprite.getFxImage;
         animate++;
         if (animate == 10) {
             Platform.runLater(() -> {

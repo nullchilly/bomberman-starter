@@ -75,7 +75,7 @@ public abstract class Entity {
     }
     public void dieEnemy(Sprite sprite) {
         die_time++;
-        img = sprite.getFxImage();
+        img = sprite.getFxImage;
         if (die_time == 20) {
             Platform.runLater(() -> {
                 cnt_enemy--;

@@ -44,7 +44,7 @@ public class Bomb extends Entity {
         } else {
             sprite = Sprite.movingSprite(Sprite.bomb, Sprite.bomb_1, Sprite.bomb_2, animate, 20);
         }
-        img = sprite.getFxImage();
+        img = sprite.getFxImage;
     }
 
     private boolean checkBreak(int i, int j) {
@@ -61,7 +61,7 @@ public class Bomb extends Entity {
 //            } else if (p < 20) {
 //                // flamepowerup
 //            } else if (p < 30) {
-//                droppedItem = new SpeedItem(i, j, Sprite.powerup_speed.getFxImage(), entities);
+//                droppedItem = new SpeedItem(i, j, Sprite.powerup_speed.getFxImage, entities);
 //                // speedpowereup
 //            } else {
 //                // grass
@@ -113,27 +113,27 @@ public class Bomb extends Entity {
                             int i = x / Sprite.SCALED_SIZE + c, j = y / Sprite.SCALED_SIZE;
                             if (checkBreak(i, j)) break;
                             if (c < size) {
-                                entities.add(new Flame(i, j, Sprite.explosion_horizontal.getFxImage(), Direction.OH, entities));
+                                entities.add(new Flame(i, j, Sprite.explosion_horizontal.getFxImage, Direction.OH, entities));
                             } else {
-                                entities.add(new Flame(i, j, Sprite.explosion_horizontal_right_last.getFxImage(), Direction.R, entities));
+                                entities.add(new Flame(i, j, Sprite.explosion_horizontal_right_last.getFxImage, Direction.R, entities));
                             }
                         }
                         for (int c = 1; c <= size; c++) {
                             int i = x / Sprite.SCALED_SIZE, j = y / Sprite.SCALED_SIZE - c;
                             if (checkBreak(i, j)) break;
                             if (c < size) {
-                                entities.add(new Flame(i, j, Sprite.explosion_vertical.getFxImage(), Direction.OV, entities));
+                                entities.add(new Flame(i, j, Sprite.explosion_vertical.getFxImage, Direction.OV, entities));
                             } else {
-                                entities.add(new Flame(i, j, Sprite.explosion_vertical_top_last.getFxImage(), Direction.U, entities));
+                                entities.add(new Flame(i, j, Sprite.explosion_vertical_top_last.getFxImage, Direction.U, entities));
                             }
                         }
                         for (int c = 1; c <= size; c++) {
                             int i = x / Sprite.SCALED_SIZE, j = y / Sprite.SCALED_SIZE + c;
                             if (checkBreak(i, j)) break;
                             if (c < size) {
-                                entities.add(new Flame(i, j, Sprite.explosion_vertical.getFxImage(), Direction.OV, entities));
+                                entities.add(new Flame(i, j, Sprite.explosion_vertical.getFxImage, Direction.OV, entities));
                             } else {
-                                entities.add(new Flame(i, j, Sprite.explosion_vertical_down_last.getFxImage(), Direction.D, entities));
+                                entities.add(new Flame(i, j, Sprite.explosion_vertical_down_last.getFxImage, Direction.D, entities));
                             }
                         }
                         Timer bombTimer = new Timer();

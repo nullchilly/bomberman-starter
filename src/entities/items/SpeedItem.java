@@ -17,7 +17,7 @@ public class SpeedItem extends Item {
 
     @Override
     public void update() {
-        img = Sprite.powerup_speed.getFxImage();
+        img = Sprite.powerup_speed.getFxImage;
 
         if (pickedup || died) {
             Platform.runLater(() -> {

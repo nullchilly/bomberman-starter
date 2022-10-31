@@ -187,7 +187,9 @@ public class Sprite {
 	public static Sprite powerup_detonator = new Sprite(DEFAULT_SIZE, 4, 10, SpriteSheet.tiles, 16, 16);
 	public static Sprite powerup_bombpass = new Sprite(DEFAULT_SIZE, 5, 10, SpriteSheet.tiles, 16, 16);
 	public static Sprite powerup_flamepass = new Sprite(DEFAULT_SIZE, 6, 10, SpriteSheet.tiles, 16, 16);
-	
+
+    public Image getFxImage;
+
 	public Sprite(int size, int x, int y, SpriteSheet sheet, int rw, int rh) {
 		SIZE = size;
 		_pixels = new int[SIZE * SIZE];
@@ -197,6 +199,20 @@ public class Sprite {
 		_realWidth = rw;
 		_realHeight = rh;
 		load();
+        WritableImage wr = new WritableImage(SIZE, SIZE);
+        PixelWriter pw = wr.getPixelWriter();
+        for (int i = 0; i < SIZE; i++) {
+            for (int j = 0; j < SIZE; j++) {
+                if ( _pixels[i + j * SIZE] == TRANSPARENT_COLOR) {
+                    pw.setArgb(i, j, 0);
+                }
+                else {
+                    pw.setArgb(i, j, _pixels[i + j * SIZE]);
+                }
+            }
+        }
+        Image input = new ImageView(wr).getImage();
+        getFxImage = resample(input);
 	}
 	
 	public Sprite(int size, int color) {
@@ -247,31 +263,13 @@ public class Sprite {
 		return _pixels[i];
 	}
 
-	public Image getFxImage() {
-        WritableImage wr = new WritableImage(SIZE, SIZE);
-        PixelWriter pw = wr.getPixelWriter();
-        for (int x = 0; x < SIZE; x++) {
-            for (int y = 0; y < SIZE; y++) {
-                if ( _pixels[x + y * SIZE] == TRANSPARENT_COLOR) {
-                    pw.setArgb(x, y, 0);
-                }
-                else {
-                    pw.setArgb(x, y, _pixels[x + y * SIZE]);
-                }
-            }
-        }
-        Image input = new ImageView(wr).getImage();
-        return resample(input, SCALED_SIZE / DEFAULT_SIZE);
-    }
-
-	private Image resample(Image input, int scaleFactor) {
+	private Image resample(Image input) {
 		final int W = (int) input.getWidth();
 		final int H = (int) input.getHeight();
-		final int S = scaleFactor;
 
-		WritableImage output = new WritableImage(
-				W * S,
-				H * S
+        WritableImage output = new WritableImage(
+				W * 2,
+				H * 2
 		);
 
 		PixelReader reader = input.getPixelReader();
@@ -280,9 +278,9 @@ public class Sprite {
 		for (int y = 0; y < H; y++) {
 			for (int x = 0; x < W; x++) {
 				final int argb = reader.getArgb(x, y);
-				for (int dy = 0; dy < S; dy++) {
-					for (int dx = 0; dx < S; dx++) {
-						writer.setArgb(x * S + dx, y * S + dy, argb);
+				for (int dy = 0; dy < 2; dy++) {
+					for (int dx = 0; dx < 2; dx++) {
+						writer.setArgb(x * 2 + dx, y * 2 + dy, argb);
 					}
 				}
 			}

@@ -41,7 +41,7 @@ public class Flame extends Entity {
                 sprite = Sprite.movingSprite(Sprite.explosion_vertical, Sprite.explosion_vertical1, Sprite.explosion_vertical2, animate, 20);
                 break;
         }
-        img = sprite.getFxImage();
+        img = sprite.getFxImage;
     }
 
     @Override

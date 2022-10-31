@@ -41,6 +41,7 @@ public class Game extends Application {
     public List<Entity> flames = new ArrayList<>();
     public List<Entity> stillObjects = new ArrayList<>();
     public static Entity[][] table;
+    public static Entity[][] hiddenTable;
 //    public Entity bomberman;
     public List<Sound> bgMusic = new ArrayList<>();
     public enum STATE {
@@ -93,43 +94,42 @@ public class Game extends Application {
             for (int i = 0; i < height; i++) {
                 String cur = scanner.nextLine();
                 for (int j = 0; j < width; j++) {
-//                    System.out.println(i + " " + j);
                     Entity stillObject = null;
                     Entity object = null;
-                    stillObjects.add(new Grass(j, i, Sprite.grass.getFxImage()));
+                    stillObjects.add(new Grass(j, i, Sprite.grass.getFxImage));
                     switch (cur.charAt(j)) {
                         // Tiles:
                         case '#':
-                            stillObject = new Wall(j, i, Sprite.wall.getFxImage());
+                            stillObject = new Wall(j, i, Sprite.wall.getFxImage);
                             break;
                         case '*':
-                            object = new Brick(j, i, Sprite.brick.getFxImage(), entities);
+                            object = new Brick(j, i, Sprite.brick.getFxImage, entities);
                             break;
                         case 'x':
-                            object = new PortalItem(j, i, Sprite.portal.getFxImage(), entities);
+                            object = new PortalItem(j, i, Sprite.portal.getFxImage, entities);
                             break;
                         // Character:
                         case 'p':
-                            object = new Bomber(j, i, Sprite.player_right.getFxImage(), keyListener, entities);
+                            object = new Bomber(j, i, Sprite.player_right.getFxImage, keyListener, entities);
                             bomber = (Bomber) object;
                             break;
                         case '1':
-                            object = new Balloom(j, i, Sprite.balloom_right1.getFxImage(), entities);
+                            object = new Balloom(j, i, Sprite.balloom_right1.getFxImage, entities);
                             cnt_enemy++;
                             break;
                         case '2':
-                            object = new Oneal(j, i, Sprite.oneal_right1.getFxImage(), entities);
+                            object = new Oneal(j, i, Sprite.oneal_right1.getFxImage, entities);
                             cnt_enemy++;
                             break;
                         // Items:
                         case 'f':
-                            object = new FlameItem(j, i, Sprite.powerup_flames.getFxImage(), entities);
+                            object = new FlameItem(j, i, Sprite.powerup_flames.getFxImage, entities);
                             break;
                         case 's':
-                            object = new SpeedItem(j, i, Sprite.powerup_speed.getFxImage(), entities);
+                            object = new SpeedItem(j, i, Sprite.powerup_speed.getFxImage, entities);
                             break;
                         case 'b':
-                            object = new BombItem(j, i, Sprite.powerup_bombs.getFxImage(), entities);
+                            object = new BombItem(j, i, Sprite.powerup_bombs.getFxImage, entities);
                             break;
                     }
                     if (stillObject != null) {
@@ -152,30 +152,30 @@ public class Game extends Application {
     }
 
     public void single(Stage stage) {
-            setup(stage, level);
-            AnimationTimer timer = new AnimationTimer() {
-                private long lastUpdate = 0;
+        setup(stage, level);
+        AnimationTimer timer = new AnimationTimer() {
+            private long lastUpdate = 0;
 
-                @Override
-                public void handle(long now) {
-                    update();
-                    render(stage);
-                    long frameTime = (now - lastUpdate) / 1000000;
-                    if (frameTime < FPS_GAME) {
-                        try {
-                            Thread.sleep(FPS_GAME - frameTime);
-                        } catch (InterruptedException e) {
-                            throw new RuntimeException(e);
-                        }
+            @Override
+            public void handle(long now) {
+                update();
+                render(stage);
+                long frameTime = (now - lastUpdate) / 1000000;
+                if (frameTime < FPS_GAME) {
+                    try {
+                        Thread.sleep(FPS_GAME - frameTime);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
                     }
+                }
 //                    else {
 //                        System.out.println(1000/frameTime);
 //                    }
-                    lastUpdate = System.nanoTime();
-                }
-            };
+                lastUpdate = System.nanoTime();
+            }
+        };
 
-            timer.start();
+        timer.start();
     }
 
     public void menu(Stage stage) {
@@ -257,14 +257,14 @@ public class Game extends Application {
 
     public void render(Stage stage) {
         switch (gameState) {
-            case MENU:
-                break;
-
             case SINGLE:
                 gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
                 stillObjects.forEach(g -> g.render(gc));
                 entities.forEach(g -> g.render(gc));
                 bomber.render(gc);
+                break;
+
+            case MENU:
                 break;
 
             case MULTIPLAYER:

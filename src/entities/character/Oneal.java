@@ -83,7 +83,7 @@ Oneal extends Entity {
                     }
                     break;
             }
-            img = sprite.getFxImage();
+            img = sprite.getFxImage;
             px = (x + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE;
             py = (y + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE;
             Game.table[px][py] = this;

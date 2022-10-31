@@ -72,7 +72,7 @@ public class Oneal extends Enemy {
                     moving = true;
                 }
                 if (moving) {
-                    sprite = Sprite.movingSprite(Sprite.oneal_left1, Sprite.oneal_left2, Sprite.oneal_left2, animate, 20);
+                    sprite = Sprite.movingSprite(Sprite.oneal_left1, Sprite.oneal_left2, Sprite.oneal_left3, animate, 20);
                 }
                 break;
             case R:

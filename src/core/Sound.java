@@ -1,27 +1,40 @@
 package core;
 
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
-import javafx.util.Duration;
-
+import javax.sound.sampled.*;
+import javax.swing.*;
 import java.io.File;
+import java.io.IOException;
 
-public class Sound {
-    private final MediaPlayer mediaPlayer;
+public class Sound extends JFrame {
 
-    public Sound(String s) {
-        String musicFile = "res/sound/" + s;     // For example
+    private Clip clip;
+    String soundFile;
 
-        Media sound = new Media(new File(musicFile).toURI().toString());
-        mediaPlayer = new MediaPlayer(sound);
-        mediaPlayer.setOnEndOfMedia(() -> mediaPlayer.seek(Duration.ZERO));
+    public Sound(String soundFile) {
+        this.soundFile = soundFile;
+        try {
+            File f = new File("res/sound/" + soundFile);
+            AudioInputStream audioIn = AudioSystem.getAudioInputStream(f.toURI().toURL());
+            clip = AudioSystem.getClip();
+            clip.open(audioIn);
+            // Lower audio
+            FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+            gainControl.setValue(-20.0f);
+        } catch (UnsupportedAudioFileException | LineUnavailableException | IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void play() {
-        mediaPlayer.play();
+        clip.setFramePosition(0);
+        clip.start();
+    }
+
+    public void loop() {
+        clip.loop(Clip.LOOP_CONTINUOUSLY);
     }
 
     public void stop() {
-        mediaPlayer.stop();
+        clip.stop();
     }
 }

@@ -13,7 +13,7 @@ public abstract class Item extends Entity {
 
     public void pick() {
         this.pickedup = true;
-        (new Sound("collect_item.mp3")).play();
+        (new Sound("collect_item.wav")).play();
     }
 
     public boolean isPickedup() {

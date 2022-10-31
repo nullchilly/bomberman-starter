@@ -35,6 +35,7 @@ public class Bomber extends Entity {
 
     public void setDied() {
         this.died = true;
+        (new Sound("died.wav")).play();
     }
 
     private void chooseSprite() {
@@ -117,9 +118,6 @@ public class Bomber extends Entity {
         if (!wallPass) {
             if (keyListener.isPressed(KeyCode.D)) {
                 direction = Direction.R;
-                //            if (animate % 10 == 0) {
-                //                (new Sound("walkh.mp3")).play();
-                //            }
                 if (checkWall(x + STEP + Sprite.SCALED_SIZE - 12, y + 3) && checkWall(x + STEP + Sprite.SCALED_SIZE - 12, y + Sprite.SCALED_SIZE - 3)) {
                     x += STEP;
                     moving = true;
@@ -127,9 +125,6 @@ public class Bomber extends Entity {
             }
             if (keyListener.isPressed(KeyCode.A)) {
                 direction = Direction.L;
-                //            if (animate % 20 == 0) {
-                //                (new Sound("walkh.mp3")).play();
-                //            }
                 if (checkWall(x - STEP, y + 3) && checkWall(x - STEP, y + Sprite.SCALED_SIZE - 3)) {
                     x -= STEP;
                     moving = true;
@@ -148,6 +143,9 @@ public class Bomber extends Entity {
                     y += STEP;
                     moving = true;
                 }
+            }
+            if (moving && animate % 15 == 0) {
+                (new Sound("move.wav")).play();
             }
         } else {
             if (keyListener.isPressed(KeyCode.D)) {
@@ -194,9 +192,9 @@ public class Bomber extends Entity {
             Platform.runLater(() -> {
                 Entity object = new Bomb(getPlayerX(), getPlayerY(), Sprite.bomb.getFxImage, entities, bomb_size);
                 entities.add(object);
-                Sound bomb = new Sound("bomb.mp3");
-                bomb.play();
             });
+            Sound bomb = new Sound("place_bomb.wav");
+            bomb.play();
         }
     }
 
@@ -205,7 +203,7 @@ public class Bomber extends Entity {
         if (hurt) {
             hurtTick++;
             if (hurtTick == 0 && life == 0) {
-                (new Sound("lose_game.mp3")).play();
+                (new Sound("lose_game.wav")).play();
             }
             if (hurtTick == 30) {
                 if (life == 0) {

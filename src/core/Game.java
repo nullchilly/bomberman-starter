@@ -56,7 +56,7 @@ public class Game extends Application {
         flames = new ArrayList<>();
         stillObjects = new ArrayList<>();
         bgMusic = new ArrayList<>();
-        Sound main = new Sound("main.mp3");
+        Sound main = new Sound("main_bgm.wav");
         main.play();
         bgMusic.add(main);
 //        int level = 1;
@@ -199,8 +199,8 @@ public class Game extends Application {
         for (Sound sound : bgMusic) {
             sound.stop();
         }
-        Sound start = new Sound("title.mp3");
-        start.play();
+        Sound start = new Sound("title_screen.wav");
+        start.loop();
         bgMusic.add(start);
         //Creating a Button
         Button button = new Button();

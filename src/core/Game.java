@@ -223,7 +223,7 @@ public class Game extends Application {
         for (Sound sound : bgMusic) {
             sound.stop();
         }
-        Sound died = new Sound("ending.mp3");
+        Sound died = new Sound("ending.wav");
         died.play();
         bgMusic.add(died);
         Button button = new Button();

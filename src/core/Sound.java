@@ -17,9 +17,6 @@ public class Sound extends JFrame {
             AudioInputStream audioIn = AudioSystem.getAudioInputStream(f.toURI().toURL());
             clip = AudioSystem.getClip();
             clip.open(audioIn);
-            // Lower audio
-            FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-            gainControl.setValue(-20.0f);
         } catch (UnsupportedAudioFileException | LineUnavailableException | IOException e) {
             e.printStackTrace();
         }

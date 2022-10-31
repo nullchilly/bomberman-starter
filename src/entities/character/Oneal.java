@@ -90,7 +90,7 @@ Oneal extends Entity {
                 }
                 break;
         }
-        img = sprite.getFxImage();
+        img = sprite.getFxImage;
         int new_px = (x + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE;
         int new_py = (y + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE;
         if (new_px != px || new_py != py) {

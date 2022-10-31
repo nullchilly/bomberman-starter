@@ -24,6 +24,7 @@ public class Bomber extends Entity {
     private boolean flamePass = false;
     private int bomb_size = 1;
     private boolean died = false;
+    public int protection_time = 0;
     private int hurtTick = 0;
     private final KeyListener keyListener;
 
@@ -178,12 +179,13 @@ public class Bomber extends Entity {
                 }
                 hurt = false;
                 hurtTick = 0;
+                protection_time = 60*3;
 //                Platform.exit();
             }
             chooseSprite();
             return;
         }
-
+        protection_time = Math.max(0, protection_time - 1);
         moving = false;
         getItem();
         bomberMoving();

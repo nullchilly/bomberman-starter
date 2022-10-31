@@ -94,7 +94,7 @@ public class Doll extends Entity {
         }
         int px = (x + Sprite.SCALED_SIZE / 2) / Sprite.SCALED_SIZE;
         int py = (y + Sprite.SCALED_SIZE / 2) / Sprite.SCALED_SIZE;
-        if (bomber.getPlayerX() == px && bomber.getPlayerY() == py) {
+        if (bomber.getPlayerX() == px && bomber.getPlayerY() == py && bomber.protection_time == 0) {
             bomber.setHurt();
         }
         animate++;

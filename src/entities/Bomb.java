@@ -4,6 +4,7 @@ import entities.character.Balloom;
 import entities.character.Oneal;
 import entities.items.BombItem;
 import entities.items.FlameItem;
+import entities.items.PortalItem;
 import entities.items.SpeedItem;
 import entities.tiles.Brick;
 import entities.tiles.Wall;
@@ -21,7 +22,7 @@ public class Bomb extends Entity {
     public static int cnt = 0;
     private int size = 1;
     private boolean exploded = false;
-
+    private Entity portalPos = null;
     private final List<Entity> entities;
 
     public Bomb(int x, int y, Image img, List<Entity> entities, int size) {
@@ -29,6 +30,9 @@ public class Bomb extends Entity {
         this.size = size;
         this.entities = entities;
         cnt++;
+        if (table[x][y] instanceof PortalItem) {
+            portalPos = table[x][y];
+        }
         table[x][y] = this;
     }
 
@@ -94,6 +98,9 @@ public class Bomb extends Entity {
         animate++;
         int px = x / Sprite.SCALED_SIZE;
         int py = y / Sprite.SCALED_SIZE;
+        if (table[px][py] instanceof PortalItem) {
+            portalPos = table[px][py];
+        }
         table[px][py] = this;
 
         if (animate == 70) {
@@ -165,9 +172,10 @@ public class Bomb extends Entity {
                     });
         }
         if (animate == 80) {
+            Entity finalCur = portalPos;
             Platform.runLater(
                     () -> {
-                        table[px][py] = null;
+                        table[px][py] = portalPos;
                         entities.remove(this);
                         cnt--;
                     });

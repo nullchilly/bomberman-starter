@@ -16,6 +16,12 @@ public class PortalItem extends Item {
 
     @Override
     public void update() {
-        img = Sprite.portal.getFxImage;
+        img = Sprite.portal.getFxImage();
+//        if (pickedup || died) {
+//            Platform.runLater(() -> {
+//                table[x/Sprite.SCALED_SIZE][y/Sprite.SCALED_SIZE] = null;
+//                entities.remove(this);
+//            });
+//        }
     }
 }

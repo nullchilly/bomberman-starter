@@ -2,6 +2,8 @@ package entities.character;
 
 import core.Game;
 import entities.Entity;
+import entities.items.Item;
+import entities.items.PortalItem;
 import javafx.application.Platform;
 import javafx.scene.image.Image;
 import javafx.util.Pair;
@@ -10,6 +12,7 @@ import graphics.Sprite;
 import java.util.*;
 
 import static core.Game.bomber;
+import static core.Game.table;
 
 public class
 Oneal extends Entity {
@@ -18,6 +21,7 @@ Oneal extends Entity {
     private int px;
     private int py;
     private boolean canReach = false;
+    private Entity old_cur = null;
     private boolean[][] check = new boolean[Game.WIDTH][Game.HEIGHT];
     private static final int STEP = Math.max(1, Sprite.STEP / 2);
 
@@ -40,54 +44,64 @@ Oneal extends Entity {
         }
     }
     private void onealMoving() {
-        Platform.runLater(() -> {
-            int px = (x + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE, py = (y + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE;
-            Game.table[px][py] = null;
-            sprite = Sprite.oneal_right1;
-            switch (direction) {
-                case U:
-                    if (checkWall(x, y - STEP) && checkWall(x + Sprite.SCALED_SIZE - 1, y - STEP)) {
-                        y -= STEP;
-                        moving = true;
-                    }
-                    if (moving) {
-                        sprite = Sprite.movingSprite(Sprite.oneal_right1, Sprite.oneal_right2, Sprite.oneal_right3, animate, 20);
-                    }
-                    break;
-                case D:
-                    if (checkWall(x, y + STEP + Sprite.SCALED_SIZE - 1) && checkWall(x + Sprite.SCALED_SIZE - 1, y + STEP + Sprite.SCALED_SIZE - 1)) {
-                        y += STEP;
-                        moving = true;
-                    }
-                    if (moving) {
-                        sprite = Sprite.movingSprite(Sprite.oneal_right1, Sprite.oneal_right2, Sprite.oneal_right3, animate, 20);
-                    }
-                    break;
-                case L:
-                    sprite = Sprite.oneal_left1;
-                    if (checkWall(x - STEP, y) && checkWall(x - STEP, y + Sprite.SCALED_SIZE - 1)) {
-                        x -= STEP;
-                        moving = true;
-                    }
-                    if (moving) {
-                        sprite = Sprite.movingSprite(Sprite.oneal_left1, Sprite.oneal_left2, Sprite.oneal_left2, animate, 20);
-                    }
-                    break;
-                case R:
-                    if (checkWall(x + STEP + Sprite.SCALED_SIZE - 1, y) && checkWall(x + STEP + Sprite.SCALED_SIZE - 1, y + Sprite.SCALED_SIZE - 1)) {
-                        x += STEP;
-                        moving = true;
-                    }
-                    if (moving) {
-                        sprite = Sprite.movingSprite(Sprite.oneal_right1, Sprite.oneal_right2, Sprite.oneal_right3, animate, 20);
-                    }
-                    break;
-            }
-            img = sprite.getFxImage;
-            px = (x + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE;
-            py = (y + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE;
-            Game.table[px][py] = this;
-        });
+        int px = (x + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE, py = (y + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE;
+        if (table[px][py] instanceof PortalItem) {
+            old_cur = table[px][py];
+            System.out.println("Whoops");
+        }
+        table[px][py] = null;
+        sprite = Sprite.oneal_right1;
+        switch (direction) {
+            case U:
+                if (checkWall(x, y - STEP) && checkWall(x + Sprite.SCALED_SIZE - 1, y - STEP)) {
+                    y -= STEP;
+                    moving = true;
+                }
+                if (moving) {
+                    sprite = Sprite.movingSprite(Sprite.oneal_right1, Sprite.oneal_right2, Sprite.oneal_right3, animate, 20);
+                }
+                break;
+            case D:
+                if (checkWall(x, y + STEP + Sprite.SCALED_SIZE - 1) && checkWall(x + Sprite.SCALED_SIZE - 1, y + STEP + Sprite.SCALED_SIZE - 1)) {
+                    y += STEP;
+                    moving = true;
+                }
+                if (moving) {
+                    sprite = Sprite.movingSprite(Sprite.oneal_right1, Sprite.oneal_right2, Sprite.oneal_right3, animate, 20);
+                }
+                break;
+            case L:
+                sprite = Sprite.oneal_left1;
+                if (checkWall(x - STEP, y) && checkWall(x - STEP, y + Sprite.SCALED_SIZE - 1)) {
+                    x -= STEP;
+                    moving = true;
+                }
+                if (moving) {
+                    sprite = Sprite.movingSprite(Sprite.oneal_left1, Sprite.oneal_left2, Sprite.oneal_left2, animate, 20);
+                }
+                break;
+            case R:
+                if (checkWall(x + STEP + Sprite.SCALED_SIZE - 1, y) && checkWall(x + STEP + Sprite.SCALED_SIZE - 1, y + Sprite.SCALED_SIZE - 1)) {
+                    x += STEP;
+                    moving = true;
+                }
+                if (moving) {
+                    sprite = Sprite.movingSprite(Sprite.oneal_right1, Sprite.oneal_right2, Sprite.oneal_right3, animate, 20);
+                }
+                break;
+        }
+        img = sprite.getFxImage();
+        int new_px = (x + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE;
+        int new_py = (y + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE;
+        if (new_px != px || new_py != py) {
+            Game.table[px][py] = old_cur;
+            old_cur = null;
+        }
+        if (table[new_px][new_py] instanceof Item) {
+            old_cur = table[new_px][new_py];
+            System.out.println("Whoops");
+        }
+        Game.table[new_px][new_py] = this;
     }
 
     public Direction bfs(int i, int j) {

@@ -18,10 +18,10 @@ public class Balloom extends Enemy {
 
     private void balloomMoving() {
         int px = (x + Sprite.SCALED_SIZE / 2) / Sprite.SCALED_SIZE, py = (y + Sprite.SCALED_SIZE / 2) / Sprite.SCALED_SIZE;
-        if (table[px][py] instanceof Item) {
-            old_cur = table[px][py];
-            System.out.println("Whoops");
-        }
+//        if (table[px][py] instanceof Item) {
+//            old_cur = table[px][py];
+//            System.out.println("Whoops");
+//        }
         Game.table[px][py] = null;
         sprite = Sprite.balloom_right1;
         switch (direction) {
@@ -67,14 +67,14 @@ public class Balloom extends Enemy {
         img = sprite.getFxImage;
         int new_px = (x + Sprite.SCALED_SIZE / 2) / Sprite.SCALED_SIZE;
         int new_py = (y + Sprite.SCALED_SIZE / 2) / Sprite.SCALED_SIZE;
-        if (new_px != px || new_py != py) {
-            Game.table[px][py] = old_cur;
-            old_cur = null;
-        }
-        if (table[new_px][new_py] instanceof Item) {
-            old_cur = table[new_px][new_py];
-            System.out.println("Whoops");
-        }
+//        if (new_px != px || new_py != py) {
+//            Game.table[px][py] = old_cur;
+//            old_cur = null;
+//        }
+//        if (table[new_px][new_py] instanceof Item) {
+//            old_cur = table[new_px][new_py];
+//            System.out.println("Whoops");
+//        }
         Game.table[new_px][new_py] = this;
     }
 

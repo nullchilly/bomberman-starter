@@ -16,7 +16,7 @@ public class WallPassItem extends Item {
     @Override
     public void update() {
         img = Sprite.powerup_wallpass.getFxImage;
-
+        table[x / Sprite.SCALED_SIZE][y / Sprite.SCALED_SIZE] = this;
         if (pickedup || died) {
             Platform.runLater(() -> {
                 table[x / Sprite.SCALED_SIZE][y / Sprite.SCALED_SIZE] = null;

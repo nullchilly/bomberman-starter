@@ -162,7 +162,7 @@ Oneal extends Entity {
     public void update() {
         px = (x + Sprite.SCALED_SIZE / 2) / Sprite.SCALED_SIZE;
         py = (y + Sprite.SCALED_SIZE / 2) / Sprite.SCALED_SIZE;
-        if (bomber.getPlayerX() == px && bomber.getPlayerY() == py && bomber.protection_time == 0) {
+        if (bomber.getPlayerX() == px && bomber.getPlayerY() == py && bomber.isProtectded()) {
             bomber.setHurt();
         }
         if (hurt) {

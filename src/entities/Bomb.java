@@ -2,6 +2,7 @@ package entities;
 
 import entities.character.Balloom;
 import entities.character.Doll;
+import entities.character.Kondoria;
 import entities.character.Oneal;
 import entities.items.BombItem;
 import entities.items.FlameItem;
@@ -75,7 +76,7 @@ public class Bomb extends Entity {
 
     private void setDied(int i, int j) {
         Entity cur = table[i][j];
-        if (cur instanceof Balloom || cur instanceof Oneal || cur instanceof Doll) {
+        if (cur instanceof Balloom || cur instanceof Oneal || cur instanceof Doll || cur instanceof Kondoria) {
             for (Entity e : enemies) {
                 if (e.getTileX() == i && e.getTileY() == j) {
                     e.setHurt();

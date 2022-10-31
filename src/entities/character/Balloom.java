@@ -94,7 +94,7 @@ public class Balloom extends Entity {
         }
         int px = (x + Sprite.SCALED_SIZE / 2) / Sprite.SCALED_SIZE;
         int py = (y + Sprite.SCALED_SIZE / 2) / Sprite.SCALED_SIZE;
-        if (bomber.getPlayerX() == px && bomber.getPlayerY() == py && bomber.protection_time == 0) {
+        if (bomber.getPlayerX() == px && bomber.getPlayerY() == py && bomber.isProtectded()) {
             bomber.setHurt();
         }
         animate++;

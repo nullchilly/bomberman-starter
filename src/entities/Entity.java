@@ -62,6 +62,17 @@ public abstract class Entity {
         return !(cur instanceof Wall) &&  !(cur instanceof Brick) && !(cur instanceof Bomb);
     }
 
+    public static boolean checkBrick(int x, int y) {
+        if (x < 0 || y < 0 || x > Sprite.SCALED_SIZE * Game.WIDTH || y > Sprite.SCALED_SIZE * Game.HEIGHT) {
+            return false;
+        }
+
+        x /= Sprite.SCALED_SIZE;
+        y /= Sprite.SCALED_SIZE;
+        Entity cur = getEntity(x, y);
+        return !(cur instanceof Wall) && !(cur instanceof Bomb);
+    }
+
     public int getX() {
         return x;
     }

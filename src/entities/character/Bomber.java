@@ -179,7 +179,7 @@ public class Bomber extends Entity {
                 }
                 hurt = false;
                 hurtTick = 0;
-                protection_time = 60*3;
+                protection_time = 60*2;
 //                Platform.exit();
             }
             chooseSprite();
@@ -203,5 +203,9 @@ public class Bomber extends Entity {
 
     public boolean isFlamePass() {
         return flamePass;
+    }
+
+    public boolean isProtectded() {
+        return protection_time > 0;
     }
 }

@@ -163,7 +163,7 @@ Oneal extends Entity {
         px = (x + Sprite.SCALED_SIZE / 2) / Sprite.SCALED_SIZE;
         py = (y + Sprite.SCALED_SIZE / 2) / Sprite.SCALED_SIZE;
         if (bomber.getPlayerX() == px && bomber.getPlayerY() == py) {
-            bomber.setDied();
+            bomber.setHurt();
         }
         if (hurt) {
             gotHurt(Sprite.oneal_dead);

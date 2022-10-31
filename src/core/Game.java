@@ -33,7 +33,7 @@ public class Game extends Application {
     public static int WIDTH;
     public static int HEIGHT;
     public static Bomber bomber;
-    public static int level = 0;
+    public static int level = 1;
     public static int cnt_enemy = 0;
     private GraphicsContext gc;
     private Canvas canvas;
@@ -74,6 +74,7 @@ public class Game extends Application {
             WIDTH = width;
 //            System.out.println(WIDTH + " " + HEIGHT);
             table = new Entity[WIDTH][HEIGHT];
+            hiddenTable = new Entity[WIDTH][HEIGHT];
             // Tao Canvas
             canvas = new Canvas(Sprite.SCALED_SIZE * WIDTH, Sprite.SCALED_SIZE * HEIGHT);
             gc = canvas.getGraphicsContext2D();
@@ -96,6 +97,7 @@ public class Game extends Application {
                 for (int j = 0; j < width; j++) {
                     Entity stillObject = null;
                     Entity object = null;
+                    Entity hiddenObject = null;
                     stillObjects.add(new Grass(j, i, Sprite.grass.getFxImage));
                     switch (cur.charAt(j)) {
                         // Tiles:
@@ -123,13 +125,13 @@ public class Game extends Application {
                             break;
                         // Items:
                         case 'f':
-                            object = new FlameItem(j, i, Sprite.powerup_flames.getFxImage, entities);
+                            hiddenObject = new FlameItem(j, i, Sprite.powerup_flames.getFxImage, entities);
                             break;
                         case 's':
-                            object = new SpeedItem(j, i, Sprite.powerup_speed.getFxImage, entities);
+                            hiddenObject = new SpeedItem(j, i, Sprite.powerup_speed.getFxImage, entities);
                             break;
                         case 'b':
-                            object = new BombItem(j, i, Sprite.powerup_bombs.getFxImage, entities);
+                            hiddenObject = new BombItem(j, i, Sprite.powerup_bombs.getFxImage, entities);
                             break;
                     }
                     if (stillObject != null) {
@@ -138,6 +140,11 @@ public class Game extends Application {
                     } else if (object != null) {
                         entities.add(object);
                         table[j][i] = object;
+                    } else if (hiddenObject != null) {
+                        object = new Brick(j, i, Sprite.brick.getFxImage, entities);
+                        entities.add(object);
+                        table[j][i] = object;
+                        hiddenTable[j][i] = hiddenObject;
                     }
                 }
             }
@@ -161,15 +168,15 @@ public class Game extends Application {
                 update();
                 render(stage);
                 long frameTime = (now - lastUpdate) / 1000000;
-//                if (frameTime < FPS_GAME) {
-//                    try {
-//                        Thread.sleep(FPS_GAME - frameTime);
-//                    } catch (InterruptedException e) {
-//                        throw new RuntimeException(e);
-//                    }
-//                }
+                if (frameTime < FPS_GAME) {
+                    try {
+                        Thread.sleep(FPS_GAME - frameTime);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
 //                    else {
-                        System.out.println(frameTime !=0 ? 1000/frameTime : 0);
+//                        System.out.println(frameTime == 0 ? "" : 1000/frameTime);
 //                    }
                 lastUpdate = System.nanoTime();
             }

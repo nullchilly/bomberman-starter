@@ -58,18 +58,6 @@ public class Bomb extends Entity {
         }
         if (cur instanceof Brick) {
             ((Brick) cur).setExploded();
-//            Random random = new Random();
-//            int p = random.nextInt(100);
-//            if (p < 10) {
-//                // bombpowerup
-//            } else if (p < 20) {
-//                // flamepowerup
-//            } else if (p < 30) {
-//                droppedItem = new SpeedItem(i, j, Sprite.powerup_speed.getFxImage, entities);
-//                // speedpowereup
-//            } else {
-//                // grass
-//            }
             return true;
         }
         return false;

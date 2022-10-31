@@ -146,9 +146,6 @@ public class Bomber extends Entity {
             }
         }
         table[px][py] = cur;
-        if (table[px][py] instanceof PortalItem) {
-            System.out.println("YES");
-        }
     }
 
     public void placeBomb() {

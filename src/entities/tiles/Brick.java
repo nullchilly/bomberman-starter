@@ -24,7 +24,14 @@ public class Brick extends Entity {
         if (animate == 10) {
             Platform.runLater(() -> {
                 entities.remove(this);
-                Game.table[x / Sprite.SCALED_SIZE][y / Sprite.SCALED_SIZE] = null;
+                x /= Sprite.SCALED_SIZE;
+                y /= Sprite.SCALED_SIZE;
+                Game.table[x][y] = null;
+                Entity hiddenItem = Game.hiddenTable[x][y];
+                if (hiddenItem != null) {
+                    Game.table[x][y] = hiddenItem;
+                    entities.add(hiddenItem);
+                }
             });
         }
     }

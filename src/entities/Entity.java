@@ -1,6 +1,7 @@
 package entities;
 
 import core.Game;
+import entities.character.Kondoria;
 import entities.tiles.Brick;
 import entities.tiles.Wall;
 import graphics.Sprite;
@@ -59,7 +60,7 @@ public abstract class Entity {
         x /= Sprite.SCALED_SIZE;
         y /= Sprite.SCALED_SIZE;
         Entity cur = getEntity(x, y);
-        return !(cur instanceof Wall) &&  !(cur instanceof Brick) && !(cur instanceof Bomb);
+        return !(cur instanceof Wall) &&  !(cur instanceof Brick) && !(cur instanceof Bomb) && !(cur instanceof Kondoria);
     }
 
     public static boolean checkBrick(int x, int y) {

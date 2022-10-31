@@ -141,6 +141,9 @@ public class Game extends Application {
                         case 'm':
                             hiddenObject = new FlamePassItem(j, i, Sprite.powerup_flamepass.getFxImage);
                             break;
+                        case 'w':
+                            hiddenObject = new WallPassItem(j, i, Sprite.powerup_wallpass.getFxImage);
+                            break;
                     }
                     if (stillObject != null) {
                         stillObjects.add(stillObject);

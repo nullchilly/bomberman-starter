@@ -1,6 +1,6 @@
 1 13 31
 ###############################
-#p     ** *  1 * 2 *  * * *   #
+#p  w  ** *  1 * 2 *  * * *   #
 # # # #*# # #*#*# # # #*#*#*# #
 #  x* b   ***  *  1   * 2 * * #
 # # # # # #*# # #*#*# # # # #*#
@@ -36,5 +36,5 @@ b - Bomb Item
 f - Flame Item
 s - Speed Item
 m - Flame Pass
-
+w - Wall Pass
 Kí tự khác các kí tự trên - Grass

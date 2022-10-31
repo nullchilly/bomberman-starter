@@ -7,6 +7,7 @@ import entities.Bomb;
 import entities.Entity;
 import entities.Flame;
 import entities.items.*;
+import entities.tiles.Brick;
 import graphics.Sprite;
 import javafx.application.Platform;
 import javafx.scene.image.Image;
@@ -22,6 +23,7 @@ public class Bomber extends Entity {
     private boolean moving = false;
     private int bombQuantity;
     private boolean flamePass = false;
+    private boolean wallPass = false;
     private int bomb_size = 1;
     private boolean died = false;
     public int protection_time = 0;
@@ -82,33 +84,32 @@ public class Bomber extends Entity {
         if (table[px][py] instanceof FlameItem) {
             if (!((FlameItem) table[px][py]).isPickedup()) {
                 bomb_size++;
-//                table[px][py] = null;
             }
             ((FlameItem) table[px][py]).pick();
         } else if (table[px][py] instanceof SpeedItem) {
             if (!((SpeedItem) table[px][py]).isPickedup()) {
                 STEP++;
-//                table[px][py] = null;
             }
             ((SpeedItem) table[px][py]).pick();
         } else if (table[px][py] instanceof BombItem) {
             if (!((BombItem) table[px][py]).isPickedup()) {
                 bombQuantity++;
-//                table[px][py] = null;
             }
             ((BombItem) table[px][py]).pick();
         } else if (table[px][py] instanceof PortalItem) {
-//            if (((PortalItem) table[px][py]).isPickedup()) {
+
             if (enemies.isEmpty()) gameState = Game.STATE.NEXT_LV;
-//                table[px][py] = null;
-//            }
-//            ((PortalItem) table[px][py]).pick();
+
         } else if (table[px][py] instanceof FlamePassItem) {
             if (!((FlamePassItem) table[px][py]).isPickedup()) {
                 flamePass = true;
-//                table[px][py] = null;
             }
             ((FlamePassItem) table[px][py]).pick();
+        } else if (table[px][py] instanceof WallPassItem) {
+            if (!((WallPassItem) table[px][py]).isPickedup()) {
+                wallPass = true;
+            }
+            ((WallPassItem) table[px][py]).pick();
         }
     }
 
@@ -117,45 +118,82 @@ public class Bomber extends Entity {
         int py = (y + Sprite.SCALED_SIZE / 2) / Sprite.SCALED_SIZE;
         Entity cur = table[px][py];
         table[px][py] = null;
-        if (keyListener.isPressed(KeyCode.D)) {
-            direction = Direction.R;
-//            if (animate % 10 == 0) {
-//                (new Sound("walkh.mp3")).play();
-//            }
-            if (checkWall(x + STEP + Sprite.SCALED_SIZE - 12, y + 3) && checkWall(x + STEP + Sprite.SCALED_SIZE - 12, y + Sprite.SCALED_SIZE - 3)) {
-                x += STEP;
-                moving = true;
+        if (!wallPass) {
+            if (keyListener.isPressed(KeyCode.D)) {
+                direction = Direction.R;
+                //            if (animate % 10 == 0) {
+                //                (new Sound("walkh.mp3")).play();
+                //            }
+                if (checkWall(x + STEP + Sprite.SCALED_SIZE - 12, y + 3) && checkWall(x + STEP + Sprite.SCALED_SIZE - 12, y + Sprite.SCALED_SIZE - 3)) {
+                    x += STEP;
+                    moving = true;
+                }
             }
-        }
-        if (keyListener.isPressed(KeyCode.A)) {
-            direction = Direction.L;
-//            if (animate % 20 == 0) {
-//                (new Sound("walkh.mp3")).play();
-//            }
-            if (checkWall(x - STEP, y + 3) && checkWall(x - STEP, y + Sprite.SCALED_SIZE - 3)) {
-                x -= STEP;
-                moving = true;
+            if (keyListener.isPressed(KeyCode.A)) {
+                direction = Direction.L;
+                //            if (animate % 20 == 0) {
+                //                (new Sound("walkh.mp3")).play();
+                //            }
+                if (checkWall(x - STEP, y + 3) && checkWall(x - STEP, y + Sprite.SCALED_SIZE - 3)) {
+                    x -= STEP;
+                    moving = true;
+                }
             }
-        }
-        if (keyListener.isPressed(KeyCode.W)) {
-            direction = Direction.U;
-            if (checkWall(x, y - STEP + 3) && checkWall(x + Sprite.SCALED_SIZE - 12, y - STEP + 3)) {
-                y -= STEP;
-                moving = true;
+            if (keyListener.isPressed(KeyCode.W)) {
+                direction = Direction.U;
+                if (checkWall(x, y - STEP + 3) && checkWall(x + Sprite.SCALED_SIZE - 12, y - STEP + 3)) {
+                    y -= STEP;
+                    moving = true;
+                }
             }
-        }
-        if (keyListener.isPressed(KeyCode.S)) {
-            direction = Direction.D;
-            if (checkWall(x, y + STEP + Sprite.SCALED_SIZE - 3) && checkWall(x + Sprite.SCALED_SIZE - 12, y + STEP + Sprite.SCALED_SIZE - 3)) {
-                y += STEP;
-                moving = true;
+            if (keyListener.isPressed(KeyCode.S)) {
+                direction = Direction.D;
+                if (checkWall(x, y + STEP + Sprite.SCALED_SIZE - 3) && checkWall(x + Sprite.SCALED_SIZE - 12, y + STEP + Sprite.SCALED_SIZE - 3)) {
+                    y += STEP;
+                    moving = true;
+                }
+            }
+        } else {
+            if (keyListener.isPressed(KeyCode.D)) {
+                direction = Direction.R;
+                //            if (animate % 10 == 0) {
+                //                (new Sound("walkh.mp3")).play();
+                //            }
+                if (checkBrick(x + STEP + Sprite.SCALED_SIZE - 12, y + 3) && checkBrick(x + STEP + Sprite.SCALED_SIZE - 12, y + Sprite.SCALED_SIZE - 3)) {
+                    x += STEP;
+                    moving = true;
+                }
+            }
+            if (keyListener.isPressed(KeyCode.A)) {
+                direction = Direction.L;
+                //            if (animate % 20 == 0) {
+                //                (new Sound("walkh.mp3")).play();
+                //            }
+                if (checkBrick(x - STEP, y + 3) && checkBrick(x - STEP, y + Sprite.SCALED_SIZE - 3)) {
+                    x -= STEP;
+                    moving = true;
+                }
+            }
+            if (keyListener.isPressed(KeyCode.W)) {
+                direction = Direction.U;
+                if (checkBrick(x, y - STEP + 3) && checkBrick(x + Sprite.SCALED_SIZE - 12, y - STEP + 3)) {
+                    y -= STEP;
+                    moving = true;
+                }
+            }
+            if (keyListener.isPressed(KeyCode.S)) {
+                direction = Direction.D;
+                if (checkBrick(x, y + STEP + Sprite.SCALED_SIZE - 3) && checkBrick(x + Sprite.SCALED_SIZE - 12, y + STEP + Sprite.SCALED_SIZE - 3)) {
+                    y += STEP;
+                    moving = true;
+                }
             }
         }
         table[px][py] = cur;
     }
 
     public void placeBomb() {
-        if (keyListener.isPressed(KeyCode.SPACE) && Bomb.cnt < bombQuantity && !(table[getPlayerX()][getPlayerY()] instanceof Bomb)) {
+        if (keyListener.isPressed(KeyCode.SPACE) && Bomb.cnt < bombQuantity && !(table[getPlayerX()][getPlayerY()] instanceof Bomb) && !(table[getPlayerX()][getPlayerY()] instanceof Brick)) {
 //            System.out.println(Bomb.cnt);
             Platform.runLater(() -> {
                 Entity object = new Bomb(getPlayerX(), getPlayerY(), Sprite.bomb.getFxImage, entities, bomb_size);
@@ -204,7 +242,7 @@ public class Bomber extends Entity {
     public boolean isFlamePass() {
         return flamePass;
     }
-
+    
     public boolean isProtectded() {
         return protection_time > 0;
     }

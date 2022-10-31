@@ -31,6 +31,10 @@ public class Kondoria extends Entity {
 
     private void kondoriaMoving() {
         int px = (x + Sprite.SCALED_SIZE / 2) / Sprite.SCALED_SIZE, py = (y + Sprite.SCALED_SIZE / 2) / Sprite.SCALED_SIZE;
+        if (table[px][py] instanceof Item || table[px][py] instanceof Brick) {
+            old_cur = table[px][py];
+            System.out.println("Whoops");
+        }
         Game.table[px][py] = null;
         sprite = Sprite.kondoria_right1;
         switch (direction) {

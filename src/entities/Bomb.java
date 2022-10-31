@@ -4,10 +4,7 @@ import entities.character.Balloom;
 import entities.character.Doll;
 import entities.character.Kondoria;
 import entities.character.Oneal;
-import entities.items.BombItem;
-import entities.items.FlameItem;
-import entities.items.PortalItem;
-import entities.items.SpeedItem;
+import entities.items.*;
 import entities.tiles.Brick;
 import entities.tiles.Wall;
 import graphics.Sprite;
@@ -84,9 +81,9 @@ public class Bomb extends Entity {
             }
         }
 //        if (cur instanceof Oneal) cur.setDied();
-        if (cur instanceof FlameItem) cur.setDied();
-        if (cur instanceof SpeedItem) cur.setDied();
-        if (cur instanceof BombItem) cur.setDied();
+        if (cur instanceof Item) cur.setDied();
+//        if (cur instanceof SpeedItem) cur.setDied();
+//        if (cur instanceof BombItem) cur.setDied();
         if (cur instanceof Bomb && !((Bomb) cur).isExploded()) ((Bomb) cur).setExplode();
         if (bomber.getPlayerX() == i && bomber.getPlayerY() == j && !bomber.isFlamePass()) {
             bomber.setHurt();

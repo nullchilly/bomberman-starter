@@ -57,7 +57,7 @@ public class Game extends Application {
         stillObjects = new ArrayList<>();
         bgMusic = new ArrayList<>();
         Sound main = new Sound("main_bgm.wav");
-        main.play();
+        main.loop();
         bgMusic.add(main);
 //        int level = 1;
         File file = new File(System.getProperty("user.dir") + "/res/levels/Level" + level + ".txt");

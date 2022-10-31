@@ -1,5 +1,6 @@
 package entities;
 
+import core.Sound;
 import entities.character.*;
 import entities.items.*;
 import entities.tiles.Brick;
@@ -98,6 +99,7 @@ public class Bomb extends Entity {
         table[px][py] = this;
 
         if (animate == 70) {
+            (new Sound("explosion.wav")).play();
             exploded = true;
             Platform.runLater(
                     () -> {

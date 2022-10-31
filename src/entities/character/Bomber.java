@@ -30,7 +30,7 @@ public class Bomber extends Entity {
         super(x, y, img);
         this.keyListener = keyListener;
         bombQuantity = 1;
-        life = 2;
+        life = 3;
     }
 
     public void setDied() {
@@ -202,10 +202,7 @@ public class Bomber extends Entity {
     public void update() {
         if (hurt) {
             Sound sound;
-            if (hurtTick == 0 && life == 0) {
-                sound = new Sound("game_over.wav");
-                sound.play();
-            } else if (hurtTick == 0 && life != 0) {
+            if (hurtTick == 0) {
                 sound = new Sound("died.wav");
                 sound.play();
             }
@@ -216,6 +213,7 @@ public class Bomber extends Entity {
                 hurt = false;
                 hurtTick = 0;
                 protection_time = 60*2;
+                return;
 //                Platform.exit();
             }
             chooseSprite();

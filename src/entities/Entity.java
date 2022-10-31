@@ -120,7 +120,9 @@ public abstract class Entity {
     }
 
     public void setHurt() {
+        if (!hurt) {
+            reduceLife();
+        }
         hurt = true;
-        reduceLife();
     }
 }

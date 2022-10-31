@@ -28,7 +28,7 @@ public class Game extends Application {
     public static int WIDTH;
     public static int HEIGHT;
     public static Bomber bomber;
-    public static int level = 1;
+    public static int level = 0;
 //    public static int cnt_enemy = 0;
     public static Entity[][] table;
     public static Entity[][] hiddenTable;

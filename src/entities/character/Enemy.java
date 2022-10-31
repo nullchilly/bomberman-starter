@@ -39,7 +39,7 @@ public abstract class Enemy extends Entity{
         }
     }
     protected void checkCollideWithBomber () {
-        if (bomber.getPlayerX() == getTileX() && bomber.getPlayerY() == getTileY() && bomber.isProtectded()) {
+        if (bomber.getPlayerX() == getTileX() && bomber.getPlayerY() == getTileY() && !bomber.isProtectded()) {
             bomber.setHurt();
         }
     }

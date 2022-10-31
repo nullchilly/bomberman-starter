@@ -15,7 +15,7 @@ public class BombItem extends Item {
     @Override
     public void update() {
         img = Sprite.powerup_bombs.getFxImage;
-
+        table[x / Sprite.SCALED_SIZE][y / Sprite.SCALED_SIZE] = this;
         if (pickedup || died) {
             Platform.runLater(() -> {
                 table[x / Sprite.SCALED_SIZE][y / Sprite.SCALED_SIZE] = null;

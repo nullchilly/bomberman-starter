@@ -7,6 +7,7 @@ import javafx.application.Platform;
 import javafx.scene.image.Image;
 
 import static core.Game.entities;
+import static core.Game.table;
 
 public class Brick extends Entity {
     private boolean exploded = false;
@@ -42,6 +43,7 @@ public class Brick extends Entity {
 
     @Override
     public void update() {
+        table[x / Sprite.SCALED_SIZE][y / Sprite.SCALED_SIZE] = this;
         if (exploded) {
             brickExploded();
         }

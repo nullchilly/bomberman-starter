@@ -3,11 +3,9 @@ package core;
 import entities.Entity;
 import entities.character.Balloom;
 import entities.character.Bomber;
+import entities.character.Doll;
 import entities.character.Oneal;
-import entities.items.BombItem;
-import entities.items.FlameItem;
-import entities.items.PortalItem;
-import entities.items.SpeedItem;
+import entities.items.*;
 import entities.tiles.Brick;
 import entities.tiles.Grass;
 import entities.tiles.Wall;
@@ -122,6 +120,10 @@ public class Game extends Application {
                             enemy = new Oneal(j, i, Sprite.oneal_right1.getFxImage);
 //                            cnt_enemy++;
                             break;
+                        case '3':
+                            enemy = new Doll(j, i, Sprite.doll_right1.getFxImage);
+//                            cnt_enemy++;
+                            break;
                         // Items:
                         case 'f':
                             hiddenObject = new FlameItem(j, i, Sprite.powerup_flames.getFxImage);
@@ -134,6 +136,9 @@ public class Game extends Application {
                             break;
                         case 'x':
                             hiddenObject = new PortalItem(j, i, Sprite.portal.getFxImage);
+                            break;
+                        case 'm':
+                            hiddenObject = new FlamePassItem(j, i, Sprite.powerup_flamepass.getFxImage);
                             break;
                     }
                     if (stillObject != null) {

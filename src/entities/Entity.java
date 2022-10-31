@@ -22,8 +22,11 @@ public abstract class Entity {
     protected int animate = 0;
 
     protected int die_time = 0;
+    protected int hurt_time = 0;
+    protected int life = 1;
 
     protected boolean died = false;
+    protected boolean hurt = false;
     protected Entity old_cur = null;
 
 
@@ -78,20 +81,46 @@ public abstract class Entity {
     public void setDied() {
         this.died = true;
     }
-    public void dieEnemy(Sprite sprite) {
-        die_time++;
-        img = sprite.getFxImage;
-        if (die_time == 20) {
-            Platform.runLater(() -> {
-//                cnt_enemy--;
-                enemies.remove(this);
-                Game.table[(x + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE][(y + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE] = old_cur;
-            });
-        }
-    }
+//    public void dieEnemy(Sprite sprite) {
+//        die_time++;
+//        img = sprite.getFxImage;
+//        if (die_time == 20) {
+//            Platform.runLater(() -> {
+////                cnt_enemy--;
+//                enemies.remove(this);
+//                Game.table[(x + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE][(y + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE] = old_cur;
+//            });
+//        }
+//    }
 
     public Sprite getSprite() {
         return this.sprite;
     }
 
+    public int getLife() {
+        return life;
+    }
+    public void reduceLife() {
+        life--;
+    }
+
+    public void gotHurt(Sprite sprite) {
+        hurt_time++;
+        img = sprite.getFxImage;
+        if (hurt_time == 20) {
+            hurt_time = 0;
+            hurt = false;
+            if (life == 0) {
+                Platform.runLater(() -> {
+                    enemies.remove(this);
+                    Game.table[(x + Sprite.SCALED_SIZE / 2) / Sprite.SCALED_SIZE][(y + Sprite.SCALED_SIZE / 2) / Sprite.SCALED_SIZE] = old_cur;
+                });
+            }
+        }
+    }
+
+    public void setHurt() {
+        hurt = true;
+        reduceLife();
+    }
 }

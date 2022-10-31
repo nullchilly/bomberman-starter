@@ -1,6 +1,7 @@
 package entities;
 
 import entities.character.Balloom;
+import entities.character.Doll;
 import entities.character.Oneal;
 import entities.items.BombItem;
 import entities.items.FlameItem;
@@ -74,10 +75,10 @@ public class Bomb extends Entity {
 
     private void setDied(int i, int j) {
         Entity cur = table[i][j];
-        if (cur instanceof Balloom || cur instanceof Oneal) {
+        if (cur instanceof Balloom || cur instanceof Oneal || cur instanceof Doll) {
             for (Entity e : enemies) {
                 if (e.getTileX() == i && e.getTileY() == j) {
-                    e.setDied();
+                    e.setHurt();
                 }
             }
         }
@@ -86,7 +87,9 @@ public class Bomb extends Entity {
         if (cur instanceof SpeedItem) cur.setDied();
         if (cur instanceof BombItem) cur.setDied();
         if (cur instanceof Bomb && !((Bomb) cur).isExploded()) ((Bomb) cur).setExplode();
-        if (bomber.getPlayerX() == i && bomber.getPlayerY() == j) bomber.setDied();
+        if (bomber.getPlayerX() == i && bomber.getPlayerY() == j && !bomber.isFlamePass()) {
+            bomber.setHurt();
+        }
     }
 
     @Override

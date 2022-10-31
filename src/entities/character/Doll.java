@@ -12,13 +12,13 @@ import java.util.Random;
 import static core.Game.bomber;
 import static core.Game.table;
 
-public class Balloom extends Entity {
+public class Doll extends Entity {
 
     private static final int STEP = Math.max(1, Sprite.STEP / 2);
     private boolean moving = false;
-
-    public Balloom(int x, int y, Image img) {
+    public Doll(int x, int y, Image img) {
         super(x, y, img);
+        life = 2;
     }
 
     private void findDirection() {
@@ -28,10 +28,10 @@ public class Balloom extends Entity {
         }
     }
 
-    private void balloomMoving() {
+    private void dollMoving() {
         int px = (x + Sprite.SCALED_SIZE / 2) / Sprite.SCALED_SIZE, py = (y + Sprite.SCALED_SIZE / 2) / Sprite.SCALED_SIZE;
         Game.table[px][py] = null;
-        sprite = Sprite.balloom_right1;
+        sprite = Sprite.doll_left1;
         switch (direction) {
             case D:
                 if (checkWall(x, y + STEP + Sprite.SCALED_SIZE - 1) && checkWall(x + Sprite.SCALED_SIZE - 1, y + STEP + Sprite.SCALED_SIZE - 1)) {
@@ -39,27 +39,27 @@ public class Balloom extends Entity {
                     moving = true;
                 }
                 if (moving) {
-                    sprite = Sprite.movingSprite(Sprite.balloom_right1, Sprite.balloom_right2, Sprite.balloom_right3, animate, 20);
+                    sprite = Sprite.movingSprite(Sprite.doll_right1, Sprite.doll_right2, Sprite.doll_right3, animate, 20);
                 }
                 break;
             case U:
-                sprite = Sprite.balloom_left2;
+                sprite = Sprite.doll_left2;
                 if (checkWall(x, y - STEP) && checkWall(x + Sprite.SCALED_SIZE - 1, y - STEP)) {
                     y -= STEP;
                     moving = true;
                 }
                 if (moving) {
-                    sprite = Sprite.movingSprite(Sprite.balloom_right1, Sprite.balloom_right2, Sprite.balloom_right3, animate, 20);
+                    sprite = Sprite.movingSprite(Sprite.doll_right1, Sprite.doll_right2, Sprite.doll_right3, animate, 20);
                 }
                 break;
             case L:
-                sprite = Sprite.balloom_left1;
+                sprite = Sprite.doll_left1;
                 if (checkWall(x - STEP, y) && checkWall(x - STEP, y + Sprite.SCALED_SIZE - 1)) {
                     x -= STEP;
                     moving = true;
                 }
                 if (moving) {
-                    sprite = Sprite.movingSprite(Sprite.balloom_left1, Sprite.balloom_left2, Sprite.balloom_left3, animate, 20);
+                    sprite = Sprite.movingSprite(Sprite.doll_left1, Sprite.doll_left2, Sprite.doll_left3, animate, 20);
                 }
                 break;
             case R:
@@ -68,7 +68,7 @@ public class Balloom extends Entity {
                     moving = true;
                 }
                 if (moving) {
-                    sprite = Sprite.movingSprite(Sprite.balloom_right1, Sprite.balloom_right2, Sprite.balloom_right3, animate, 20);
+                    sprite = Sprite.movingSprite(Sprite.doll_right1, Sprite.doll_right2, Sprite.doll_right3, animate, 20);
                 }
                 break;
         }
@@ -89,7 +89,7 @@ public class Balloom extends Entity {
     @Override
     public void update() {
         if (hurt) {
-            gotHurt(Sprite.balloom_dead);
+            gotHurt(Sprite.doll_dead);
             return;
         }
         int px = (x + Sprite.SCALED_SIZE / 2) / Sprite.SCALED_SIZE;
@@ -100,6 +100,6 @@ public class Balloom extends Entity {
         animate++;
         moving = false;
         findDirection();
-        balloomMoving();
+        dollMoving();
     }
 }

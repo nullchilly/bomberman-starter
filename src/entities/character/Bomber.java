@@ -5,10 +5,8 @@ import core.KeyListener;
 import core.Sound;
 import entities.Bomb;
 import entities.Entity;
-import entities.items.BombItem;
-import entities.items.FlameItem;
-import entities.items.PortalItem;
-import entities.items.SpeedItem;
+import entities.Flame;
+import entities.items.*;
 import graphics.Sprite;
 import javafx.application.Platform;
 import javafx.scene.image.Image;
@@ -23,15 +21,17 @@ public class Bomber extends Entity {
     public int STEP = Sprite.STEP;
     private boolean moving = false;
     private int bombQuantity;
+    private boolean flamePass = false;
     private int bomb_size = 1;
     private boolean died = false;
-    private int diedTick = 0;
+    private int hurtTick = 0;
     private final KeyListener keyListener;
 
     public Bomber(int x, int y, Image img, KeyListener keyListener) {
         super(x, y, img);
         this.keyListener = keyListener;
         bombQuantity = 1;
+        life = 2;
     }
 
     public void setDied() {
@@ -41,7 +41,7 @@ public class Bomber extends Entity {
     private void chooseSprite() {
         animate++;
         if (animate > 100000) animate = 0;
-        if (died) {
+        if (hurt) {
             img = Sprite.movingSprite(Sprite.player_dead1, Sprite.player_dead2, Sprite.player_dead3, animate, 20).getFxImage;
             return;
         }
@@ -102,6 +102,12 @@ public class Bomber extends Entity {
 //                table[px][py] = null;
 //            }
 //            ((PortalItem) table[px][py]).pick();
+        } else if (table[px][py] instanceof FlamePassItem) {
+            if (!((FlamePassItem) table[px][py]).isPickedup()) {
+                flamePass = true;
+//                table[px][py] = null;
+            }
+            ((FlamePassItem) table[px][py]).pick();
         }
     }
 
@@ -161,13 +167,17 @@ public class Bomber extends Entity {
 
     @Override
     public void update() {
-        if (died) {
-            diedTick++;
-            if (diedTick == 0) {
+        if (hurt) {
+            hurtTick++;
+            if (hurtTick == 0 && life == 0) {
                 (new Sound("lose_game.mp3")).play();
             }
-            if (diedTick == 30) {
-                Game.gameState = Game.STATE.END;
+            if (hurtTick == 30) {
+                if (life == 0) {
+                    Game.gameState = Game.STATE.END;
+                }
+                hurt = false;
+                hurtTick = 0;
 //                Platform.exit();
             }
             chooseSprite();
@@ -187,5 +197,9 @@ public class Bomber extends Entity {
 
     public int getPlayerY() {
         return (y + Sprite.SCALED_SIZE / 2) / Sprite.SCALED_SIZE;
+    }
+
+    public boolean isFlamePass() {
+        return flamePass;
     }
 }

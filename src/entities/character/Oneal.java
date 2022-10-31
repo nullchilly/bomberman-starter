@@ -165,8 +165,8 @@ Oneal extends Entity {
         if (bomber.getPlayerX() == px && bomber.getPlayerY() == py) {
             bomber.setDied();
         }
-        if (died) {
-            dieEnemy(Sprite.oneal_dead);
+        if (hurt) {
+            gotHurt(Sprite.oneal_dead);
             return;
         }
 

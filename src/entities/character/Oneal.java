@@ -21,7 +21,6 @@ Oneal extends Entity {
     private int px;
     private int py;
     private boolean canReach = false;
-    private Entity old_cur = null;
     private boolean[][] check = new boolean[Game.WIDTH][Game.HEIGHT];
     private static final int STEP = Math.max(1, Sprite.STEP / 2);
 

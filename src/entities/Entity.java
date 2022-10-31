@@ -27,6 +27,8 @@ public abstract class Entity {
     protected int die_time = 0;
 
     protected boolean died = false;
+    protected Entity old_cur = null;
+
 
     protected Image img;
 
@@ -80,7 +82,7 @@ public abstract class Entity {
             Platform.runLater(() -> {
                 cnt_enemy--;
                 entities.remove(this);
-                Game.table[(x + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE][(y + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE] = null;
+                Game.table[(x + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE][(y + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE] = old_cur;
             });
         }
     }

@@ -161,15 +161,15 @@ public class Game extends Application {
                 update();
                 render(stage);
                 long frameTime = (now - lastUpdate) / 1000000;
-                if (frameTime < FPS_GAME) {
-                    try {
-                        Thread.sleep(FPS_GAME - frameTime);
-                    } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
-                    }
-                }
+//                if (frameTime < FPS_GAME) {
+//                    try {
+//                        Thread.sleep(FPS_GAME - frameTime);
+//                    } catch (InterruptedException e) {
+//                        throw new RuntimeException(e);
+//                    }
+//                }
 //                    else {
-//                        System.out.println(1000/frameTime);
+                        System.out.println(frameTime !=0 ? 1000/frameTime : 0);
 //                    }
                 lastUpdate = System.nanoTime();
             }

@@ -33,6 +33,7 @@ public class Bomber extends Entity {
         super(x, y, img);
         this.entities = entities;
         this.keyListener = keyListener;
+        bombQuantity = 1;
     }
 
     public void setDied() {

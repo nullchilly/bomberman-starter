@@ -40,9 +40,9 @@ public class Game extends Application {
     public static int WIDTH;
     public static int HEIGHT;
     public static Bomber bomber;
-    private static final int INIT_LEVEL = 0;
+    private static final int INIT_LEVEL = 1;
     public static int level = INIT_LEVEL;
-    private static int MAX_LEVEL = 0;
+    private static int MAX_LEVEL = 2;
 //    public static int cnt_enemy = 0;
     public static Entity[][] table;
     public static Entity[][] hiddenTable;

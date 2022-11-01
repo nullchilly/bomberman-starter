@@ -3,6 +3,9 @@ package entities.character;
 import core.Game;
 import audio.Sound;
 import entities.Entity;
+import entities.bombs.Bomb;
+import entities.tiles.Brick;
+import entities.tiles.Wall;
 import graphics.Sprite;
 import javafx.application.Platform;
 import javafx.scene.image.Image;
@@ -50,5 +53,15 @@ public abstract class Enemy extends Entity {
         if (bomber.getPlayerX() == getTileX() && bomber.getPlayerY() == getTileY() && !bomber.isProtectded()) {
             bomber.setHurt();
         }
+    }
+    public static boolean checkWall(int x, int y) {
+        if (x < 0 || y < 0 || x > Sprite.SCALED_SIZE * Game.WIDTH || y > Sprite.SCALED_SIZE * Game.HEIGHT) {
+            return false;
+        }
+
+        x /= Sprite.SCALED_SIZE;
+        y /= Sprite.SCALED_SIZE;
+        Entity cur = getEntity(x, y);
+        return !(cur instanceof Wall) &&  !(cur instanceof Brick) && !(cur instanceof Bomb) && !(cur instanceof Kondoria);
     }
 }

@@ -56,7 +56,7 @@ public abstract class Entity {
         x /= Sprite.SCALED_SIZE;
         y /= Sprite.SCALED_SIZE;
         Entity cur = getEntity(x, y);
-        return !(cur instanceof Wall) &&  !(cur instanceof Brick) && !(cur instanceof Bomb) && !(cur instanceof Kondoria);
+        return !(cur instanceof Wall) &&  !(cur instanceof Brick) && !(cur instanceof Bomb);
     }
 
     public static boolean checkBrick(int x, int y) {

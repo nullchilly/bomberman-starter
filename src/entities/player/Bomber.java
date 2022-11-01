@@ -14,7 +14,7 @@ import javafx.scene.input.KeyCode;
 
 import static core.Game.*;
 
-public class Bomber extends Entity {
+public class Bomber extends Player {
 
     public int STEP = Sprite.STEP;
     private boolean moving = false;

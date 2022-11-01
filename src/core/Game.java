@@ -21,6 +21,8 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.effect.Effect;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
@@ -44,9 +46,9 @@ public class Game extends Application {
     public static int WIDTH;
     public static int HEIGHT;
     public static Bomber bomber;
-    private static final int INIT_LEVEL = 1;
+    private static final int INIT_LEVEL = 0;
     public static int level = INIT_LEVEL;
-    private static final int MAX_LEVEL = 2;
+    private static final int MAX_LEVEL = 0;
     //    public static int cnt_enemy = 0;
 //    public static int cnt_enemy = 0;
     public static Entity[][] table;
@@ -66,6 +68,7 @@ public class Game extends Application {
     private int MAXSCORE = 0;
 
     private boolean new_game = true;
+    private final Effect shadow = new DropShadow();
     Group root = null;
 
     public static void main(String[] args) {
@@ -190,6 +193,10 @@ public class Game extends Application {
     }
 
     public void single(Stage stage) {
+        if (gameState == STATE.MENU) {
+            new_game = true;
+            return;
+        }
         setup(stage, level);
         AnimationTimer timer = new AnimationTimer() {
             private long lastUpdate = 0;
@@ -229,8 +236,8 @@ public class Game extends Application {
         bgMusic.loop();
         //Creating a Button
         Button start_button = new Button();
+        Button exit_button = new Button();
         start_button.setStyle("-fx-background-color: transparent; ");
-//        button.setText("Single player");
         start_button.setPrefSize(166, 66);
         start_button.setTranslateX(Sprite.SCALED_SIZE * 30 / 2 - 166 / 2);
         start_button.setTranslateY(Sprite.SCALED_SIZE * 15 / 2 + 66 / 2 + 20);
@@ -246,12 +253,16 @@ public class Game extends Application {
         view.setFitWidth(166);
         view.setImage(img);
         start_button.setGraphic(view);
+        start_button.setOnMouseEntered(e -> start_button.setEffect(shadow));
+        start_button.setOnMouseExited(e -> start_button.setEffect(null));
         start_button.setOnAction(event -> {
             gameState = STATE.SINGLE;
             single(stage);
+//            Platform.runLater(()->{
+//                root.getChildren().removeAll(start_button, exit_button);
+//            });
         });
 
-        Button exit_button = new Button();
         exit_button.setStyle("-fx-background-color: transparent; ");
 //        button.setText("Single player");
         exit_button.setPrefSize(166, 66);
@@ -268,11 +279,13 @@ public class Game extends Application {
         view.setFitWidth(166);
         view.setImage(img);
         exit_button.setGraphic(view);
+        exit_button.setOnMouseEntered(e -> exit_button.setEffect(shadow));
+        exit_button.setOnMouseExited(e -> exit_button.setEffect(null));
         exit_button.setOnAction(event -> {
-            gameState = STATE.END;
-//            start_button
-            Platform.exit();
-            System.out.println("Whoops");
+            gameState = STATE.EXIT;
+//            Platform.runLater(()->{
+//                root.getChildren().removeAll(start_button, exit_button);
+//            });
         });
         try {
             stream = new FileInputStream("res/menu.jpeg");
@@ -330,9 +343,13 @@ public class Game extends Application {
         button.setGraphic(view);
         button.setTranslateX(Sprite.SCALED_SIZE * 15 - 170 / 2);
         button.setTranslateY(Sprite.SCALED_SIZE * 10 - 10);
+        button.setOnMouseEntered(e -> button.setEffect(shadow));
+        button.setOnMouseExited(e -> button.setEffect(null));
         button.setOnAction(event -> {
             if (gameState == STATE.NEXT_LV) {
                 gameState = STATE.MENU;
+                new_game = true;
+                System.out.println("Whoops");
             } else if (gameState == STATE.END) {
                 gameState = STATE.SINGLE;
                 setup(stage, level);
@@ -379,7 +396,8 @@ public class Game extends Application {
             case PAUSE:
                 break;
 
-            case END:
+            case EXIT:
+                Platform.exit();
                 break;
             default:
                 throw new IllegalArgumentException("Invalid game state");
@@ -395,7 +413,9 @@ public class Game extends Application {
                     gameLoop(stage);
                     new_game = false;
                 }
-                if (gameState == STATE.END) stop();
+                if (gameState == STATE.EXIT) {
+                    Platform.exit();
+                }
             }
         };
         timer.start();
@@ -469,6 +489,6 @@ public class Game extends Application {
     }
 
     public enum STATE {
-        MENU, SINGLE, MULTIPLAYER, PAUSE, END, NEXT_LV
+        MENU, SINGLE, MULTIPLAYER, PAUSE, END, NEXT_LV, EXIT
     }
 }

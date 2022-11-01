@@ -41,9 +41,9 @@ public class Game extends Application {
     public static int WIDTH;
     public static int HEIGHT;
     public static Bomber bomber;
-    private static final int INIT_LEVEL = 1;
+    private static final int INIT_LEVEL = 0;
     public static int level = INIT_LEVEL;
-    private static int MAX_LEVEL = 2;
+    private static int MAX_LEVEL = 0;
 //    public static int cnt_enemy = 0;
     public static Entity[][] table;
     public static Entity[][] hiddenTable;
@@ -315,13 +315,30 @@ public class Game extends Application {
         died.play();
         bgMusic.add(died);
         Button button = new Button();
-        if (gameState == STATE.NEXT_LV) {
-            button.setText("You WIN!");
-        } else {
-            button.setText("Replay");
-        }
+        button.setStyle("-fx-background-color: transparent; ");
         button.setPrefSize(166, 66);
-        button.setTranslateX(Sprite.SCALED_SIZE * 15 - 166/2);
+        if (gameState == STATE.NEXT_LV) {
+//            button.setText("You WIN!");
+            try {
+                stream = new FileInputStream("res/youwin.png");
+            } catch (Exception e) {
+                e.getMessage();
+            }
+        } else {
+//            button.setText("Replay");
+            try {
+                stream = new FileInputStream("res/replay.png");
+            } catch (Exception e) {
+                e.getMessage();
+            }
+        }
+        Image img = new Image(stream);
+        ImageView view = new ImageView();
+        view.setFitHeight(60);
+        view.setFitWidth(170);
+        view.setImage(img);
+        button.setGraphic(view);
+        button.setTranslateX(Sprite.SCALED_SIZE * 15 - 170/2);
         button.setTranslateY(Sprite.SCALED_SIZE * 10 - 10);
         button.setOnAction(event -> {
             if (gameState == STATE.NEXT_LV) {

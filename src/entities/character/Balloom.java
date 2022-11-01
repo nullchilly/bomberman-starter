@@ -1,11 +1,8 @@
 package entities.character;
 
 import core.Game;
-import entities.items.Item;
 import graphics.Sprite;
 import javafx.scene.image.Image;
-
-import static core.Game.table;
 
 public class Balloom extends Enemy {
 

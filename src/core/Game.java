@@ -28,10 +28,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
-//import jdk.internal.util.xml.impl.Input;
-import sun.awt.image.PixelConverter;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -42,13 +39,13 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Game extends Application {
+    private static final int INIT_LEVEL = 1;
+    private static final int MAX_LEVEL = 2;
     public static long FPS_GAME = 1000 / 60;
     public static int WIDTH;
     public static int HEIGHT;
     public static Bomber bomber;
-    private static final int INIT_LEVEL = 1;
     public static int level = INIT_LEVEL;
-    private static final int MAX_LEVEL = 2;
     //    public static int cnt_enemy = 0;
 //    public static int cnt_enemy = 0;
     public static Entity[][] table;
@@ -56,20 +53,18 @@ public class Game extends Application {
     public static STATE gameState = STATE.MENU;
     public static List<Entity> entities = new ArrayList<>();
     public static List<Entity> enemies = new ArrayList<>();
+    public static Sound bgMusic;
+    private final Effect shadow = new DropShadow();
     public List<Entity> flames = new ArrayList<>();
     public List<Entity> stillObjects = new ArrayList<>();
-    public static Sound bgMusic;
     public boolean isEnd = false;
+    Group root = null;
     private GraphicsContext gc;
     private Canvas canvas;
     private Text textLife = null;
     private Text textScore = null;
-
     private int MAXSCORE = 0;
-
     private boolean new_game = true;
-    private final Effect shadow = new DropShadow();
-    Group root = null;
 
     public static void main(String[] args) {
         Application.launch(Game.class);

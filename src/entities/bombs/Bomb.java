@@ -2,8 +2,9 @@ package entities.bombs;
 
 import audio.Sound;
 import entities.Entity;
-import entities.character.*;
-import entities.items.*;
+import entities.character.Enemy;
+import entities.items.Item;
+import entities.items.PortalItem;
 import entities.tiles.Brick;
 import entities.tiles.Wall;
 import graphics.Sprite;
@@ -17,12 +18,12 @@ import java.util.TimerTask;
 import static core.Game.*;
 
 public class Bomb extends Entity {
-    private int animate = 0;
     public static int cnt = 0;
     private final int size;
+    private final List<Entity> entities;
+    private int animate = 0;
     private boolean exploded = false;
     private Entity portalPos = null;
-    private final List<Entity> entities;
 
     public Bomb(int x, int y, Image img, List<Entity> entities, int size) {
         super(x, y, img);

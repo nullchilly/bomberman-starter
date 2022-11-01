@@ -1,18 +1,16 @@
 package entities.bombs;
 
 import entities.Entity;
+import graphics.Sprite;
 import javafx.application.Platform;
 import javafx.scene.image.Image;
-import graphics.Sprite;
 
 import java.util.List;
 
 public class Flame extends Entity {
-    private int animate = 0;
-
     private final Direction direction;
-
     private final List<Entity> entities;
+    private int animate = 0;
 
     public Flame(int x, int y, Image img, Direction direction, List<Entity> entities) {
         super(x, y, img);
@@ -22,7 +20,7 @@ public class Flame extends Entity {
 
     public void getImg() {
         Sprite sprite = null;
-        switch(direction) {
+        switch (direction) {
             case U:
                 sprite = Sprite.movingSprite(Sprite.explosion_vertical_top_last, Sprite.explosion_vertical_top_last1, Sprite.explosion_vertical_top_last2, animate, 20);
                 break;

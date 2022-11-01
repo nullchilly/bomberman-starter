@@ -1,13 +1,13 @@
 package entities.player;
 
+import audio.Sound;
 import core.Game;
 import entities.Entity;
-import input.KeyListener;
-import audio.Sound;
 import entities.bombs.Bomb;
 import entities.items.*;
 import entities.tiles.Brick;
 import graphics.Sprite;
+import input.KeyListener;
 import javafx.application.Platform;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
@@ -16,23 +16,27 @@ import static core.Game.*;
 
 public class Bomber extends Player {
 
+    private static int bomber_life;
+    private final KeyListener keyListener;
     public int STEP = Sprite.STEP;
+    public int protection_time = 0;
     private boolean moving = false;
     private int bombQuantity;
     private boolean flamePass = false;
     private boolean wallPass = false;
     private int bomb_size = 1;
     private boolean died = false;
-    public int protection_time = 0;
     private int hurtTick = 0;
-    private final KeyListener keyListener;
-    private static int bomber_life;
 
     public Bomber(int x, int y, Image img, KeyListener keyListener) {
         super(x, y, img);
         this.keyListener = keyListener;
         bombQuantity = 1;
         life = 2;
+    }
+
+    public static int getBomberLife() {
+        return bomber_life;
     }
 
     public void setDied() {
@@ -235,9 +239,5 @@ public class Bomber extends Player {
 
     public boolean isProtectded() {
         return protection_time > 0;
-    }
-
-    public static int getBomberLife() {
-        return bomber_life;
     }
 }

@@ -4,8 +4,8 @@ import graphics.Sprite;
 import javafx.application.Platform;
 import javafx.scene.image.Image;
 
-import static core.Game.table;
 import static core.Game.entities;
+import static core.Game.table;
 
 public class SpeedItem extends Item {
     public SpeedItem(int x, int y, Image img) {

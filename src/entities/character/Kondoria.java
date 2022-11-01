@@ -1,12 +1,8 @@
 package entities.character;
 
 import core.Game;
-import entities.items.Item;
-import entities.tiles.Brick;
 import graphics.Sprite;
 import javafx.scene.image.Image;
-
-import static core.Game.table;
 
 public class Kondoria extends Enemy {
 

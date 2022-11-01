@@ -1,7 +1,7 @@
 package entities.character;
 
-import core.Game;
 import audio.Sound;
+import core.Game;
 import entities.Entity;
 import entities.bombs.Bomb;
 import entities.tiles.Brick;
@@ -18,8 +18,20 @@ import static core.Game.enemies;
 public abstract class Enemy extends Entity {
 
     protected Entity old_cur = null;
+
     public Enemy(int x, int y, Image Img) {
         super(x, y, Img);
+    }
+
+    public static boolean checkWall(int x, int y) {
+        if (x < 0 || y < 0 || x > Sprite.SCALED_SIZE * Game.WIDTH || y > Sprite.SCALED_SIZE * Game.HEIGHT) {
+            return false;
+        }
+
+        x /= Sprite.SCALED_SIZE;
+        y /= Sprite.SCALED_SIZE;
+        Entity cur = getEntity(x, y);
+        return !(cur instanceof Wall) && !(cur instanceof Brick) && !(cur instanceof Bomb) && !(cur instanceof Kondoria);
     }
 
     protected void findDirection() {
@@ -28,8 +40,6 @@ public abstract class Enemy extends Entity {
             direction = Direction.values()[new Random().nextInt(Direction.values().length)];
         }
     }
-
-
 
     protected void gotHurt(Sprite sprite) {
         hurt_time++;
@@ -48,19 +58,10 @@ public abstract class Enemy extends Entity {
             }
         }
     }
-    protected void checkCollideWithBomber () {
+
+    protected void checkCollideWithBomber() {
         if (bomber.getPlayerX() == getTileX() && bomber.getPlayerY() == getTileY() && !bomber.isProtectded()) {
             bomber.setHurt();
         }
-    }
-    public static boolean checkWall(int x, int y) {
-        if (x < 0 || y < 0 || x > Sprite.SCALED_SIZE * Game.WIDTH || y > Sprite.SCALED_SIZE * Game.HEIGHT) {
-            return false;
-        }
-
-        x /= Sprite.SCALED_SIZE;
-        y /= Sprite.SCALED_SIZE;
-        Entity cur = getEntity(x, y);
-        return !(cur instanceof Wall) &&  !(cur instanceof Brick) && !(cur instanceof Bomb) && !(cur instanceof Kondoria);
     }
 }

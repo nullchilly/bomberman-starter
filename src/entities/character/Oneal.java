@@ -1,21 +1,21 @@
 package entities.character;
 
-import core.Game;
-import javafx.scene.image.Image;
-import graphics.Sprite;
-
-import java.util.*;
 import algo.FindPath;
+import core.Game;
+import graphics.Sprite;
+import javafx.scene.image.Image;
+
+import java.util.Random;
 
 import static core.Game.table;
 
 public class Oneal extends Enemy {
 
+    private static final int STEP = Math.max(1, Sprite.STEP / 2);
     private boolean moving = false;
     private int px;
     private int py;
     private boolean canReach = false;
-    private static final int STEP = Math.max(1, Sprite.STEP / 2);
 
     public Oneal(int x, int y, Image img) {
         super(x, y, img);
@@ -37,8 +37,9 @@ public class Oneal extends Enemy {
             moving = false;
         }
     }
+
     private void onealMoving() {
-        int px = (x + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE, py = (y + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE;
+        int px = (x + Sprite.SCALED_SIZE / 2) / Sprite.SCALED_SIZE, py = (y + Sprite.SCALED_SIZE / 2) / Sprite.SCALED_SIZE;
         table[px][py] = null;
         sprite = Sprite.oneal_right1;
         switch (direction) {
@@ -81,8 +82,8 @@ public class Oneal extends Enemy {
                 break;
         }
         img = sprite.getFxImage;
-        int new_px = (x + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE;
-        int new_py = (y + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE;
+        int new_px = (x + Sprite.SCALED_SIZE / 2) / Sprite.SCALED_SIZE;
+        int new_py = (y + Sprite.SCALED_SIZE / 2) / Sprite.SCALED_SIZE;
         Game.table[new_px][new_py] = this;
     }
 

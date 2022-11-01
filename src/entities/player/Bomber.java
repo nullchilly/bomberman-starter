@@ -215,8 +215,8 @@ public class Bomber extends Player {
         }
         protection_time = Math.max(0, protection_time - 1);
         moving = false;
-        getItem();
         bomberMoving();
+        getItem();
         chooseSprite();
         placeBomb();
     }

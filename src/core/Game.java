@@ -46,9 +46,9 @@ public class Game extends Application {
     public static int WIDTH;
     public static int HEIGHT;
     public static Bomber bomber;
-    private static final int INIT_LEVEL = 0;
+    private static final int INIT_LEVEL = 2;
     public static int level = INIT_LEVEL;
-    private static final int MAX_LEVEL = 0;
+    private static final int MAX_LEVEL = 2;
     //    public static int cnt_enemy = 0;
 //    public static int cnt_enemy = 0;
     public static Entity[][] table;
@@ -193,10 +193,10 @@ public class Game extends Application {
     }
 
     public void single(Stage stage) {
-        if (gameState == STATE.MENU) {
-            new_game = true;
-            return;
-        }
+//        if (gameState == STATE.MENU) {
+//            new_game = true;
+//            return;
+//        }
         setup(stage, level);
         AnimationTimer timer = new AnimationTimer() {
             private long lastUpdate = 0;
@@ -349,7 +349,7 @@ public class Game extends Application {
             if (gameState == STATE.NEXT_LV) {
                 gameState = STATE.MENU;
                 new_game = true;
-                System.out.println("Whoops");
+//                System.out.println("Whoops");
             } else if (gameState == STATE.END) {
                 gameState = STATE.SINGLE;
                 setup(stage, level);

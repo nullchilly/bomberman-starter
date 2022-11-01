@@ -206,7 +206,7 @@ public class Bomber extends Player {
                 }
                 hurt = false;
                 hurtTick = 0;
-                protection_time = 60 * 2;
+                protection_time = 60 * 3 / 2;
                 return;
             }
             chooseSprite();

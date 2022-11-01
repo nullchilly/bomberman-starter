@@ -25,6 +25,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
+//import jdk.internal.util.xml.impl.Input;
 import sun.awt.image.PixelConverter;
 
 import java.io.File;
@@ -306,6 +307,7 @@ public class Game extends Application {
     }
 
     public void end(Stage stage) {
+        InputStream stream = null;
         for (Sound sound : bgMusic) {
             sound.stop();
         }
@@ -318,8 +320,9 @@ public class Game extends Application {
         } else {
             button.setText("Replay");
         }
-        button.setTranslateX(Sprite.SCALED_SIZE * 15);
-        button.setTranslateY(Sprite.SCALED_SIZE * 10);
+        button.setPrefSize(166, 66);
+        button.setTranslateX(Sprite.SCALED_SIZE * 15 - 166/2);
+        button.setTranslateY(Sprite.SCALED_SIZE * 10 - 10);
         button.setOnAction(event -> {
             if (gameState == STATE.NEXT_LV) {
                 gameState = STATE.MENU;
@@ -330,8 +333,24 @@ public class Game extends Application {
             isEnd = false;
         });
         //Setting the stage
-        root = new Group(button);
-        Scene scene = new Scene(root, Sprite.SCALED_SIZE * 30, Sprite.SCALED_SIZE * 20, Color.BLACK);
+        root = new Group();
+        try {
+            stream = new FileInputStream("res/endgame.jpeg");
+        } catch (Exception e) {
+            e.getMessage();
+        }
+        Image image = new Image(stream);
+        ImageView imageView = new ImageView();
+        imageView.setImage(image);
+        imageView.setX(0);
+        imageView.setY(0);
+        imageView.setFitHeight(Sprite.SCALED_SIZE * 15);
+        imageView.setFitWidth(Sprite.SCALED_SIZE * 30);
+//        imageView.setPreserveRatio(true);
+        //Setting the Scene object
+        root.getChildren().add(imageView);
+        root.getChildren().add(button);
+        Scene scene = new Scene(root, Sprite.SCALED_SIZE * 30, Sprite.SCALED_SIZE * 15, Color.BLACK);
         stage.setTitle("Bomberman NES");
         stage.setScene(scene);
         stage.show();

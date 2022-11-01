@@ -9,6 +9,7 @@ import entities.tiles.Wall;
 import graphics.Sprite;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+import javafx.geometry.VPos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -17,7 +18,11 @@ import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
+import sun.awt.image.PixelConverter;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -46,6 +51,12 @@ public class Game extends Application {
     public boolean isEnd = false;
     private GraphicsContext gc;
     private Canvas canvas;
+    private Text textLife = null;
+    private Text textScore = null;
+    private Font font = null;
+
+    private int MAXSCORE = 0;
+    Group root = null;
 
     public static void main(String[] args) {
         Application.launch(Game.class);
@@ -76,15 +87,15 @@ public class Game extends Application {
             table = new Entity[WIDTH][HEIGHT];
             hiddenTable = new Entity[WIDTH][HEIGHT];
             // Tao Canvas
-            canvas = new Canvas(Sprite.SCALED_SIZE * WIDTH, Sprite.SCALED_SIZE * HEIGHT);
+            canvas = new Canvas(Sprite.SCALED_SIZE * WIDTH, Sprite.SCALED_SIZE * HEIGHT + 30);
             gc = canvas.getGraphicsContext2D();
-
+//            gc.setFill(Color.GRAY);
             // Tao root container
-            Group root = new Group();
+            root = new Group();
             root.getChildren().add(canvas);
 
             // Tao scene
-            Scene scene = new Scene(root);
+            Scene scene = new Scene(root, Color.BLACK);
             KeyListener keyListener = new KeyListener(scene);
 
             // Them scene vao stage
@@ -166,6 +177,7 @@ public class Game extends Application {
                     }
                 }
             }
+            MAXSCORE = enemies.size();
             scanner.close();
         } catch (FileNotFoundException e) {
             System.out.println(e.getMessage());
@@ -208,10 +220,11 @@ public class Game extends Application {
         bgMusic.add(start);
         //Creating a Button
         Button button = new Button();
+        button.setStyle("-fx-background-color: transparent; ");
 //        button.setText("Single player");
-        button.setPrefSize(160, 60);
-        button.setTranslateX(Sprite.SCALED_SIZE * 30 / 2 - 80);
-        button.setTranslateY(Sprite.SCALED_SIZE * 15 / 2 + 30);
+        button.setPrefSize(166, 66);
+        button.setTranslateX(Sprite.SCALED_SIZE * 30 / 2 - 166 / 2);
+        button.setTranslateY(Sprite.SCALED_SIZE * 15 / 2 + 66 / 2 + 20);
         InputStream stream = null;
         try {
             stream = new FileInputStream("res/start.png");
@@ -220,6 +233,8 @@ public class Game extends Application {
         }
         Image img = new Image(stream);
         ImageView view = new ImageView();
+        view.setFitHeight(66);
+        view.setFitWidth(166);
         view.setImage(img);
 //        view.setFitHeight(70);
 //        view.setPreserveRatio(true);
@@ -243,7 +258,7 @@ public class Game extends Application {
         imageView.setFitWidth(Sprite.SCALED_SIZE * 30);
 //        imageView.setPreserveRatio(true);
         //Setting the Scene object
-        Group root = new Group(imageView);
+        root = new Group(imageView);
 //        Scene scene = new Scene(root, 595, 370);
 //        Group root = new Group(button);
         root.getChildren().add(button);
@@ -270,7 +285,7 @@ public class Game extends Application {
             setup(stage, level);
         });
         //Setting the stage
-        Group root = new Group(button);
+        root = new Group(button);
         Scene scene = new Scene(root, Sprite.SCALED_SIZE * 30, Sprite.SCALED_SIZE * 20, Color.BLACK);
         stage.setTitle("Bomberman NES");
         stage.setScene(scene);
@@ -315,6 +330,23 @@ public class Game extends Application {
                 entities.forEach(g -> g.render(gc));
                 enemies.forEach(g -> g.render(gc));
                 bomber.render(gc);
+
+                root.getChildren().remove(textLife);
+                root.getChildren().remove(textScore);
+
+                textLife = new Text(10, Sprite.SCALED_SIZE*HEIGHT + 25, "LIFE: " + Bomber.getBomberLife());
+                font = new Font("pixels", 25);
+                textLife.setFont(font);
+                textLife.setFill(Color.WHITE);
+
+                textScore = new Text(100, Sprite.SCALED_SIZE*HEIGHT + 25, "SCORE: " + (MAXSCORE - enemies.size()) * 100);
+                font = new Font("pixels", 25);
+                textScore.setFont(font);
+                textScore.setFill(Color.WHITE);
+
+                root.getChildren().add(textLife);
+                root.getChildren().add(textScore);
+
                 break;
 
             case MENU:

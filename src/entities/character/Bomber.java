@@ -25,7 +25,7 @@ public class Bomber extends Entity {
     public int protection_time = 0;
     private int hurtTick = 0;
     private final KeyListener keyListener;
-
+    private static int bomber_life;
     public Bomber(int x, int y, Image img, KeyListener keyListener) {
         super(x, y, img);
         this.keyListener = keyListener;
@@ -200,6 +200,7 @@ public class Bomber extends Entity {
 
     @Override
     public void update() {
+        bomber_life = life;
         if (hurt) {
             Sound sound;
             if (hurtTick == 0) {
@@ -242,5 +243,9 @@ public class Bomber extends Entity {
     
     public boolean isProtectded() {
         return protection_time > 0;
+    }
+
+    public static int getBomberLife() {
+        return bomber_life;
     }
 }

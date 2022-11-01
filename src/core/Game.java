@@ -2,7 +2,10 @@ package core;
 
 import audio.Sound;
 import entities.Entity;
-import entities.character.*;
+import entities.character.Balloom;
+import entities.character.Doll;
+import entities.character.Kondoria;
+import entities.character.Oneal;
 import entities.items.*;
 import entities.player.Bomber;
 import entities.tiles.Brick;
@@ -23,10 +26,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
-//import jdk.internal.util.xml.impl.Input;
-import sun.awt.image.PixelConverter;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -43,13 +43,13 @@ public class Game extends Application {
     public static Bomber bomber;
     private static final int INIT_LEVEL = 0;
     public static int level = INIT_LEVEL;
-    private static int MAX_LEVEL = 0;
-//    public static int cnt_enemy = 0;
+    private static final int MAX_LEVEL = 0;
+    //    public static int cnt_enemy = 0;
     public static Entity[][] table;
     public static Entity[][] hiddenTable;
     public static STATE gameState = STATE.MENU;
     public static List<Entity> entities = new ArrayList<>();
-    public static List<Entity> enemies= new ArrayList<>();
+    public static List<Entity> enemies = new ArrayList<>();
     public List<Entity> flames = new ArrayList<>();
     public List<Entity> stillObjects = new ArrayList<>();
     //    public Entity bomberman;
@@ -303,7 +303,6 @@ public class Game extends Application {
         InputStream stream = null;
         if (bgMusic != null) bgMusic.stop();
         Sound.ending.play();
-        bgMusic.play();
         Button button = new Button();
         button.setStyle("-fx-background-color: transparent; ");
         button.setPrefSize(166, 66);
@@ -328,12 +327,12 @@ public class Game extends Application {
         view.setFitWidth(170);
         view.setImage(img);
         button.setGraphic(view);
-        button.setTranslateX(Sprite.SCALED_SIZE * 15 - 170/2);
+        button.setTranslateX(Sprite.SCALED_SIZE * 15 - 170 / 2);
         button.setTranslateY(Sprite.SCALED_SIZE * 10 - 10);
         button.setOnAction(event -> {
             if (gameState == STATE.NEXT_LV) {
                 gameState = STATE.MENU;
-            } else if (gameState == STATE.END){
+            } else if (gameState == STATE.END) {
                 gameState = STATE.SINGLE;
                 setup(stage, level);
             }
@@ -362,6 +361,7 @@ public class Game extends Application {
         stage.setScene(scene);
         stage.show();
     }
+
     public void gameLoop(Stage stage) {
         switch (gameState) {
             case MENU:
@@ -384,6 +384,7 @@ public class Game extends Application {
                 throw new IllegalArgumentException("Invalid game state");
         }
     }
+
     @Override
     public void start(Stage stage) {
         AnimationTimer timer = new AnimationTimer() {
@@ -420,15 +421,15 @@ public class Game extends Application {
 
                 font = new Font("pixels", 20);
 
-                textLife = new Text(10, Sprite.SCALED_SIZE*HEIGHT + 22, "LIFE: " + Bomber.getBomberLife());
+                textLife = new Text(10, Sprite.SCALED_SIZE * HEIGHT + 22, "LIFE: " + Bomber.getBomberLife());
                 textLife.setFont(font);
                 textLife.setFill(Color.WHITE);
 
-                textScore = new Text(100, Sprite.SCALED_SIZE*HEIGHT + 22, "SCORE: " + (MAXSCORE - enemies.size()) * 100);
+                textScore = new Text(100, Sprite.SCALED_SIZE * HEIGHT + 22, "SCORE: " + (MAXSCORE - enemies.size()) * 100);
                 textScore.setFont(font);
                 textScore.setFill(Color.WHITE);
 
-                textLevel = new Text(Sprite.SCALED_SIZE*WIDTH / 2 - 40, Sprite.SCALED_SIZE*HEIGHT + 22, "LEVEL: " + level);
+                textLevel = new Text(Sprite.SCALED_SIZE * WIDTH / 2 - 40, Sprite.SCALED_SIZE * HEIGHT + 22, "LEVEL: " + level);
                 textLevel.setFont(font);
                 textLevel.setFill(Color.WHITE);
 
@@ -450,7 +451,7 @@ public class Game extends Application {
                 if (level < MAX_LEVEL) {
                     gameState = STATE.SINGLE;
                     setup(stage, ++level);
-                } else if(!isEnd){
+                } else if (!isEnd) {
                     end(stage);
                     isEnd = true;
                 }

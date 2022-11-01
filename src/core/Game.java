@@ -12,6 +12,7 @@ import graphics.Sprite;
 import input.KeyListener;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -39,7 +40,9 @@ public class Game extends Application {
     public static int WIDTH;
     public static int HEIGHT;
     public static Bomber bomber;
-    public static int level = 2;
+    private static final int INIT_LEVEL = 0;
+    public static int level = INIT_LEVEL;
+    private static int MAX_LEVEL = 0;
 //    public static int cnt_enemy = 0;
     public static Entity[][] table;
     public static Entity[][] hiddenTable;
@@ -60,6 +63,8 @@ public class Game extends Application {
     private Font font = null;
 
     private int MAXSCORE = 0;
+
+    private boolean new_game = true;
     Group root = null;
 
     public static void main(String[] args) {
@@ -194,8 +199,14 @@ public class Game extends Application {
 
             @Override
             public void handle(long now) {
-                update();
-                render(stage);
+                if (gameState == STATE.MENU) {
+                    new_game = true;
+                    stop();
+                    return;
+                } else {
+                    update();
+                    render(stage);
+                }
                 long frameTime = (now - lastUpdate) / 1000000;
                 if (frameTime < FPS_GAME) {
                     try {
@@ -215,6 +226,7 @@ public class Game extends Application {
     }
 
     public void menu(Stage stage) {
+        level = INIT_LEVEL;
         for (Sound sound : bgMusic) {
             sound.stop();
         }
@@ -222,12 +234,12 @@ public class Game extends Application {
         start.loop();
         bgMusic.add(start);
         //Creating a Button
-        Button button = new Button();
-        button.setStyle("-fx-background-color: transparent; ");
+        Button start_button = new Button();
+        start_button.setStyle("-fx-background-color: transparent; ");
 //        button.setText("Single player");
-        button.setPrefSize(166, 66);
-        button.setTranslateX(Sprite.SCALED_SIZE * 30 / 2 - 166 / 2);
-        button.setTranslateY(Sprite.SCALED_SIZE * 15 / 2 + 66 / 2 + 20);
+        start_button.setPrefSize(166, 66);
+        start_button.setTranslateX(Sprite.SCALED_SIZE * 30 / 2 - 166 / 2);
+        start_button.setTranslateY(Sprite.SCALED_SIZE * 15 / 2 + 66 / 2 + 20);
         InputStream stream = null;
         try {
             stream = new FileInputStream("res/start.png");
@@ -239,14 +251,35 @@ public class Game extends Application {
         view.setFitHeight(66);
         view.setFitWidth(166);
         view.setImage(img);
-//        view.setFitHeight(70);
-//        view.setPreserveRatio(true);
-        button.setGraphic(view);
-        button.setOnAction(event -> {
+        start_button.setGraphic(view);
+        start_button.setOnAction(event -> {
             gameState = STATE.SINGLE;
-            start(stage);
+            single(stage);
         });
 
+        Button exit_button = new Button();
+        exit_button.setStyle("-fx-background-color: transparent; ");
+//        button.setText("Single player");
+        exit_button.setPrefSize(166, 66);
+        exit_button.setTranslateX(Sprite.SCALED_SIZE * 30 / 2 - 166 / 2);
+        exit_button.setTranslateY(Sprite.SCALED_SIZE * 15 / 2 + 66 / 2 + 20 + 80);
+        try {
+            stream = new FileInputStream("res/exit.png");
+        } catch (Exception e) {
+            e.getMessage();
+        }
+        img = new Image(stream);
+        view = new ImageView();
+        view.setFitHeight(66);
+        view.setFitWidth(166);
+        view.setImage(img);
+        exit_button.setGraphic(view);
+        exit_button.setOnAction(event -> {
+            gameState = STATE.END;
+//            start_button
+            Platform.exit();
+            System.out.println("Whoops");
+        });
         try {
             stream = new FileInputStream("res/menu.jpeg");
         } catch (Exception e) {
@@ -264,7 +297,8 @@ public class Game extends Application {
         root = new Group(imageView);
 //        Scene scene = new Scene(root, 595, 370);
 //        Group root = new Group(button);
-        root.getChildren().add(button);
+        root.getChildren().add(start_button);
+        root.getChildren().add(exit_button);
         Scene scene = new Scene(root, Sprite.SCALED_SIZE * 30, Sprite.SCALED_SIZE * 15, Color.BLACK);
         stage.setTitle("Bomberman NES");
         stage.setScene(scene);
@@ -279,13 +313,21 @@ public class Game extends Application {
         died.play();
         bgMusic.add(died);
         Button button = new Button();
-        button.setText("Replay");
+        if (gameState == STATE.NEXT_LV) {
+            button.setText("You WIN!");
+        } else {
+            button.setText("Replay");
+        }
         button.setTranslateX(Sprite.SCALED_SIZE * 15);
         button.setTranslateY(Sprite.SCALED_SIZE * 10);
         button.setOnAction(event -> {
-            gameState = STATE.SINGLE;
+            if (gameState == STATE.NEXT_LV) {
+                gameState = STATE.MENU;
+            } else if (gameState == STATE.END){
+                gameState = STATE.SINGLE;
+                setup(stage, level);
+            }
             isEnd = false;
-            setup(stage, level);
         });
         //Setting the stage
         root = new Group(button);
@@ -294,9 +336,7 @@ public class Game extends Application {
         stage.setScene(scene);
         stage.show();
     }
-
-    @Override
-    public void start(Stage stage) {
+    public void gameLoop(Stage stage) {
         switch (gameState) {
             case MENU:
                 menu(stage);
@@ -317,6 +357,20 @@ public class Game extends Application {
             default:
                 throw new IllegalArgumentException("Invalid game state");
         }
+    }
+    @Override
+    public void start(Stage stage) {
+        AnimationTimer timer = new AnimationTimer() {
+            @Override
+            public void handle(long now) {
+                if (new_game) {
+                    gameLoop(stage);
+                    new_game = false;
+                }
+                if (gameState == STATE.END) stop();
+            }
+        };
+        timer.start();
     }
 
     public void update() {
@@ -357,8 +411,8 @@ public class Game extends Application {
 
                 break;
 
-            case MENU:
-                break;
+//            case MENU:
+//                break;
 
             case MULTIPLAYER:
                 break;
@@ -366,8 +420,13 @@ public class Game extends Application {
             case PAUSE:
                 break;
             case NEXT_LV:
-                gameState = STATE.SINGLE;
-                setup(stage, ++level);
+                if (level < MAX_LEVEL) {
+                    gameState = STATE.SINGLE;
+                    setup(stage, ++level);
+                } else if(!isEnd){
+                    end(stage);
+                    isEnd = true;
+                }
                 break;
             case END:
                 if (!isEnd) {

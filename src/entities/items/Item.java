@@ -20,7 +20,7 @@ public abstract class Item extends Entity {
             sound.stop();
         }
         Sound newBg = new Sound("powerup_get.wav");
-        newBg.play();
+        newBg.loop();
         Game.bgMusic.add(newBg);
     }
 

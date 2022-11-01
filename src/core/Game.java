@@ -374,8 +374,9 @@ public class Game extends Application {
     }
 
     public void update() {
-        entities.forEach(Entity::update);
         enemies.forEach(Entity::update);
+        entities.forEach(Entity::update);
+//        enemies.forEach(Entity::update);
 //        if (cnt_enemy == 0) gameState = STATE.NEXT_LV;
     }
 

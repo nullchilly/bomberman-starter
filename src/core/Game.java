@@ -53,7 +53,7 @@ public class Game extends Application {
     public List<Entity> flames = new ArrayList<>();
     public List<Entity> stillObjects = new ArrayList<>();
     //    public Entity bomberman;
-    public static List<Sound> bgMusic = new ArrayList<>();
+    public static Sound bgMusic;
     public boolean isEnd = false;
     private GraphicsContext gc;
     private Canvas canvas;
@@ -73,17 +73,13 @@ public class Game extends Application {
     }
 
     public void setup(Stage stage, int level) {
-        for (Sound sound : bgMusic) {
-            sound.stop();
-        }
+        if (bgMusic != null) bgMusic.stop();
         entities = new ArrayList<>();
         enemies = new ArrayList<>();
         flames = new ArrayList<>();
         stillObjects = new ArrayList<>();
-        bgMusic = new ArrayList<>();
-        Sound main = new Sound("main_bgm.wav");
-        main.loop();
-        bgMusic.add(main);
+        bgMusic = Sound.main_bgm;
+        bgMusic.loop();
         File file = new File(System.getProperty("user.dir") + "/res/levels/Level" + level + ".txt");
         try {
             Scanner scanner = new Scanner(file);
@@ -228,12 +224,9 @@ public class Game extends Application {
 
     public void menu(Stage stage) {
         level = INIT_LEVEL;
-        for (Sound sound : bgMusic) {
-            sound.stop();
-        }
-        Sound start = new Sound("title_screen.wav");
-        start.loop();
-        bgMusic.add(start);
+        if (bgMusic != null) bgMusic.stop();
+        bgMusic = Sound.title_screen;
+        bgMusic.loop();
         //Creating a Button
         Button start_button = new Button();
         start_button.setStyle("-fx-background-color: transparent; ");
@@ -308,12 +301,9 @@ public class Game extends Application {
 
     public void end(Stage stage) {
         InputStream stream = null;
-        for (Sound sound : bgMusic) {
-            sound.stop();
-        }
-        Sound died = new Sound("ending.wav");
-        died.play();
-        bgMusic.add(died);
+        if (bgMusic != null) bgMusic.stop();
+        Sound.ending.play();
+        bgMusic.play();
         Button button = new Button();
         if (gameState == STATE.NEXT_LV) {
             button.setText("You WIN!");

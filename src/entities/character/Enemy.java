@@ -34,8 +34,7 @@ public abstract class Enemy extends Entity {
     protected void gotHurt(Sprite sprite) {
         hurt_time++;
         if (hurt_time == 1) {
-            Sound sound = new Sound("died.wav");
-            sound.play();
+            Sound.died.play();
         }
         img = sprite.getFxImage;
         if (hurt_time == 20) {

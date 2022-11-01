@@ -302,19 +302,20 @@ public class Game extends Application {
     public void end(Stage stage) {
         InputStream stream = null;
         if (bgMusic != null) bgMusic.stop();
-        Sound.ending.play();
         Button button = new Button();
         button.setStyle("-fx-background-color: transparent; ");
         button.setPrefSize(166, 66);
         if (gameState == STATE.NEXT_LV) {
-//            button.setText("You WIN!");
+            bgMusic = Sound.win;
+            bgMusic.play();
             try {
                 stream = new FileInputStream("res/youwin.png");
             } catch (Exception e) {
                 e.getMessage();
             }
         } else {
-//            button.setText("Replay");
+            bgMusic = Sound.ending;
+            bgMusic.play();
             try {
                 stream = new FileInputStream("res/replay.png");
             } catch (Exception e) {

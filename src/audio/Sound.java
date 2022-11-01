@@ -15,7 +15,8 @@ public class Sound extends JFrame {
     public static Sound died = new Sound("died.wav");
     public static Sound move = new Sound("move.wav");
     public static Sound explosion = new Sound("explosion.wav");
-    public static Sound ending = new Sound("ending.wav");
+    public static Sound win = new Sound("stage_clear.wav");
+    public static Sound ending = new Sound("miss.wav");
 
     private Clip clip;
     String soundFile;

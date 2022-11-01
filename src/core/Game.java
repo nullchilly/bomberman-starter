@@ -37,7 +37,7 @@ public class Game extends Application {
     public static int WIDTH;
     public static int HEIGHT;
     public static Bomber bomber;
-    public static int level = 1;
+    public static int level = 2;
 //    public static int cnt_enemy = 0;
     public static Entity[][] table;
     public static Entity[][] hiddenTable;
@@ -53,6 +53,8 @@ public class Game extends Application {
     private Canvas canvas;
     private Text textLife = null;
     private Text textScore = null;
+
+    private Text textLevel = null;
     private Font font = null;
 
     private int MAXSCORE = 0;
@@ -334,16 +336,21 @@ public class Game extends Application {
                 root.getChildren().remove(textLife);
                 root.getChildren().remove(textScore);
 
-                textLife = new Text(10, Sprite.SCALED_SIZE*HEIGHT + 25, "LIFE: " + Bomber.getBomberLife());
-                font = new Font("pixels", 25);
+                font = new Font("pixels", 20);
+
+                textLife = new Text(10, Sprite.SCALED_SIZE*HEIGHT + 22, "LIFE: " + Bomber.getBomberLife());
                 textLife.setFont(font);
                 textLife.setFill(Color.WHITE);
 
-                textScore = new Text(100, Sprite.SCALED_SIZE*HEIGHT + 25, "SCORE: " + (MAXSCORE - enemies.size()) * 100);
-                font = new Font("pixels", 25);
+                textScore = new Text(100, Sprite.SCALED_SIZE*HEIGHT + 22, "SCORE: " + (MAXSCORE - enemies.size()) * 100);
                 textScore.setFont(font);
                 textScore.setFill(Color.WHITE);
 
+                textLevel = new Text(Sprite.SCALED_SIZE*WIDTH / 2 - 40, Sprite.SCALED_SIZE*HEIGHT + 22, "LEVEL: " + level);
+                textLevel.setFont(font);
+                textLevel.setFill(Color.WHITE);
+
+                root.getChildren().add(textLevel);
                 root.getChildren().add(textLife);
                 root.getChildren().add(textScore);
 

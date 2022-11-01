@@ -1,6 +1,6 @@
 package entities.tiles;
 
-import entities.character.Entity;
+import entities.Entity;
 import javafx.scene.image.Image;
 
 public class Grass extends Entity {

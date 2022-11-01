@@ -1,6 +1,7 @@
-package entities;
+package entities.bombs;
 
-import core.Sound;
+import audio.Sound;
+import entities.Entity;
 import entities.character.*;
 import entities.items.*;
 import entities.tiles.Brick;

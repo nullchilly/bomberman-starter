@@ -1,8 +1,8 @@
 package entities.items;
 
 import core.Game;
-import core.Sound;
-import entities.character.Entity;
+import audio.Sound;
+import entities.Entity;
 import javafx.scene.image.Image;
 
 public abstract class Item extends Entity {

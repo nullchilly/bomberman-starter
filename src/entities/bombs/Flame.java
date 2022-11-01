@@ -1,6 +1,6 @@
-package entities;
+package entities.bombs;
 
-import entities.character.Entity;
+import entities.Entity;
 import javafx.application.Platform;
 import javafx.scene.image.Image;
 import graphics.Sprite;

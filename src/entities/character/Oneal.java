@@ -1,15 +1,12 @@
 package entities.character;
 
 import core.Game;
-import entities.items.Item;
-import entities.items.PortalItem;
 import javafx.scene.image.Image;
-import javafx.util.Pair;
 import graphics.Sprite;
 
 import java.util.*;
+import algo.FindPath;
 
-import static core.Game.bomber;
 import static core.Game.table;
 
 public class Oneal extends Enemy {
@@ -18,7 +15,6 @@ public class Oneal extends Enemy {
     private int px;
     private int py;
     private boolean canReach = false;
-    private boolean[][] check = new boolean[Game.WIDTH][Game.HEIGHT];
     private static final int STEP = Math.max(1, Sprite.STEP / 2);
 
     public Oneal(int x, int y, Image img) {
@@ -29,8 +25,11 @@ public class Oneal extends Enemy {
         animate++;
         if (animate > 100000) animate = 0;
         if (x % Sprite.SCALED_SIZE == 0 && y % Sprite.SCALED_SIZE == 0) {
-            check = new boolean[Game.WIDTH][Game.HEIGHT];
-            direction = bfs(px, py);
+            Direction newDirection = FindPath.bfs(px, py);
+            if (newDirection != null) {
+                canReach = true;
+                direction = newDirection;
+            }
             moving = false;
         }
         if (animate % 70 == 0 && x % Sprite.SCALED_SIZE == 0 && y % Sprite.SCALED_SIZE == 0 && !canReach) {
@@ -40,10 +39,6 @@ public class Oneal extends Enemy {
     }
     private void onealMoving() {
         int px = (x + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE, py = (y + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE;
-//        if (table[px][py] instanceof Item) {
-//            old_cur = table[px][py];
-//            System.out.println("Whoops");
-//        }
         table[px][py] = null;
         sprite = Sprite.oneal_right1;
         switch (direction) {
@@ -88,73 +83,9 @@ public class Oneal extends Enemy {
         img = sprite.getFxImage;
         int new_px = (x + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE;
         int new_py = (y + Sprite.SCALED_SIZE/2)/Sprite.SCALED_SIZE;
-//        if (new_px != px || new_py != py) {
-//            Game.table[px][py] = old_cur;
-//            old_cur = null;
-//        }
-//        if (table[new_px][new_py] instanceof Item) {
-//            old_cur = table[new_px][new_py];
-//            System.out.println("Whoops");
-//        }
         Game.table[new_px][new_py] = this;
     }
 
-    public Direction bfs(int i, int j) {
-        Queue< Pair<Integer, Pair<Integer, Direction> >> q = new LinkedList<>();
-        if (Entity.checkWall((i + 1) * Sprite.SCALED_SIZE, j * Sprite.SCALED_SIZE)) {
-            check[i + 1][j] = true;
-            q.add(new Pair<>(i + 1, new Pair<>(j, Direction.R)));
-        }
-        if (Entity.checkWall(i * Sprite.SCALED_SIZE, (j + 1) * Sprite.SCALED_SIZE)) {
-            check[i][j + 1] = true;
-            q.add(new Pair<>(i, new Pair<>(j + 1, Direction.D)));
-        }
-        if (Entity.checkWall((i - 1) * Sprite.SCALED_SIZE, j * Sprite.SCALED_SIZE)) {
-            check[i - 1][j] = true;
-            q.add(new Pair<>(i - 1, new Pair<>(j, Direction.L)));
-        }
-        if (Entity.checkWall(i * Sprite.SCALED_SIZE, (j - 1) * Sprite.SCALED_SIZE)) {
-            check[i][j - 1] = true;
-            q.add(new Pair<>(i, new Pair<>(j - 1, Direction.U)));
-        }
-        check[i][j] = true;
-        while(!q.isEmpty()) {
-            i = q.peek().getKey();
-            assert q.peek() != null;
-            j = q.peek().getValue().getKey();
-            assert q.peek() != null;
-            Direction direction = q.peek().getValue().getValue();
-            q.remove();
-            if (Entity.checkWall((i + 1) * Sprite.SCALED_SIZE, j * Sprite.SCALED_SIZE) && !check[i + 1][j]) {
-                q.add(new Pair<>(i + 1, new Pair<>(j,direction)));
-                check[i + 1][j] = true;
-            }
-            if (Entity.checkWall(i * Sprite.SCALED_SIZE, (j + 1) * Sprite.SCALED_SIZE) && !check[i][j + 1]) {
-                q.add(new Pair<>(i, new Pair<>(j + 1, direction)));
-                check[i][j + 1] = true;
-            }
-            if (Entity.checkWall((i - 1) * Sprite.SCALED_SIZE, j * Sprite.SCALED_SIZE) && !check[i - 1][j]) {
-                q.add(new Pair<>(i - 1, new Pair<>(j, direction)));
-                check[i - 1][j] = true;
-            }
-            if (Entity.checkWall(i * Sprite.SCALED_SIZE, (j - 1) * Sprite.SCALED_SIZE) && !check[i][j - 1]) {
-                q.add(new Pair<>(i, new Pair<>(j - 1, direction)));
-                check[i][j - 1] = true;
-            }
-//            Entity cur = Entity.getEntity(i, j);
-//            if (cur instanceof Bomber) {
-            if (bomber.getPlayerX() == i && bomber.getPlayerY() == j) {
-//                System.out.println(i + " " + j + " " + px + " " + py);
-//                if (i == px && i == py) {
-//                    Platform.exit();
-//                }
-//                System.out.println("Oops");
-                canReach = true;
-                return direction;
-            }
-        }
-        return this.direction;
-    }
     @Override
     public void update() {
         px = (x + Sprite.SCALED_SIZE / 2) / Sprite.SCALED_SIZE;

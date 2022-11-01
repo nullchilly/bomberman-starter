@@ -1,5 +1,6 @@
-package entities.character;
+package entities.player;
 
+import entities.Entity;
 import javafx.scene.image.Image;
 
 public abstract class Player extends Entity {

@@ -1,15 +1,17 @@
 package core;
 
-import entities.character.Entity;
+import audio.Sound;
+import entities.Entity;
 import entities.character.*;
 import entities.items.*;
+import entities.player.Bomber;
 import entities.tiles.Brick;
 import entities.tiles.Grass;
 import entities.tiles.Wall;
 import graphics.Sprite;
+import input.KeyListener;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
-import javafx.geometry.VPos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -20,9 +22,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
-import sun.awt.image.PixelConverter;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -74,7 +74,6 @@ public class Game extends Application {
         Sound main = new Sound("main_bgm.wav");
         main.loop();
         bgMusic.add(main);
-//        int level = 1;
         File file = new File(System.getProperty("user.dir") + "/res/levels/Level" + level + ".txt");
         try {
             Scanner scanner = new Scanner(file);
@@ -201,9 +200,6 @@ public class Game extends Application {
                         throw new RuntimeException(e);
                     }
                 }
-//                    else {
-//                        System.out.println(frameTime == 0 ? "" : 1000/frameTime);
-//                    }
                 lastUpdate = System.nanoTime();
             }
         };
@@ -334,13 +330,13 @@ public class Game extends Application {
                 root.getChildren().remove(textLife);
                 root.getChildren().remove(textScore);
 
-                textLife = new Text(10, Sprite.SCALED_SIZE*HEIGHT + 25, "LIFE: " + Bomber.getBomberLife());
-                font = new Font("pixels", 25);
+                textLife = new Text(10, Sprite.SCALED_SIZE*HEIGHT + 22, "Life: " + Bomber.getBomberLife());
+                font = new Font("Jetbrains Mono", 20);
                 textLife.setFont(font);
                 textLife.setFill(Color.WHITE);
 
-                textScore = new Text(100, Sprite.SCALED_SIZE*HEIGHT + 25, "SCORE: " + (MAXSCORE - enemies.size()) * 100);
-                font = new Font("pixels", 25);
+                textScore = new Text(100, Sprite.SCALED_SIZE*HEIGHT + 22, "Score: " + (MAXSCORE - enemies.size()) * 100);
+                font = new Font("Jetbrains Mono", 20);
                 textScore.setFont(font);
                 textScore.setFill(Color.WHITE);
 

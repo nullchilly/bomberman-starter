@@ -1,7 +1,8 @@
-package entities.character;
+package entities;
 
 import core.Game;
-import entities.Bomb;
+import entities.bombs.Bomb;
+import entities.character.Kondoria;
 import entities.tiles.Brick;
 import entities.tiles.Wall;
 import graphics.Sprite;
@@ -28,7 +29,7 @@ public abstract class Entity {
 
     protected Image img;
 
-    protected enum Direction { L, R, U, D, OH, OV }
+    public static enum Direction { L, R, U, D, OH, OV }
     protected Direction direction = Direction.R;
 
     //Khởi tạo đối tượng, chuyển từ tọa độ đơn vị sang tọa độ trong canvas

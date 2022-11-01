@@ -1,7 +1,7 @@
 package entities.tiles;
 
 import core.Game;
-import entities.character.Entity;
+import entities.Entity;
 import graphics.Sprite;
 import javafx.application.Platform;
 import javafx.scene.image.Image;

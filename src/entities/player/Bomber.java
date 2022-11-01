@@ -1,9 +1,10 @@
-package entities.character;
+package entities.player;
 
 import core.Game;
-import core.KeyListener;
-import core.Sound;
-import entities.Bomb;
+import entities.Entity;
+import input.KeyListener;
+import audio.Sound;
+import entities.bombs.Bomb;
 import entities.items.*;
 import entities.tiles.Brick;
 import graphics.Sprite;
@@ -26,6 +27,7 @@ public class Bomber extends Entity {
     private int hurtTick = 0;
     private final KeyListener keyListener;
     private static int bomber_life;
+
     public Bomber(int x, int y, Image img, KeyListener keyListener) {
         super(x, y, img);
         this.keyListener = keyListener;
@@ -144,15 +146,9 @@ public class Bomber extends Entity {
                     moving = true;
                 }
             }
-            if (moving && animate % 15 == 0) {
-                (new Sound("move.wav")).play();
-            }
         } else {
             if (keyListener.isPressed(KeyCode.D)) {
                 direction = Direction.R;
-                //            if (animate % 10 == 0) {
-                //                (new Sound("walkh.mp3")).play();
-                //            }
                 if (checkBrick(x + STEP + Sprite.SCALED_SIZE - 12, y + 3) && checkBrick(x + STEP + Sprite.SCALED_SIZE - 12, y + Sprite.SCALED_SIZE - 3)) {
                     x += STEP;
                     moving = true;
@@ -160,9 +156,6 @@ public class Bomber extends Entity {
             }
             if (keyListener.isPressed(KeyCode.A)) {
                 direction = Direction.L;
-                //            if (animate % 20 == 0) {
-                //                (new Sound("walkh.mp3")).play();
-                //            }
                 if (checkBrick(x - STEP, y + 3) && checkBrick(x - STEP, y + Sprite.SCALED_SIZE - 3)) {
                     x -= STEP;
                     moving = true;
@@ -183,12 +176,14 @@ public class Bomber extends Entity {
                 }
             }
         }
+        if (moving && animate % 15 == 0) {
+            (new Sound("move.wav")).play();
+        }
         table[px][py] = cur;
     }
 
     public void placeBomb() {
         if (keyListener.isPressed(KeyCode.SPACE) && Bomb.cnt < bombQuantity && !(table[getPlayerX()][getPlayerY()] instanceof Bomb) && !(table[getPlayerX()][getPlayerY()] instanceof Brick)) {
-//            System.out.println(Bomb.cnt);
             Platform.runLater(() -> {
                 Entity object = new Bomb(getPlayerX(), getPlayerY(), Sprite.bomb.getFxImage, entities, bomb_size);
                 entities.add(object);
@@ -213,9 +208,8 @@ public class Bomber extends Entity {
                 }
                 hurt = false;
                 hurtTick = 0;
-                protection_time = 60*2;
+                protection_time = 60 * 2;
                 return;
-//                Platform.exit();
             }
             chooseSprite();
             hurtTick++;
@@ -240,7 +234,7 @@ public class Bomber extends Entity {
     public boolean isFlamePass() {
         return flamePass;
     }
-    
+
     public boolean isProtectded() {
         return protection_time > 0;
     }

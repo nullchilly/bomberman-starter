@@ -1,6 +1,6 @@
 package entities.tiles;
 
-import entities.character.Entity;
+import entities.Entity;
 import graphics.Sprite;
 import javafx.scene.image.Image;
 

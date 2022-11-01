@@ -1,7 +1,8 @@
 package entities.character;
 
 import core.Game;
-import core.Sound;
+import audio.Sound;
+import entities.Entity;
 import graphics.Sprite;
 import javafx.application.Platform;
 import javafx.scene.image.Image;
@@ -11,7 +12,7 @@ import java.util.Random;
 import static core.Game.bomber;
 import static core.Game.enemies;
 
-public abstract class Enemy extends Entity{
+public abstract class Enemy extends Entity {
 
     protected Entity old_cur = null;
     public Enemy(int x, int y, Image Img) {

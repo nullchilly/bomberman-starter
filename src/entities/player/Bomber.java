@@ -37,7 +37,7 @@ public class Bomber extends Player {
 
     public void setDied() {
         this.died = true;
-        (new Sound("died.wav")).play();
+        Sound.died.play();
     }
 
     private void chooseSprite() {
@@ -177,7 +177,7 @@ public class Bomber extends Player {
             }
         }
         if (moving && animate % 15 == 0) {
-            (new Sound("move.wav")).play();
+            Sound.move.play();
         }
         table[px][py] = cur;
     }
@@ -188,8 +188,7 @@ public class Bomber extends Player {
                 Entity object = new Bomb(getPlayerX(), getPlayerY(), Sprite.bomb.getFxImage, entities, bomb_size);
                 entities.add(object);
             });
-            Sound bomb = new Sound("place_bomb.wav");
-            bomb.play();
+            Sound.place_bomb.play();
         }
     }
 
@@ -199,8 +198,7 @@ public class Bomber extends Player {
         if (hurt) {
             Sound sound;
             if (hurtTick == 0) {
-                sound = new Sound("died.wav");
-                sound.play();
+                Sound.died.play();
             }
             if (hurtTick == 30) {
                 if (life == 0) {

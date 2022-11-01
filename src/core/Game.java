@@ -52,16 +52,12 @@ public class Game extends Application {
     public static List<Entity> enemies = new ArrayList<>();
     public List<Entity> flames = new ArrayList<>();
     public List<Entity> stillObjects = new ArrayList<>();
-    //    public Entity bomberman;
     public static Sound bgMusic;
     public boolean isEnd = false;
     private GraphicsContext gc;
     private Canvas canvas;
     private Text textLife = null;
     private Text textScore = null;
-
-    private Text textLevel = null;
-    private Font font = null;
 
     private int MAXSCORE = 0;
 
@@ -419,7 +415,7 @@ public class Game extends Application {
                 root.getChildren().remove(textLife);
                 root.getChildren().remove(textScore);
 
-                font = new Font("pixels", 20);
+                Font font = new Font("pixels", 20);
 
                 textLife = new Text(10, Sprite.SCALED_SIZE * HEIGHT + 22, "LIFE: " + Bomber.getBomberLife());
                 textLife.setFont(font);
@@ -429,7 +425,7 @@ public class Game extends Application {
                 textScore.setFont(font);
                 textScore.setFill(Color.WHITE);
 
-                textLevel = new Text(Sprite.SCALED_SIZE * WIDTH / 2 - 40, Sprite.SCALED_SIZE * HEIGHT + 22, "LEVEL: " + level);
+                Text textLevel = new Text(Sprite.SCALED_SIZE * WIDTH / 2 - 40, Sprite.SCALED_SIZE * HEIGHT + 22, "LEVEL: " + level);
                 textLevel.setFont(font);
                 textLevel.setFill(Color.WHITE);
 

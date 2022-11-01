@@ -101,6 +101,7 @@ public class Bomb extends Entity {
 
         if (animate == 70) {
             exploded = true;
+            Sound.explosion.play();
             Platform.runLater(
                     () -> {
                         for (int c = 1; c <= size; c++) {

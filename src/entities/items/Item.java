@@ -14,7 +14,8 @@ public abstract class Item extends Entity {
 
     public void pick() {
         this.pickedup = true;
-        (new Sound("collect_item.wav")).play();
+        Sound collect_sound = new Sound("collect_item.wav");
+        collect_sound.play();
         for (Sound sound : Game.bgMusic) {
             sound.stop();
         }

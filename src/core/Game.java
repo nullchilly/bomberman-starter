@@ -239,7 +239,7 @@ public class Game extends Application {
         start_button.setStyle("-fx-background-color: transparent; ");
         start_button.setPrefSize(166, 66);
         start_button.setTranslateX(Sprite.SCALED_SIZE * 30 / 2 - 166 / 2);
-        start_button.setTranslateY(Sprite.SCALED_SIZE * 15 / 2 + 66 / 2 + 20);
+        start_button.setTranslateY(Sprite.SCALED_SIZE * 15 / 2 - 25);
         InputStream stream = null;
         try {
             stream = new FileInputStream("res/start.png");
@@ -256,6 +256,7 @@ public class Game extends Application {
         start_button.setOnMouseExited(e -> start_button.setEffect(null));
         start_button.setOnAction(event -> {
             gameState = STATE.SINGLE;
+            Bomber.AI = false;
             single(stage);
 //            Platform.runLater(()->{
 //                root.getChildren().removeAll(start_button, exit_button);
@@ -266,7 +267,7 @@ public class Game extends Application {
 //        button.setText("Single player");
         AI_button.setPrefSize(166, 66);
         AI_button.setTranslateX(Sprite.SCALED_SIZE * 30 / 2 - 166 / 2);
-        AI_button.setTranslateY(Sprite.SCALED_SIZE * 15 / 2 - 50);
+        AI_button.setTranslateY(Sprite.SCALED_SIZE * 15 / 2 + 66 / 2 + 20);
         try {
             stream = new FileInputStream("res/start.png");
         } catch (Exception e) {
@@ -278,12 +279,13 @@ public class Game extends Application {
         view.setFitWidth(166);
         view.setImage(img);
         AI_button.setGraphic(view);
-        AI_button.setOnMouseEntered(e -> exit_button.setEffect(shadow));
-        AI_button.setOnMouseExited(e -> exit_button.setEffect(null));
+        AI_button.setOnMouseEntered(e -> AI_button.setEffect(shadow));
+        AI_button.setOnMouseExited(e -> AI_button.setEffect(null));
         AI_button.setOnAction(event -> {
 //            gameState = STATE.EXIT;
             gameState = STATE.SINGLE;
             Bomber.AI = true;
+            single(stage);
 //            Platform.runLater(()->{
 //                root.getChildren().removeAll(start_button, exit_button);
 //            });

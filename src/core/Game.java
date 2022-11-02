@@ -269,7 +269,7 @@ public class Game extends Application {
         AI_button.setTranslateX(Sprite.SCALED_SIZE * 30 / 2 - 166 / 2);
         AI_button.setTranslateY(Sprite.SCALED_SIZE * 15 / 2 + 66 / 2 + 20);
         try {
-            stream = new FileInputStream("res/start.png");
+            stream = new FileInputStream("res/AI_button.png");
         } catch (Exception e) {
             e.getMessage();
         }

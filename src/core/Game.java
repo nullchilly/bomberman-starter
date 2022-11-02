@@ -235,6 +235,7 @@ public class Game extends Application {
         //Creating a Button
         Button start_button = new Button();
         Button exit_button = new Button();
+        Button AI_button = new Button();
         start_button.setStyle("-fx-background-color: transparent; ");
         start_button.setPrefSize(166, 66);
         start_button.setTranslateX(Sprite.SCALED_SIZE * 30 / 2 - 166 / 2);
@@ -261,6 +262,33 @@ public class Game extends Application {
 //            });
         });
 
+        AI_button.setStyle("-fx-background-color: transparent; ");
+//        button.setText("Single player");
+        AI_button.setPrefSize(166, 66);
+        AI_button.setTranslateX(Sprite.SCALED_SIZE * 30 / 2 - 166 / 2);
+        AI_button.setTranslateY(Sprite.SCALED_SIZE * 15 / 2 - 50);
+        try {
+            stream = new FileInputStream("res/start.png");
+        } catch (Exception e) {
+            e.getMessage();
+        }
+        img = new Image(stream);
+        view = new ImageView();
+        view.setFitHeight(66);
+        view.setFitWidth(166);
+        view.setImage(img);
+        AI_button.setGraphic(view);
+        AI_button.setOnMouseEntered(e -> exit_button.setEffect(shadow));
+        AI_button.setOnMouseExited(e -> exit_button.setEffect(null));
+        AI_button.setOnAction(event -> {
+//            gameState = STATE.EXIT;
+            gameState = STATE.SINGLE;
+            Bomber.AI = true;
+//            Platform.runLater(()->{
+//                root.getChildren().removeAll(start_button, exit_button);
+//            });
+        });
+
         exit_button.setStyle("-fx-background-color: transparent; ");
 //        button.setText("Single player");
         exit_button.setPrefSize(166, 66);
@@ -280,9 +308,9 @@ public class Game extends Application {
         exit_button.setOnMouseEntered(e -> exit_button.setEffect(shadow));
         exit_button.setOnMouseExited(e -> exit_button.setEffect(null));
         exit_button.setOnAction(event -> {
-//            gameState = STATE.EXIT;
-            gameState = STATE.SINGLE;
-            Bomber.AI = true;
+            gameState = STATE.EXIT;
+//            gameState = STATE.SINGLE;
+//            Bomber.AI = true;
 //            Platform.runLater(()->{
 //                root.getChildren().removeAll(start_button, exit_button);
 //            });
@@ -306,6 +334,7 @@ public class Game extends Application {
 //        Group root = new Group(button);
         root.getChildren().add(start_button);
         root.getChildren().add(exit_button);
+        root.getChildren().add(AI_button);
         Scene scene = new Scene(root, Sprite.SCALED_SIZE * 30, Sprite.SCALED_SIZE * 15, Color.BLACK);
         stage.setTitle("Bomberman NES");
         stage.setScene(scene);

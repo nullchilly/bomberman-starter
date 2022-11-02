@@ -1,5 +1,7 @@
 package entities.player;
 
+import algo.FindPath;
+import algo.FindPathAI;
 import audio.Sound;
 import core.Game;
 import entities.Entity;
@@ -12,16 +14,19 @@ import javafx.application.Platform;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 
+import java.util.Random;
+
 import static core.Game.*;
 
 public class Bomber extends Player {
+    public static boolean AI = false;
 
     private static int bomber_life;
     private final KeyListener keyListener;
     public int STEP = Sprite.STEP;
     public int protection_time = 0;
     private boolean moving = false;
-    private int bombQuantity;
+    public int bombQuantity;
     private boolean flamePass = false;
     private boolean wallPass = false;
     private int bomb_size = 1;
@@ -32,7 +37,8 @@ public class Bomber extends Player {
         super(x, y, img);
         this.keyListener = keyListener;
         bombQuantity = 1;
-        life = 2;
+        life = 3;
+        if (AI) life = 15;
     }
 
     public static int getBomberLife() {
@@ -116,67 +122,148 @@ public class Bomber extends Player {
         }
     }
 
+    protected void AIDirection() {
+        if (x % Sprite.SCALED_SIZE == 0 && y % Sprite.SCALED_SIZE== 0) {
+            animate++;
+            if (animate > 100000) animate = 0;
+            int px = (x + Sprite.SCALED_SIZE / 2) / Sprite.SCALED_SIZE;
+            int py = (y + Sprite.SCALED_SIZE / 2) / Sprite.SCALED_SIZE;
+            Direction newDirection = FindPathAI.bfsFindBrick(px, py);
+            if (newDirection != null) {
+                direction = newDirection;
+            }
+            moving = true;
+        }
+    }
+
     public void bomberMoving() {
         int px = (x + (75 * Sprite.SCALED_SIZE) / (2 * 100)) / Sprite.SCALED_SIZE;
         int py = (y + Sprite.SCALED_SIZE / 2) / Sprite.SCALED_SIZE;
+//        int px = (x + (1 * Sprite.SCALED_SIZE) / (2 * 1)) / Sprite.SCALED_SIZE;
+//        int py = (y + Sprite.SCALED_SIZE / 2) / Sprite.SCALED_SIZE;
         Entity cur = table[px][py];
         table[px][py] = null;
-        if (!wallPass) {
-            if (keyListener.isPressed(KeyCode.D)) {
-                direction = Direction.R;
-                if (checkWall(x + STEP + Sprite.SCALED_SIZE - 12, y + 3) && checkWall(x + STEP + Sprite.SCALED_SIZE - 12, y + Sprite.SCALED_SIZE - 3)) {
-                    x += STEP;
-                    moving = true;
+        if (AI) {
+            px = (x + (1 * Sprite.SCALED_SIZE) / (2 * 1)) / Sprite.SCALED_SIZE;
+            py = (y + Sprite.SCALED_SIZE / 2) / Sprite.SCALED_SIZE;
+            AIDirection();
+            if (!wallPass) {
+                if (keyListener.isPressed(KeyCode.D) || (AI && direction == Direction.R)) {
+                    direction = Direction.R;
+                    if (checkWall(x + STEP + Sprite.SCALED_SIZE - 1, y) && checkWall(x + STEP + Sprite.SCALED_SIZE - 1, y + Sprite.SCALED_SIZE - 1)) {
+                        x += STEP;
+                        moving = true;
+                    }
+                }
+                if (keyListener.isPressed(KeyCode.A) || (AI && direction == Direction.L)) {
+                    direction = Direction.L;
+                    if (checkWall(x - STEP, y) && checkWall(x - STEP, y + Sprite.SCALED_SIZE - 1)) {
+                        x -= STEP;
+                        moving = true;
+                    }
+                }
+                if (keyListener.isPressed(KeyCode.W) || (AI && direction == Direction.U)) {
+                    direction = Direction.U;
+                    if (checkWall(x, y - STEP) && checkWall(x + Sprite.SCALED_SIZE - 1, y - STEP)) {
+                        y -= STEP;
+                        moving = true;
+                    }
+                }
+                if (keyListener.isPressed(KeyCode.S) || (AI && direction == Direction.D)) {
+                    direction = Direction.D;
+                    if (checkWall(x, y + STEP + Sprite.SCALED_SIZE - 1) && checkWall(x + Sprite.SCALED_SIZE - 1, y + STEP + Sprite.SCALED_SIZE - 1)) {
+                        y += STEP;
+                        moving = true;
+                    }
+                }
+            } else {
+                if (keyListener.isPressed(KeyCode.D) || AI) {
+                    direction = Direction.R;
+                    if (checkBrick(x + STEP + Sprite.SCALED_SIZE - 1, y) && checkBrick(x + STEP + Sprite.SCALED_SIZE - 1, y + Sprite.SCALED_SIZE - 1)) {
+                        x += STEP;
+                        moving = true;
+                    }
+                }
+                if (keyListener.isPressed(KeyCode.A) || AI) {
+                    direction = Direction.L;
+                    if (checkBrick(x - STEP, y) && checkBrick(x - STEP, y + Sprite.SCALED_SIZE - 1)) {
+                        x -= STEP;
+                        moving = true;
+                    }
+                }
+                if (keyListener.isPressed(KeyCode.W) || AI) {
+                    direction = Direction.U;
+                    if (checkBrick(x, y - STEP) && checkBrick(x + Sprite.SCALED_SIZE - 1, y - STEP)) {
+                        y -= STEP;
+                        moving = true;
+                    }
+                }
+                if (keyListener.isPressed(KeyCode.S) || AI) {
+                    direction = Direction.D;
+                    if (checkBrick(x, y + STEP + Sprite.SCALED_SIZE - 1) && checkBrick(x + Sprite.SCALED_SIZE - 1, y + STEP + Sprite.SCALED_SIZE - 1)) {
+                        y += STEP;
+                        moving = true;
+                    }
                 }
             }
-            if (keyListener.isPressed(KeyCode.A)) {
-                direction = Direction.L;
-                if (checkWall(x - STEP, y + 3) && checkWall(x - STEP, y + Sprite.SCALED_SIZE - 3)) {
-                    x -= STEP;
-                    moving = true;
+        } else if (!AI) {
+            if (!wallPass) {
+                if (keyListener.isPressed(KeyCode.D) || (AI && direction == Direction.R)) {
+                    direction = Direction.R;
+                    if (checkWall(x + STEP + Sprite.SCALED_SIZE - 12, y + 3) && checkWall(x + STEP + Sprite.SCALED_SIZE - 12, y + Sprite.SCALED_SIZE - 3)) {
+                        x += STEP;
+                        moving = true;
+                    }
                 }
-            }
-            if (keyListener.isPressed(KeyCode.W)) {
-                direction = Direction.U;
-                if (checkWall(x, y - STEP + 3) && checkWall(x + Sprite.SCALED_SIZE - 12, y - STEP + 3)) {
-                    y -= STEP;
-                    moving = true;
+                if (keyListener.isPressed(KeyCode.A) || (AI && direction == Direction.L)) {
+                    direction = Direction.L;
+                    if (checkWall(x - STEP, y + 3) && checkWall(x - STEP, y + Sprite.SCALED_SIZE - 3)) {
+                        x -= STEP;
+                        moving = true;
+                    }
                 }
-            }
-            if (keyListener.isPressed(KeyCode.S)) {
-                direction = Direction.D;
-                if (checkWall(x, y + STEP + Sprite.SCALED_SIZE - 3) && checkWall(x + Sprite.SCALED_SIZE - 12, y + STEP + Sprite.SCALED_SIZE - 3)) {
-                    y += STEP;
-                    moving = true;
+                if (keyListener.isPressed(KeyCode.W) || (AI && direction == Direction.U)) {
+                    direction = Direction.U;
+                    if (checkWall(x, y - STEP + 3) && checkWall(x + Sprite.SCALED_SIZE - 12, y - STEP + 3)) {
+                        y -= STEP;
+                        moving = true;
+                    }
                 }
-            }
-        } else {
-            if (keyListener.isPressed(KeyCode.D)) {
-                direction = Direction.R;
-                if (checkBrick(x + STEP + Sprite.SCALED_SIZE - 12, y + 3) && checkBrick(x + STEP + Sprite.SCALED_SIZE - 12, y + Sprite.SCALED_SIZE - 3)) {
-                    x += STEP;
-                    moving = true;
+                if (keyListener.isPressed(KeyCode.S) || (AI && direction == Direction.D)) {
+                    direction = Direction.D;
+                    if (checkWall(x, y + STEP + Sprite.SCALED_SIZE - 3) && checkWall(x + Sprite.SCALED_SIZE - 12, y + STEP + Sprite.SCALED_SIZE - 3)) {
+                        y += STEP;
+                        moving = true;
+                    }
                 }
-            }
-            if (keyListener.isPressed(KeyCode.A)) {
-                direction = Direction.L;
-                if (checkBrick(x - STEP, y + 3) && checkBrick(x - STEP, y + Sprite.SCALED_SIZE - 3)) {
-                    x -= STEP;
-                    moving = true;
+            } else {
+                if (keyListener.isPressed(KeyCode.D) || AI) {
+                    direction = Direction.R;
+                    if (checkBrick(x + STEP + Sprite.SCALED_SIZE - 12, y + 3) && checkBrick(x + STEP + Sprite.SCALED_SIZE - 12, y + Sprite.SCALED_SIZE - 3)) {
+                        x += STEP;
+                        moving = true;
+                    }
                 }
-            }
-            if (keyListener.isPressed(KeyCode.W)) {
-                direction = Direction.U;
-                if (checkBrick(x, y - STEP + 3) && checkBrick(x + Sprite.SCALED_SIZE - 12, y - STEP + 3)) {
-                    y -= STEP;
-                    moving = true;
+                if (keyListener.isPressed(KeyCode.A) || AI) {
+                    direction = Direction.L;
+                    if (checkBrick(x - STEP, y + 3) && checkBrick(x - STEP, y + Sprite.SCALED_SIZE - 3)) {
+                        x -= STEP;
+                        moving = true;
+                    }
                 }
-            }
-            if (keyListener.isPressed(KeyCode.S)) {
-                direction = Direction.D;
-                if (checkBrick(x, y + STEP + Sprite.SCALED_SIZE - 3) && checkBrick(x + Sprite.SCALED_SIZE - 12, y + STEP + Sprite.SCALED_SIZE - 3)) {
-                    y += STEP;
-                    moving = true;
+                if (keyListener.isPressed(KeyCode.W) || AI) {
+                    direction = Direction.U;
+                    if (checkBrick(x, y - STEP + 3) && checkBrick(x + Sprite.SCALED_SIZE - 12, y - STEP + 3)) {
+                        y -= STEP;
+                        moving = true;
+                    }
+                }
+                if (keyListener.isPressed(KeyCode.S) || AI) {
+                    direction = Direction.D;
+                    if (checkBrick(x, y + STEP + Sprite.SCALED_SIZE - 3) && checkBrick(x + Sprite.SCALED_SIZE - 12, y + STEP + Sprite.SCALED_SIZE - 3)) {
+                        y += STEP;
+                        moving = true;
+                    }
                 }
             }
         }
@@ -187,7 +274,7 @@ public class Bomber extends Player {
     }
 
     public void placeBomb() {
-        if (keyListener.isPressed(KeyCode.SPACE) && Bomb.cnt < bombQuantity && !(table[getPlayerX()][getPlayerY()] instanceof Bomb) && !(table[getPlayerX()][getPlayerY()] instanceof Brick)) {
+        if (Bomb.cnt < bombQuantity && !(table[getPlayerX()][getPlayerY()] instanceof Bomb) && !(table[getPlayerX()][getPlayerY()] instanceof Brick)) {
             Platform.runLater(() -> {
                 Entity object = new Bomb(getPlayerX(), getPlayerY(), Sprite.bomb.getFxImage, entities, bomb_size);
                 entities.add(object);
@@ -200,7 +287,6 @@ public class Bomber extends Player {
     public void update() {
         bomber_life = life;
         if (hurt) {
-            Sound sound;
             if (hurtTick == 0) {
                 Sound.died.play();
             }
@@ -222,14 +308,20 @@ public class Bomber extends Player {
         bomberMoving();
         getItem();
         chooseSprite();
-        placeBomb();
+        if (keyListener.isPressed(KeyCode.SPACE)) placeBomb();
     }
 
     public int getPlayerX() {
+        if (AI) {
+            return (x + (1 * Sprite.SCALED_SIZE) / (2 * 1)) / Sprite.SCALED_SIZE;
+        }
         return (x + (75 * Sprite.SCALED_SIZE) / (2 * 100)) / Sprite.SCALED_SIZE;
     }
 
     public int getPlayerY() {
+        if (AI) {
+            return (y + (1 * Sprite.SCALED_SIZE) / (2 * 1)) / Sprite.SCALED_SIZE;
+        }
         return (y + Sprite.SCALED_SIZE / 2) / Sprite.SCALED_SIZE;
     }
 
@@ -240,4 +332,5 @@ public class Bomber extends Player {
     public boolean isProtectded() {
         return protection_time > 0;
     }
+
 }

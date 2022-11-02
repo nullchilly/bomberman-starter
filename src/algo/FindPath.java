@@ -3,6 +3,10 @@ package algo;
 import core.Game;
 import entities.Entity;
 import entities.Entity.Direction;
+import entities.bombs.Bomb;
+import entities.bombs.Flame;
+import entities.character.Enemy;
+import entities.tiles.Brick;
 import graphics.Sprite;
 import javafx.util.Pair;
 
@@ -10,6 +14,8 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 import static core.Game.bomber;
+import static core.Game.table;
+import static java.lang.Math.abs;
 
 public class FindPath {
     public static Direction bfs(int i, int j) {

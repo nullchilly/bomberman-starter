@@ -173,8 +173,8 @@ public class Bomb extends Entity {
             Platform.runLater(
                     () -> {
                         table[px][py] = portalPos;
-                        entities.remove(this);
                         cnt--;
+                        entities.remove(this);
                     });
         }
         if (animate > 1000000) {

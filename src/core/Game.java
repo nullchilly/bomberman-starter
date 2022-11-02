@@ -2,6 +2,7 @@ package core;
 
 import audio.Sound;
 import entities.Entity;
+import entities.bombs.Bomb;
 import entities.character.Balloom;
 import entities.character.Doll;
 import entities.character.Kondoria;
@@ -56,12 +57,13 @@ public class Game extends Application {
     public static Sound bgMusic;
     private final Effect shadow = new DropShadow();
     public List<Entity> flames = new ArrayList<>();
-    public List<Entity> stillObjects = new ArrayList<>();
+    public static List<Entity> stillObjects = new ArrayList<>();
     public boolean isEnd = false;
     Group root = null;
     private GraphicsContext gc;
     private Canvas canvas;
     private Text textLife = null;
+    Text textLevel = null;
     private Text textScore = null;
     private int MAXSCORE = 0;
     private boolean new_game = true;
@@ -72,6 +74,7 @@ public class Game extends Application {
 
     public void setup(Stage stage, int level) {
         if (bgMusic != null) bgMusic.stop();
+        Bomb.cnt = 0;
         entities = new ArrayList<>();
         enemies = new ArrayList<>();
         flames = new ArrayList<>();
@@ -277,7 +280,9 @@ public class Game extends Application {
         exit_button.setOnMouseEntered(e -> exit_button.setEffect(shadow));
         exit_button.setOnMouseExited(e -> exit_button.setEffect(null));
         exit_button.setOnAction(event -> {
-            gameState = STATE.EXIT;
+//            gameState = STATE.EXIT;
+            gameState = STATE.SINGLE;
+            Bomber.AI = true;
 //            Platform.runLater(()->{
 //                root.getChildren().removeAll(start_button, exit_button);
 //            });
@@ -434,6 +439,7 @@ public class Game extends Application {
 
                 root.getChildren().remove(textLife);
                 root.getChildren().remove(textScore);
+                root.getChildren().remove(textLevel);
 
                 Font font = new Font("pixels", 20);
 
@@ -445,13 +451,15 @@ public class Game extends Application {
                 textScore.setFont(font);
                 textScore.setFill(Color.WHITE);
 
-                Text textLevel = new Text(Sprite.SCALED_SIZE * WIDTH / 2 - 40, Sprite.SCALED_SIZE * HEIGHT + 22, "LEVEL: " + level);
+                textLevel = new Text(Sprite.SCALED_SIZE * WIDTH / 2 - 40, Sprite.SCALED_SIZE * HEIGHT + 22, "LEVEL: " + level);
                 textLevel.setFont(font);
                 textLevel.setFill(Color.WHITE);
 
                 root.getChildren().add(textLevel);
                 root.getChildren().add(textLife);
                 root.getChildren().add(textScore);
+
+//                Bomber.AI = true;
 
                 break;
 
